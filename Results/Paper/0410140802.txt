@@ -1,0 +1,21 @@
+Paper
+2:10:09 PM
+26.94006
+Left Nephrectomy: 2
+ 
+2:10:32 PM
+20.89693
+Appendectomy: 2
+ 
+2:11:06 PM
+32.65637
+Cholecystectomy: 3
+ 
+2:11:28 PM
+19.92905
+Right Renal: 4
+ 
+2:11:51 PM
+20.74358
+Gallbladder: 1
+ 

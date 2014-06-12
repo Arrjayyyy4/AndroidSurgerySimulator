@@ -1,0 +1,460 @@
+fileFormatVersion: 2
+guid: 8e84e5376f5ca7c48966354766f6a072
+ModelImporter:
+  serializedVersion: 15
+  fileIDToRecycleName:
+    100000: blade-sharp
+    100002: group_0
+    100004: group_1
+    100006: group_1 1
+    100008: group_10
+    100010: group_11
+    100012: group_12
+    100014: group_13
+    100016: group_13 1
+    100018: group_13 2
+    100020: group_14
+    100022: group_14 1
+    100024: group_14 2
+    100026: group_15
+    100028: group_15 1
+    100030: group_15 2
+    100032: group_16
+    100034: group_16 1
+    100036: group_16 2
+    100038: group_17
+    100040: group_18
+    100042: group_19
+    100044: group_2
+    100046: group_2 1
+    100048: group_20
+    100050: group_3
+    100052: group_3 1
+    100054: group_4
+    100056: group_4 1
+    100058: group_5
+    100060: group_5 1
+    100062: group_6
+    100064: group_6 1
+    100066: group_7
+    100068: group_7 1
+    100070: group_8
+    100072: group_9
+    100074: handle
+    100076: Hemostat
+    100078: Hemostat 1
+    100080: Hemostat 2
+    100082: Hemostat_1
+    100084: ID101
+    100086: ID137
+    100088: ID145
+    100090: ID153
+    100092: ID161
+    100094: ID169
+    100096: ID245
+    100098: ID253
+    100100: ID257
+    100102: ID261
+    100104: ID265
+    100106: ID283
+    100108: ID291
+    100110: ID350
+    100112: ID350 1
+    100114: ID350 2
+    100116: ID358
+    100118: ID358 1
+    100120: ID358 2
+    100122: ID366
+    100124: ID366 1
+    100126: ID366 2
+    100128: ID374
+    100130: ID374 1
+    100132: ID374 2
+    100134: ID382
+    100136: ID382 1
+    100138: ID382 2
+    100140: ID403
+    100142: ID409
+    100144: ID413
+    100146: ID417
+    100148: ID421
+    100150: ID425
+    100152: ID429
+    100154: ID433
+    100156: ID437
+    100158: ID441
+    100160: ID445
+    100162: ID449
+    100164: ID453
+    100166: ID457
+    100168: ID461
+    100170: ID465
+    100172: ID469
+    100174: ID473
+    100176: ID492
+    100178: ID500
+    100180: ID556
+    100182: ID564
+    100184: ID572
+    100186: ID580
+    100188: ID588
+    100190: ID79
+    100192: ID87
+    100194: ID93
+    100196: ID97
+    100198: instance_0
+    100200: instance_1
+    100202: instance_2
+    100204: instance_3
+    100206: instance_4
+    100208: instance_5
+    100210: instance_6
+    100212: //RootNode
+    100214: Scalpel
+    400000: blade-sharp
+    400002: group_0
+    400004: group_1
+    400006: group_1 1
+    400008: group_10
+    400010: group_11
+    400012: group_12
+    400014: group_13
+    400016: group_13 1
+    400018: group_13 2
+    400020: group_14
+    400022: group_14 1
+    400024: group_14 2
+    400026: group_15
+    400028: group_15 1
+    400030: group_15 2
+    400032: group_16
+    400034: group_16 1
+    400036: group_16 2
+    400038: group_17
+    400040: group_18
+    400042: group_19
+    400044: group_2
+    400046: group_2 1
+    400048: group_20
+    400050: group_3
+    400052: group_3 1
+    400054: group_4
+    400056: group_4 1
+    400058: group_5
+    400060: group_5 1
+    400062: group_6
+    400064: group_6 1
+    400066: group_7
+    400068: group_7 1
+    400070: group_8
+    400072: group_9
+    400074: handle
+    400076: Hemostat
+    400078: Hemostat 1
+    400080: Hemostat 2
+    400082: Hemostat_1
+    400084: ID101
+    400086: ID137
+    400088: ID145
+    400090: ID153
+    400092: ID161
+    400094: ID169
+    400096: ID245
+    400098: ID253
+    400100: ID257
+    400102: ID261
+    400104: ID265
+    400106: ID283
+    400108: ID291
+    400110: ID350
+    400112: ID350 1
+    400114: ID350 2
+    400116: ID358
+    400118: ID358 1
+    400120: ID358 2
+    400122: ID366
+    400124: ID366 1
+    400126: ID366 2
+    400128: ID374
+    400130: ID374 1
+    400132: ID374 2
+    400134: ID382
+    400136: ID382 1
+    400138: ID382 2
+    400140: ID403
+    400142: ID409
+    400144: ID413
+    400146: ID417
+    400148: ID421
+    400150: ID425
+    400152: ID429
+    400154: ID433
+    400156: ID437
+    400158: ID441
+    400160: ID445
+    400162: ID449
+    400164: ID453
+    400166: ID457
+    400168: ID461
+    400170: ID465
+    400172: ID469
+    400174: ID473
+    400176: ID492
+    400178: ID500
+    400180: ID556
+    400182: ID564
+    400184: ID572
+    400186: ID580
+    400188: ID588
+    400190: ID79
+    400192: ID87
+    400194: ID93
+    400196: ID97
+    400198: instance_0
+    400200: instance_1
+    400202: instance_2
+    400204: instance_3
+    400206: instance_4
+    400208: instance_5
+    400210: instance_6
+    400212: //RootNode
+    400214: Scalpel
+    2300000: blade-sharp
+    2300002: group_0
+    2300004: group_1
+    2300006: group_1 1
+    2300008: group_10
+    2300010: group_11
+    2300012: group_12
+    2300014: group_13
+    2300016: group_13 1
+    2300018: group_13 2
+    2300020: group_14
+    2300022: group_14 1
+    2300024: group_14 2
+    2300026: group_15
+    2300028: group_15 1
+    2300030: group_15 2
+    2300032: group_16
+    2300034: group_16 1
+    2300036: group_16 2
+    2300038: group_17
+    2300040: group_18
+    2300042: group_19
+    2300044: group_2
+    2300046: group_2 1
+    2300048: group_20
+    2300050: group_3
+    2300052: group_3 1
+    2300054: group_4
+    2300056: group_4 1
+    2300058: group_5
+    2300060: group_5 1
+    2300062: group_6
+    2300064: group_6 1
+    2300066: group_7
+    2300068: group_7 1
+    2300070: group_8
+    2300072: group_9
+    2300074: handle
+    2300076: Hemostat
+    2300078: Hemostat 1
+    2300080: Hemostat 2
+    2300082: Hemostat_1
+    2300084: ID137
+    2300086: ID145
+    2300088: ID153
+    2300090: ID161
+    2300092: ID245
+    2300094: ID283
+    2300096: ID291
+    2300098: ID350
+    2300100: ID350 1
+    2300102: ID350 2
+    2300104: ID358
+    2300106: ID358 1
+    2300108: ID358 2
+    2300110: ID366
+    2300112: ID366 1
+    2300114: ID366 2
+    2300116: ID374
+    2300118: ID374 1
+    2300120: ID374 2
+    2300122: ID492
+    2300124: ID500
+    2300126: ID556
+    2300128: ID564
+    2300130: ID572
+    2300132: ID580
+    2300134: ID79
+    3300000: blade-sharp
+    3300002: group_0
+    3300004: group_1
+    3300006: group_1 1
+    3300008: group_10
+    3300010: group_11
+    3300012: group_12
+    3300014: group_13
+    3300016: group_13 1
+    3300018: group_13 2
+    3300020: group_14
+    3300022: group_14 1
+    3300024: group_14 2
+    3300026: group_15
+    3300028: group_15 1
+    3300030: group_15 2
+    3300032: group_16
+    3300034: group_16 1
+    3300036: group_16 2
+    3300038: group_17
+    3300040: group_18
+    3300042: group_19
+    3300044: group_2
+    3300046: group_2 1
+    3300048: group_20
+    3300050: group_3
+    3300052: group_3 1
+    3300054: group_4
+    3300056: group_4 1
+    3300058: group_5
+    3300060: group_5 1
+    3300062: group_6
+    3300064: group_6 1
+    3300066: group_7
+    3300068: group_7 1
+    3300070: group_8
+    3300072: group_9
+    3300074: handle
+    3300076: Hemostat
+    3300078: Hemostat 1
+    3300080: Hemostat 2
+    3300082: Hemostat_1
+    3300084: ID137
+    3300086: ID145
+    3300088: ID153
+    3300090: ID161
+    3300092: ID245
+    3300094: ID283
+    3300096: ID291
+    3300098: ID350
+    3300100: ID350 1
+    3300102: ID350 2
+    3300104: ID358
+    3300106: ID358 1
+    3300108: ID358 2
+    3300110: ID366
+    3300112: ID366 1
+    3300114: ID366 2
+    3300116: ID374
+    3300118: ID374 1
+    3300120: ID374 2
+    3300122: ID492
+    3300124: ID500
+    3300126: ID556
+    3300128: ID564
+    3300130: ID572
+    3300132: ID580
+    3300134: ID79
+    4300000: group_0
+    4300002: ID79
+    4300004: group_1
+    4300006: group_2
+    4300008: group_3
+    4300010: group_4
+    4300012: group_5
+    4300014: group_6
+    4300016: group_7
+    4300018: group_8
+    4300020: ID137
+    4300022: ID145
+    4300024: ID153
+    4300026: ID161
+    4300028: group_9
+    4300030: group_10
+    4300032: group_11
+    4300034: ID245
+    4300036: group_1
+    4300038: group_2
+    4300040: group_3
+    4300042: group_4
+    4300044: group_5
+    4300046: group_6
+    4300048: group_7
+    4300050: group_12
+    4300052: ID283
+    4300054: ID291
+    4300056: Hemostat
+    4300058: ID350
+    4300060: ID358
+    4300062: ID366
+    4300064: ID374
+    4300066: group_13
+    4300068: group_14
+    4300070: group_15
+    4300072: group_16
+    4300074: handle
+    4300076: blade-sharp
+    4300078: ID492
+    4300080: ID500
+    4300082: Hemostat_1
+    4300084: ID556
+    4300086: ID564
+    4300088: ID572
+    4300090: ID580
+    4300092: group_17
+    4300094: group_18
+    4300096: group_19
+    4300098: group_20
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .0500000007
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  userData: 

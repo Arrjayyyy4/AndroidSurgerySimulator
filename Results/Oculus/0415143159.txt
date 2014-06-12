@@ -1,0 +1,22 @@
+Oculus
+
+2:42:57 PM
+60.67529
+Appendectomy: 2
+ 
+2:43:30 PM
+28.79974
+Cholecystectomy: 2
+ 
+2:43:53 PM
+21.53741
+Gallbladder: 3
+ 
+2:44:11 PM
+16.15448
+Right Renal: 2
+ 
+2:44:34 PM
+17.9162
+Left Nephrectomy: 1
+ 

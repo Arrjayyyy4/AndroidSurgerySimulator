@@ -1,0 +1,474 @@
+fileFormatVersion: 2
+guid: 9eb2338d8e86fd14f8ac700bba50afd1
+ModelImporter:
+  serializedVersion: 15
+  fileIDToRecycleName:
+    100000: Camera
+    100002: Caster_Swivel
+    100004: Caster_Swivel 1
+    100006: Caster_Swivel 2
+    100008: Caster_Swivel 3
+    100010: Caster_Swivel1
+    100012: Caster_Swivel2
+    100014: Caster_Swivel3
+    100016: Caster_Swivel4
+    100018: Caster_Wheel
+    100020: Caster_Wheel 1
+    100022: Caster_Wheel 2
+    100024: Caster_Wheel 3
+    100026: Caster_Wheel1
+    100028: Caster_Wheel2
+    100030: Caster_Wheel3
+    100032: Caster_Wheel4
+    100034: Crash_Supply_Cart
+    100036: Crash_Supply_Cart1
+    100038: door_handle
+    100040: door_handle 1
+    100042: door_handle1
+    100044: door_handle1 1
+    100046: Group1
+    100048: Group10
+    100050: Group11
+    100052: Group12
+    100054: Group13
+    100056: Group14
+    100058: Group15
+    100060: Group16
+    100062: Group17
+    100064: Group18
+    100066: Group19
+    100068: Group2
+    100070: Group20
+    100072: Group21
+    100074: Group22
+    100076: Group23
+    100078: Group24
+    100080: Group25
+    100082: Group26
+    100084: Group27
+    100086: Group28
+    100088: Group29
+    100090: Group3
+    100092: Group30
+    100094: Group31
+    100096: Group32
+    100098: Group33
+    100100: Group34
+    100102: Group35
+    100104: Group36
+    100106: Group37
+    100108: Group38
+    100110: Group39
+    100112: Group4
+    100114: Group40
+    100116: Group41
+    100118: Group42
+    100120: Group43
+    100122: Group44
+    100124: Group45
+    100126: Group46
+    100128: Group47
+    100130: Group48
+    100132: Group49
+    100134: Group5
+    100136: Group6
+    100138: Group7
+    100140: Group8
+    100142: Group9
+    100144: mesh1
+    100146: mesh1 1
+    100148: mesh10
+    100150: mesh11
+    100152: mesh12
+    100154: mesh13
+    100156: mesh14
+    100158: mesh14 1
+    100160: mesh14 2
+    100162: mesh14 3
+    100164: mesh15
+    100166: mesh15 1
+    100168: mesh15 2
+    100170: mesh15 3
+    100172: mesh16
+    100174: mesh17
+    100176: mesh18
+    100178: mesh19
+    100180: mesh2
+    100182: mesh2 1
+    100184: mesh20
+    100186: mesh21
+    100188: mesh22
+    100190: mesh23
+    100192: mesh24
+    100194: mesh25
+    100196: mesh26
+    100198: mesh27
+    100200: mesh28
+    100202: mesh29
+    100204: mesh3
+    100206: mesh30
+    100208: mesh31
+    100210: mesh32
+    100212: mesh33
+    100214: mesh34
+    100216: mesh35
+    100218: mesh36
+    100220: mesh37
+    100222: mesh38
+    100224: mesh39
+    100226: mesh4
+    100228: mesh40
+    100230: mesh40 1
+    100232: mesh40 2
+    100234: mesh40 3
+    100236: mesh5
+    100238: mesh6
+    100240: mesh7
+    100242: mesh8
+    100244: mesh9
+    100246: Model
+    100248: modern_door_handle
+    100250: modern_door_handle 1
+    100252: modern_door_handle1
+    100254: modern_door_handle2
+    100256: //RootNode
+    100258: Vial
+    100260: Vial 1
+    100262: Vial 2
+    100264: Vial 3
+    100266: Vial1
+    100268: Vial2
+    100270: Vial3
+    100272: Vial4
+    400000: Camera
+    400002: Caster_Swivel
+    400004: Caster_Swivel 1
+    400006: Caster_Swivel 2
+    400008: Caster_Swivel 3
+    400010: Caster_Swivel1
+    400012: Caster_Swivel2
+    400014: Caster_Swivel3
+    400016: Caster_Swivel4
+    400018: Caster_Wheel
+    400020: Caster_Wheel 1
+    400022: Caster_Wheel 2
+    400024: Caster_Wheel 3
+    400026: Caster_Wheel1
+    400028: Caster_Wheel2
+    400030: Caster_Wheel3
+    400032: Caster_Wheel4
+    400034: Crash_Supply_Cart
+    400036: Crash_Supply_Cart1
+    400038: door_handle
+    400040: door_handle 1
+    400042: door_handle1
+    400044: door_handle1 1
+    400046: Group1
+    400048: Group10
+    400050: Group11
+    400052: Group12
+    400054: Group13
+    400056: Group14
+    400058: Group15
+    400060: Group16
+    400062: Group17
+    400064: Group18
+    400066: Group19
+    400068: Group2
+    400070: Group20
+    400072: Group21
+    400074: Group22
+    400076: Group23
+    400078: Group24
+    400080: Group25
+    400082: Group26
+    400084: Group27
+    400086: Group28
+    400088: Group29
+    400090: Group3
+    400092: Group30
+    400094: Group31
+    400096: Group32
+    400098: Group33
+    400100: Group34
+    400102: Group35
+    400104: Group36
+    400106: Group37
+    400108: Group38
+    400110: Group39
+    400112: Group4
+    400114: Group40
+    400116: Group41
+    400118: Group42
+    400120: Group43
+    400122: Group44
+    400124: Group45
+    400126: Group46
+    400128: Group47
+    400130: Group48
+    400132: Group49
+    400134: Group5
+    400136: Group6
+    400138: Group7
+    400140: Group8
+    400142: Group9
+    400144: mesh1
+    400146: mesh1 1
+    400148: mesh10
+    400150: mesh11
+    400152: mesh12
+    400154: mesh13
+    400156: mesh14
+    400158: mesh14 1
+    400160: mesh14 2
+    400162: mesh14 3
+    400164: mesh15
+    400166: mesh15 1
+    400168: mesh15 2
+    400170: mesh15 3
+    400172: mesh16
+    400174: mesh17
+    400176: mesh18
+    400178: mesh19
+    400180: mesh2
+    400182: mesh2 1
+    400184: mesh20
+    400186: mesh21
+    400188: mesh22
+    400190: mesh23
+    400192: mesh24
+    400194: mesh25
+    400196: mesh26
+    400198: mesh27
+    400200: mesh28
+    400202: mesh29
+    400204: mesh3
+    400206: mesh30
+    400208: mesh31
+    400210: mesh32
+    400212: mesh33
+    400214: mesh34
+    400216: mesh35
+    400218: mesh36
+    400220: mesh37
+    400222: mesh38
+    400224: mesh39
+    400226: mesh4
+    400228: mesh40
+    400230: mesh40 1
+    400232: mesh40 2
+    400234: mesh40 3
+    400236: mesh5
+    400238: mesh6
+    400240: mesh7
+    400242: mesh8
+    400244: mesh9
+    400246: Model
+    400248: modern_door_handle
+    400250: modern_door_handle 1
+    400252: modern_door_handle1
+    400254: modern_door_handle2
+    400256: //RootNode
+    400258: Vial
+    400260: Vial 1
+    400262: Vial 2
+    400264: Vial 3
+    400266: Vial1
+    400268: Vial2
+    400270: Vial3
+    400272: Vial4
+    2300000: mesh1
+    2300002: mesh1 1
+    2300004: mesh10
+    2300006: mesh11
+    2300008: mesh12
+    2300010: mesh13
+    2300012: mesh14
+    2300014: mesh14 1
+    2300016: mesh14 2
+    2300018: mesh14 3
+    2300020: mesh15
+    2300022: mesh15 1
+    2300024: mesh15 2
+    2300026: mesh15 3
+    2300028: mesh16
+    2300030: mesh17
+    2300032: mesh18
+    2300034: mesh19
+    2300036: mesh2
+    2300038: mesh2 1
+    2300040: mesh20
+    2300042: mesh21
+    2300044: mesh22
+    2300046: mesh23
+    2300048: mesh24
+    2300050: mesh25
+    2300052: mesh26
+    2300054: mesh27
+    2300056: mesh28
+    2300058: mesh29
+    2300060: mesh3
+    2300062: mesh30
+    2300064: mesh31
+    2300066: mesh32
+    2300068: mesh33
+    2300070: mesh34
+    2300072: mesh35
+    2300074: mesh36
+    2300076: mesh37
+    2300078: mesh38
+    2300080: mesh39
+    2300082: mesh4
+    2300084: mesh40
+    2300086: mesh40 1
+    2300088: mesh40 2
+    2300090: mesh40 3
+    2300092: mesh5
+    2300094: mesh6
+    2300096: mesh7
+    2300098: mesh8
+    2300100: mesh9
+    3300000: mesh1
+    3300002: mesh1 1
+    3300004: mesh10
+    3300006: mesh11
+    3300008: mesh12
+    3300010: mesh13
+    3300012: mesh14
+    3300014: mesh14 1
+    3300016: mesh14 2
+    3300018: mesh14 3
+    3300020: mesh15
+    3300022: mesh15 1
+    3300024: mesh15 2
+    3300026: mesh15 3
+    3300028: mesh16
+    3300030: mesh17
+    3300032: mesh18
+    3300034: mesh19
+    3300036: mesh2
+    3300038: mesh2 1
+    3300040: mesh20
+    3300042: mesh21
+    3300044: mesh22
+    3300046: mesh23
+    3300048: mesh24
+    3300050: mesh25
+    3300052: mesh26
+    3300054: mesh27
+    3300056: mesh28
+    3300058: mesh29
+    3300060: mesh3
+    3300062: mesh30
+    3300064: mesh31
+    3300066: mesh32
+    3300068: mesh33
+    3300070: mesh34
+    3300072: mesh35
+    3300074: mesh36
+    3300076: mesh37
+    3300078: mesh38
+    3300080: mesh39
+    3300082: mesh4
+    3300084: mesh40
+    3300086: mesh40 1
+    3300088: mesh40 2
+    3300090: mesh40 3
+    3300092: mesh5
+    3300094: mesh6
+    3300096: mesh7
+    3300098: mesh8
+    3300100: mesh9
+    4300000: mesh1
+    4300002: mesh2
+    4300004: mesh3
+    4300006: mesh4
+    4300008: mesh5
+    4300010: mesh6
+    4300012: mesh7
+    4300014: mesh8
+    4300016: mesh9
+    4300018: mesh10
+    4300020: mesh11
+    4300022: mesh12
+    4300024: mesh13
+    4300026: mesh14
+    4300028: mesh15
+    4300030: mesh16
+    4300032: mesh17
+    4300034: mesh18
+    4300036: mesh19
+    4300038: mesh20
+    4300040: mesh21
+    4300042: mesh22
+    4300044: mesh23
+    4300046: mesh24
+    4300048: mesh25
+    4300050: mesh26
+    4300052: mesh27
+    4300054: mesh28
+    4300056: mesh29
+    4300058: mesh30
+    4300060: mesh31
+    4300062: mesh32
+    4300064: mesh33
+    4300066: mesh34
+    4300068: mesh35
+    4300070: mesh36
+    4300072: mesh37
+    4300074: mesh38
+    4300076: mesh39
+    4300078: mesh40
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .0299999993
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 1
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  userData: 

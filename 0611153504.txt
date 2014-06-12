@@ -1,0 +1,24 @@
+3:35:27 PM
+1.632708
+Right Renal: 0
+ 
+3:35:28 PM
+2.748831
+Right Renal: 0
+ 
+3:37:30 PM
+121.1029
+Cholecystectomy: 0
+ 
+3:37:33 PM
+1.36676
+Gallbladder: 0
+ 
+3:37:34 PM
+0.7484436
+Appendectomy: 0
+ 
+3:37:35 PM
+1.350082
+Appendectomy: 0
+ 
