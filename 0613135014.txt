@@ -1,0 +1,8 @@
+13:50:22
+1.632584
+Gallbladder: 0
+ 
+13:50:26
+1.707192
+Cholecystectomy: 0
+ 

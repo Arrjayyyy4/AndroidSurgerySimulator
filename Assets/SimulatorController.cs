@@ -59,6 +59,10 @@ public class SimulatorController : MonoBehaviour {
 	System.DateTime currentTime;
 
 	float questionStartTime;
+
+
+	//Application State
+	bool practiceMode = true; //if false, then in quiz taking mode
 	
 	// Use this for initialization
 	void Start () 
@@ -152,10 +156,140 @@ public class SimulatorController : MonoBehaviour {
 
 
 	}
+
+	void OnGUI()
+	{
+		if(practiceMode)
+		{
+			//Show Next Surgery
+			if(GUI.Button(new Rect(0, 0, Screen.width * 0.3F, Screen.height * 0.15F), "Show Next Surgery"))
+			{
+				Reset ();
+
+				if(questionIndex > 0)
+				{
+					//increment this after selecting question
+					questionIndex--;
+				}
+				else
+				{
+					questionIndex = availableCorrectPointSets.Count-1;
+				}
+				changeQuestion();
+			}
+
+			//Show/Hide Trocars
+			if(GUI.Button(new Rect(0, Screen.height * 0.15F + 5, Screen.width * 0.3F, Screen.height * 0.15F), "Show/Hide Trocars"))
+			{
+				if(!canPlaceTrocars)
+				{
+					if(!bodyTransparent)
+					{
+						displayTrocars();
+					}
+					else
+					{
+						Reset();
+						changeQuestion(questionIndex);
+					}
+				}
+				else
+				{
+					ResetQuestion();
+					changeQuestion(questionIndex);
+				}
+			}
+
+			if(GUI.Button(new Rect(0, 2 * (Screen.height * 0.15F + 5), Screen.width * 0.3F, Screen.height * 0.15F), "Begin Exam"))
+			{
+				canPlaceTrocars = !canPlaceTrocars;
+				Reset();
+				randomizeQuestions = true;
+				changeQuestion();
+				//roger
+				Debug.Log (currentQuestion.text + " is the current question");
+
+				practiceMode = false;
+			}
+		}
+		//If Started Exam
+		else
+		{
+			//Show Instructions Here
+
+			if(GUI.Button(new Rect(0, Screen.height * 0.15F + 5, Screen.width * 0.3F, Screen.height * 0.15F), "Check Answer"))
+			{
+				checkTrocars();
+			}
+		}
+	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
+		//If taking the exam
+		if(!practiceMode)
+		{
+			//On Touch
+			//Switch to on touch when i get a testing device
+			if(Input.GetMouseButtonDown(0))
+			{
+				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+	       		RaycastHit hit;
+
+	       		//If I hit an object
+	        	if (Physics.Raycast(ray, out hit, 5))
+	        	{
+	        		//If I hit the body
+	            	if(hit.transform.tag == "PatientModel")
+					{
+
+						//instantiate at point of scalpel down instead of on body
+
+						Vector3 point = hit.point;//collision.contacts[0].point;
+						Vector3 pointNormal = hit.normal;//collision.contacts[0].normal;
+						//Debug.Log ("Normal: " + pointNormal);
+						//if we haven't already made enough trocar points
+						if(count < maxCount)
+						{
+							//if not an empty point, and the collision happened on the way down, not on the way up
+							if(!point.Equals(Vector3.zero) && lastIncisionTime + incisionDelay < Time.time)// && pointNormal.y < -.1 && pointNormal.y > -1.5)
+							{
+								//Debug.Log ("Valid Normal"+ pointNormal);
+								//point = scalpel.transform.position;
+								//Debug.Log (point);
+
+								//get trocar to stick out more
+								Vector3 pointAdjusted = point;
+								//pointAdjusted.y -= .005f;
+
+								//instantiate trocar at point
+								GameObject newTrocar = (GameObject)Instantiate(trocar,pointAdjusted,Quaternion.Euler(270f,0f,0f));//Quaternion.identity);
+								//Debug.Log (newTrocar.transform.position);
+
+								//add new trocar to list of points chosen
+								chosenPoints.Add(newTrocar.transform.position);
+								count++;
+								//keep track of trocars placed
+								visibleTrocars.Add(newTrocar);
+
+								lastIncisionTime = Time.time;
+
+								if(count >= maxCount)
+								{
+									// prevent it from resetting if another point is somehow chosen
+									if(timer == 0)
+									{
+										//start the timer
+										timer = Time.time;
+									}	
+								}
+							}		
+						}
+					}
+				}
+        	}
+		}
 
 		/*
 		//after 5 seconds pass, show answers
@@ -168,12 +302,12 @@ public class SimulatorController : MonoBehaviour {
 			timer = 0f;
 		}*/
 
-
+		/*
 		if(Input.GetKeyUp(KeyCode.Alpha2))
 		{
 			checkTrocars();
 			//make skin transparent
-			this.renderer.materials[1].shader = Shader.Find("Transparent/VertexLit with Z");
+			//this.renderer.materials[1].shader = Shader.Find("Transparent/VertexLit with Z");
 		}
 
 		if(Input.GetKeyUp(KeyCode.R))
@@ -217,6 +351,7 @@ public class SimulatorController : MonoBehaviour {
 		if(Input.GetKeyUp(KeyCode.Alpha2) && !canPlaceTrocars)
 		{
 			Reset ();
+
 			if(questionIndex > 0)
 			{
 				//increment this after selecting question
@@ -277,9 +412,10 @@ public class SimulatorController : MonoBehaviour {
 				writer.WriteLine("Oculus");
 			}
 		}
-
+		*/
 	}
 
+	/*
 	void OnCollisionEnter(Collision collision) 
 	{ 
 		
@@ -332,6 +468,7 @@ public class SimulatorController : MonoBehaviour {
 
 		}
 	}
+	*/
 
 	void displayTrocars()
 	{
@@ -345,7 +482,7 @@ public class SimulatorController : MonoBehaviour {
 			
 		}
 
-		this.renderer.materials[1].shader = Shader.Find("Transparent/VertexLit with Z");
+		//this.renderer.materials[1].shader = Shader.Find("Transparent/VertexLit with Z");
 		bodyTransparent = true;
 	}
 
@@ -458,7 +595,6 @@ public class SimulatorController : MonoBehaviour {
 
 			//only allow as many trocars as they are correct trocars
 			maxCount = correctPoints.Count;
-
 		}
 		else
 		{
@@ -494,12 +630,6 @@ public class SimulatorController : MonoBehaviour {
 				questionStartTime = Time.time;
 			}
 		}
-
-
-			
-
-
-
 	}
 
 	void Reset()
@@ -514,7 +644,7 @@ public class SimulatorController : MonoBehaviour {
 		count = 0;
 
 		//make skin opaque
-		this.renderer.materials[1].shader = Shader.Find("Diffuse");
+		//this.renderer.materials[1].shader = Shader.Find("Diffuse");
 		bodyTransparent = false;
 
 		//remove the chosen points
@@ -526,7 +656,6 @@ public class SimulatorController : MonoBehaviour {
 		timer = 0f;
 
 		numCorrect = 0;
-		
 	}
 
 	//same as reset but dosn't remove points
@@ -542,7 +671,7 @@ public class SimulatorController : MonoBehaviour {
 		count = 0;
 		
 		//make skin opaque
-		this.renderer.materials[1].shader = Shader.Find("Diffuse");
+		//this.renderer.materials[1].shader = Shader.Find("Diffuse");
 
 		bodyTransparent = false;
 
@@ -550,6 +679,5 @@ public class SimulatorController : MonoBehaviour {
 		chosenPoints.Clear();
 
 		numCorrect = 0;
-
 	}
 }

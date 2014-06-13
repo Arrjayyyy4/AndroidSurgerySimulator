@@ -44,8 +44,10 @@ public class ResetLocation : MonoBehaviour {
 	{
 		if(gameObject.tag == "Tool")
 		{
-			LeapGameObject obj = gameObject.GetComponent<LeapGameObject>();
-			HandTypeBase owner = obj.owner;
+			//LeapGameObject obj = gameObject.GetComponent<LeapGameObject>();
+			//HandTypeBase owner = obj.owner;
+
+			/*
 			if(owner != null)
 			{
 				Debug.Log (obj);
@@ -57,6 +59,7 @@ public class ResetLocation : MonoBehaviour {
 				obj.Release(obj.owner);
 
 			}
+			*/
 		}
 
 		transform.position = originalPosition;
