@@ -19,6 +19,7 @@ public class ResetLocation : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+		/*
 		foreach (Gesture g in LeapInputEx.Controller.Frame().Gestures())
 		{
 			if (g.Type == Gesture.GestureType.TYPECIRCLE)
@@ -31,6 +32,7 @@ public class ResetLocation : MonoBehaviour {
 				}
 			}
 		}
+		*/
 		if(Input.GetKeyUp(KeyCode.R))
 		{
 			ResetLoc();

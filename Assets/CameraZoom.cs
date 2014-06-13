@@ -9,12 +9,11 @@ public class CameraZoom : MonoBehaviour {
 	private float originalZoom = 110f;
 	private float zoomedValue = 60f;
 	private float zoomAmount = 0f;
-	OVRCameraController camera;
 
 	// Use this for initialization
 	void Start () {
-		GameObject cameraObject =  GameObject.Find("OVRCameraController");
-		camera = (OVRCameraController) cameraObject.GetComponent("OVRCameraController");
+		//GameObject cameraObject =  GameObject.Find("OVRCameraController");
+		//camera = (OVRCameraController) cameraObject.GetComponent("OVRCameraController");
 		//camera.GetVerticalFOV(ref originalZoom);
 	}
 	
@@ -53,10 +52,10 @@ public class CameraZoom : MonoBehaviour {
 		{
 			float lerpTime = 5f; //adjust to change speed of zoom
 			float value = 0f;
-			camera.GetVerticalFOV(ref value);
+			//camera.GetVerticalFOV(ref value);
 
 			zoomAmount = Mathf.Lerp(value, zoomedValue, lerpTime * Time.deltaTime);
-			camera.SetVerticalFOV(zoomAmount);
+			//camera.SetVerticalFOV(zoomAmount);
 
 			if((int)zoomAmount == (int)zoomedValue) // if we have zoomed in enough, stop
 			{
@@ -71,10 +70,10 @@ public class CameraZoom : MonoBehaviour {
 
 			float lerpTime = 5f; //adjust to change speed of zoom
 			float value = 0f;
-			camera.GetVerticalFOV(ref value);
+			//camera.GetVerticalFOV(ref value);
 
 			zoomAmount = Mathf.Lerp(value, originalZoom, lerpTime * Time.deltaTime);
-			camera.SetVerticalFOV(zoomAmount);
+			//camera.SetVerticalFOV(zoomAmount);
 
 			if((int)zoomAmount == (int)originalZoom-1) // if we have zoomed in enough, stop
 			{
