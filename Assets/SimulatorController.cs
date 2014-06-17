@@ -217,10 +217,22 @@ public class SimulatorController : MonoBehaviour {
 		{
 			//Show Instructions Here
 
-			if(GUI.Button(new Rect(0, Screen.height * 0.15F + 5, Screen.width * 0.3F, Screen.height * 0.15F), "Check Answer"))
+			if(GUI.Button(new Rect(0, 0, Screen.width * 0.3F, Screen.height * 0.15F), "Check Answer"))
 			{
 				checkTrocars();
 			}
+
+			if(GUI.Button(new Rect(0, Screen.height * 0.15F + 5, Screen.width * 0.3F, Screen.height * 0.15F), "Next Question"))
+			{
+				canPlaceTrocars = !canPlaceTrocars;
+				Reset();
+				randomizeQuestions = true;
+				changeQuestion();
+				
+				Debug.Log (currentQuestion.text + " is the current question");
+			}
+
+			
 		}
 	}
 	
@@ -302,7 +314,7 @@ public class SimulatorController : MonoBehaviour {
 			timer = 0f;
 		}*/
 
-		/*
+		
 		if(Input.GetKeyUp(KeyCode.Alpha2))
 		{
 			checkTrocars();
@@ -412,7 +424,6 @@ public class SimulatorController : MonoBehaviour {
 				writer.WriteLine("Oculus");
 			}
 		}
-		*/
 	}
 
 	/*
