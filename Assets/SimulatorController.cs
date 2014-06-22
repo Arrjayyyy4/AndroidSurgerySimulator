@@ -63,6 +63,7 @@ public class SimulatorController : MonoBehaviour {
 
 	//Application State
 	bool practiceMode = true; //if false, then in quiz taking mode
+	bool answering = true;	//if false, then already checked answers and waiting to move to next question
 	
 	// Use this for initialization
 	void Start () 
@@ -76,6 +77,8 @@ public class SimulatorController : MonoBehaviour {
 		questionIndex = 0;
 		bodyTransparent = false;
 		numCorrect = 0;
+		practiceMode = true;
+		answering = true;
 
 		currentTime = System.DateTime.Now;
 		Debug.Log (currentTime.ToShortTimeString());
@@ -149,6 +152,7 @@ public class SimulatorController : MonoBehaviour {
 		}*/
 
 		changeQuestion();
+		displayTrocars();
 
 		//make skin opaque
 		//this.renderer.materials[1].shader = Shader.Find("Diffuse");
@@ -176,6 +180,7 @@ public class SimulatorController : MonoBehaviour {
 					questionIndex = availableCorrectPointSets.Count-1;
 				}
 				changeQuestion();
+				displayTrocars();
 			}
 
 			//Show/Hide Trocars
@@ -207,7 +212,7 @@ public class SimulatorController : MonoBehaviour {
 				randomizeQuestions = true;
 				changeQuestion();
 				//roger
-				Debug.Log (currentQuestion.text + " is the current question");
+				Debug.Log (currentQuestion.text + " is the current question  Remaining questions: " + availableCorrectPointSets.Count);
 
 				practiceMode = false;
 			}
@@ -217,19 +222,43 @@ public class SimulatorController : MonoBehaviour {
 		{
 			//Show Instructions Here
 
-			if(GUI.Button(new Rect(0, 0, Screen.width * 0.3F, Screen.height * 0.15F), "Check Answer"))
+			//Finished the game
+			if(randomQuestionsLeft < 0)
 			{
-				checkTrocars();
-			}
+				//Show comprehensive results
 
-			if(GUI.Button(new Rect(0, Screen.height * 0.15F + 5, Screen.width * 0.3F, Screen.height * 0.15F), "Next Question"))
+				//Restart Quiz
+				if(GUI.Button(new Rect(0, 0, Screen.width * 0.3F, Screen.height * 0.15F), "Start Over"))
+				{
+					//reset the application
+					Start();
+				}
+			}
+			else if(answering)
 			{
-				canPlaceTrocars = !canPlaceTrocars;
-				Reset();
-				randomizeQuestions = true;
-				changeQuestion();
+				//Check answer
+				if(GUI.Button(new Rect(0, 0, Screen.width * 0.3F, Screen.height * 0.15F), "Check Answer"))
+				{
+					checkTrocars();
+					answering = false;
+				}
+			}
+			else
+			{
+				//Next question
+				if(GUI.Button(new Rect(0, Screen.height * 0.15F + 5, Screen.width * 0.3F, Screen.height * 0.15F), "Next Question"))
+				{
+					//canPlaceTrocars = !canPlaceTrocars;
+					Reset();
+					randomizeQuestions = true;
 				
-				Debug.Log (currentQuestion.text + " is the current question");
+					//remove previous question so it's not asked again
+					availableCorrectPointSets.Remove(currentQuestion);
+				
+					changeQuestion();
+					answering = true;
+					Debug.Log (currentQuestion.text + " is the current question  Remaining questions: " + availableCorrectPointSets.Count);
+				}
 			}
 
 			
@@ -610,7 +639,7 @@ public class SimulatorController : MonoBehaviour {
 		else
 		{
 			//if randomizing questions, pick random number
-			if(randomizeQuestions && canPlaceTrocars)
+			if(randomizeQuestions)// && canPlaceTrocars)
 			{
 				//picks a random question from list
 				questionIndex = Random.Range(0,randomQuestionsLeft);
