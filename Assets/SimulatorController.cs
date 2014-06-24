@@ -34,6 +34,8 @@ public class SimulatorController : MonoBehaviour {
 	Rect posAndSizeWindowRect = new Rect(Screen.width * 0.25F, Screen.height * 0.15F, Screen.width * 0.5F, Screen.height * 0.7F);
 	string alertText = "";
 	bool isShowingAlert = false;
+	bool selectTrocarSize = false;
+	GameObject lastPlacedTrocar;
 
 	//timer used to delay answers after choosing trocar points
 	float timer;
@@ -268,10 +270,16 @@ public class SimulatorController : MonoBehaviour {
 			}
 			else if(answering)
 			{
+				if(selectTrocarSize && !isShowingAlert)
+				{Debug.Log("DJDKJHKDHKJDH  " + selectTrocarSize);
+					posAndSizeWindowRect = GUI.Window(0, posAndSizeWindowRect, trocarSizeWindow, currentQuestion.text);
+				}
+
 				if(askingPosandSize && !isShowingAlert)
 				{
 					//Ask Stuff about body position and trocar size in here    
-    	 		  	posAndSizeWindowRect = GUI.Window(0, posAndSizeWindowRect, posAndSizeWindow, currentQuestion.text);
+    	 		  	posAndSizeWindowRect = GUI.Window(0, posAndSizeWindowRect, bodyPosWindow, currentQuestion.text);
+    	 		  	//posAndSizeWindowRect = GUI.Window(0, posAndSizeWindowRect, trocarSizeWindow, currentQuestion.text);
 				}
 				else if(!isShowingAlert)
 				{
@@ -280,6 +288,7 @@ public class SimulatorController : MonoBehaviour {
 					{
 						checkTrocars();
 						answering = false;
+						selectTrocarSize = false;
 					}
 
 					if(GUI.Button(new Rect(0, Screen.height * 0.15F + 5, Screen.width * 0.3F, Screen.height * 0.15F), "Reset Trocars"))
@@ -295,6 +304,7 @@ public class SimulatorController : MonoBehaviour {
 					}
 				}
 			}
+			//Checked answers
 			else
 			{
 				//Next question
@@ -311,6 +321,7 @@ public class SimulatorController : MonoBehaviour {
 					answering = true;
 					answeredSize = false;
 					askingPosandSize = true;
+					selectTrocarSize = false;
 					Debug.Log (currentQuestion.text + " is the current question  Remaining questions: " + availableCorrectPointSets.Count);
 				}
 			}
@@ -323,98 +334,114 @@ public class SimulatorController : MonoBehaviour {
 		*/
 	}
 	
-	void posAndSizeWindow(int windowIndex)
+	void trocarSizeWindow(int windowIndex)
 	{
-		if(!answeredSize)
+		GUI.Label(new Rect(posAndSizeWindowRect.width * 0.1F, posAndSizeWindowRect.height * 0.07F, posAndSizeWindowRect.width * 0.9F, posAndSizeWindowRect.height * 0.2F), "What is the correct trocar size?");
+
+		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.17F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "5mm"))
 		{
-			GUI.Label(new Rect(posAndSizeWindowRect.width * 0.1F, posAndSizeWindowRect.height * 0.07F, posAndSizeWindowRect.width * 0.9F, posAndSizeWindowRect.height * 0.2F), "What is the correct trocar size?");
-
-			if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.17F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "5mm"))
+			if(trocarSizes[currentQuestion.text] == 0.005)
 			{
-				if(trocarSizes[currentQuestion.text] == 0.005)
-				{
-					//correct
-					StartCoroutine(showAlert("Correct!"));
-					answeredSize = true;
-				}
-				else
-				{
-					StartCoroutine(showAlert("Incorrect!"));
-				}
+				//correct
+				StartCoroutine(showAlert("Correct!"));
+				selectTrocarSize = false;
+				lastPlacedTrocar.renderer.enabled = true;
+
+				//make trocar visible
+				//lastPlacedTrocar.transform.scale = ???;
+				foreach(Renderer rend in lastPlacedTrocar.GetComponentsInChildren<Renderer>())
+					rend.enabled = true;
 			}
-
-			if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.42F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "10mm"))
+			else
 			{
-				if(trocarSizes[currentQuestion.text] == 0.010F)
-				{
-					//correct
-					StartCoroutine(showAlert("Correct!"));
-					answeredSize = true;
-				}
-				else
-				{
-					StartCoroutine(showAlert("Incorrect!"));
-				}
-			}
-
-			if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.67F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "15mm"))
-			{
-				if(trocarSizes[currentQuestion.text] == 0.015)
-				{
-					//correct
-					StartCoroutine(showAlert("Correct!"));
-					answeredSize = true;
-				}
-				else
-				{
-					StartCoroutine(showAlert("Incorrect!"));	
-				}
+				StartCoroutine(showAlert("Incorrect!"));
 			}
 		}
-		else
+
+		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.42F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "10mm"))
 		{
-			GUI.Label(new Rect(posAndSizeWindowRect.width * 0.1F, posAndSizeWindowRect.height * 0.07F, posAndSizeWindowRect.width * 0.9F, posAndSizeWindowRect.height * 0.2F), "What is the patient position?");
-
-			if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.17F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "Flat"))
+			if(trocarSizes[currentQuestion.text] == 0.010F)
 			{
-				if(bodyPositions[currentQuestion.text] == "flat")
-				{
-					//correct
-					StartCoroutine(showAlert("Correct!"));
-					askingPosandSize = false;
-				}
-				else
-				{
-					StartCoroutine(showAlert("Incorrect!"));
-				}
+				//correct
+				StartCoroutine(showAlert("Correct!"));
+				selectTrocarSize = false;
+				lastPlacedTrocar.renderer.enabled = true;
+
+				//make trocar visible
+				//lastPlacedTrocar.transform.scale = ???;
+				foreach(Renderer rend in lastPlacedTrocar.GetComponentsInChildren<Renderer>())
+					rend.enabled = true;
 			}
-
-			if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.42F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "Left Side"))
+			else
 			{
-				if(bodyPositions[currentQuestion.text] == "left side")
-				{
-					//correct
-					StartCoroutine(showAlert("Correct!"));
-					askingPosandSize = false;
-				}
-				else
-				{
-					StartCoroutine(showAlert("Incorrect!"));
-				}
+				StartCoroutine(showAlert("Incorrect!"));
 			}
+		}
 
-			if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.67F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "Right Side"))
+		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.67F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "15mm"))
+		{
+			if(trocarSizes[currentQuestion.text] == 0.015)
 			{
-				if(bodyPositions[currentQuestion.text] == "right side")
-				{
-					//correct
-					StartCoroutine(showAlert("Correct!"));
-					askingPosandSize = false;
-				}
-				else
-				{
-					StartCoroutine(showAlert("Incorrect!"));	
-				}
+				//correct
+				StartCoroutine(showAlert("Correct!"));
+				selectTrocarSize = false;
+				lastPlacedTrocar.renderer.enabled = true;
+
+				//make trocar visible
+				//lastPlacedTrocar.transform.scale = ???;
+				foreach(Renderer rend in lastPlacedTrocar.GetComponentsInChildren<Renderer>())
+					rend.enabled = true;
+			}
+			else
+			{
+				StartCoroutine(showAlert("Incorrect!"));	
+			}
+		}
+	}
+
+	void bodyPosWindow(int windowIndex)
+	{
+		GUI.Label(new Rect(posAndSizeWindowRect.width * 0.1F, posAndSizeWindowRect.height * 0.07F, posAndSizeWindowRect.width * 0.9F, posAndSizeWindowRect.height * 0.2F), "What is the patient position?");
+
+		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.17F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "Flat"))
+		{
+			if(bodyPositions[currentQuestion.text] == "flat")
+			{
+				//correct
+				StartCoroutine(showAlert("Correct!"));
+				askingPosandSize = false;
+			}
+			else
+			{
+				StartCoroutine(showAlert("Incorrect!"));
+			}
+		}
+
+		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.42F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "Left Side"))
+		{
+			if(bodyPositions[currentQuestion.text] == "left side")
+			{
+				//correct
+				StartCoroutine(showAlert("Correct!"));
+				askingPosandSize = false;
+			}
+			else
+			{
+				StartCoroutine(showAlert("Incorrect!"));
+			}
+		}
+
+		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.67F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "Right Side"))
+		{
+			if(bodyPositions[currentQuestion.text] == "right side")
+			{
+				//correct
+				StartCoroutine(showAlert("Correct!"));
+				askingPosandSize = false;
+			}
+			else
+			{
+				StartCoroutine(showAlert("Incorrect!"));	
 			}
 		}
 	}
@@ -438,7 +465,7 @@ public class SimulatorController : MonoBehaviour {
 	void Update () 
 	{
 		//If taking the exam
-		if(!practiceMode && !askingPosandSize)
+		if(!practiceMode && !askingPosandSize && !selectTrocarSize)
 		{
 			//On Touch
 			//Switch to on touch when i get a testing device
@@ -474,14 +501,20 @@ public class SimulatorController : MonoBehaviour {
 								//pointAdjusted.y -= .005f;
 
 								//instantiate trocar at point
-								GameObject newTrocar = (GameObject)Instantiate(trocar,pointAdjusted,Quaternion.Euler(270f,0f,0f));//Quaternion.identity);
+								lastPlacedTrocar = (GameObject)Instantiate(trocar,pointAdjusted,Quaternion.Euler(270f,0f,0f));//Quaternion.identity);
+								
+								//Keep trocar invisible until trocar size is selected, then make it visible in trocarSizeWindow
+								foreach(Renderer rend in lastPlacedTrocar.GetComponentsInChildren<Renderer>())
+									rend.enabled = false;
+
 								//Debug.Log (newTrocar.transform.position);
+								selectTrocarSize = true;
 
 								//add new trocar to list of points chosen
-								chosenPoints.Add(newTrocar.transform.position);
+								chosenPoints.Add(lastPlacedTrocar.transform.position);
 								count++;
 								//keep track of trocars placed
-								visibleTrocars.Add(newTrocar);
+								visibleTrocars.Add(lastPlacedTrocar);
 
 								lastIncisionTime = Time.time;
 
