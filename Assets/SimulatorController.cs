@@ -11,6 +11,8 @@ public class SimulatorController : MonoBehaviour {
 	public GameObject scalpel;
 
 	public TextMesh questionText;
+	public GUISkin simulatorSkin;
+	public GUISkin alertSkin;
 
 	//current count of trocars placed
 	int count;
@@ -24,6 +26,14 @@ public class SimulatorController : MonoBehaviour {
 	List<Question> availableCorrectPointSets;
 	//list of all visible trocars (so they can be deleted)
 	List<GameObject> visibleTrocars;
+
+	Dictionary<string, float> trocarSizes;
+	Dictionary<string, string> bodyPositions;
+	bool askingPosandSize = true;
+	bool answeredSize = false;
+	Rect posAndSizeWindowRect = new Rect(Screen.width * 0.25F, Screen.height * 0.15F, Screen.width * 0.5F, Screen.height * 0.7F);
+	string alertText = "";
+	bool isShowingAlert = false;
 
 	//timer used to delay answers after choosing trocar points
 	float timer;
@@ -64,6 +74,7 @@ public class SimulatorController : MonoBehaviour {
 	//Application State
 	bool practiceMode = true; //if false, then in quiz taking mode
 	bool answering = true;	//if false, then already checked answers and waiting to move to next question
+	bool guiHidden = false; //hide/show state of gui
 	
 	// Use this for initialization
 	void Start () 
@@ -141,6 +152,21 @@ public class SimulatorController : MonoBehaviour {
 		availableCorrectPointSets.Add(new Question(rightRenalPoints, "Right Renal"));
 		availableCorrectPointSets.Add(new Question(leftNephrectomyPoints, "Left Nephrectomy"));
 
+		//Initialize correct torcar sizes and body positions
+		trocarSizes = new Dictionary<string, float>();
+		trocarSizes.Add("Appendectomy", 0.010F);
+		trocarSizes.Add("Gallbladder", 0.010F);
+		trocarSizes.Add("Cholecystectomy", 0.010F);
+		trocarSizes.Add("Right Renal", 0.010F);
+		trocarSizes.Add("Left Nephrectomy", 0.010F);
+
+		bodyPositions = new Dictionary<string, string>();
+		bodyPositions.Add("Appendectomy", "flat");
+		bodyPositions.Add("Gallbladder", "left side");
+		bodyPositions.Add("Cholecystectomy", "flat");
+		bodyPositions.Add("Right Renal", "right side");
+		bodyPositions.Add("Left Nephrectomy", "right side");
+
 
 		randomQuestionsLeft = availableCorrectPointSets.Count;
 
@@ -156,13 +182,19 @@ public class SimulatorController : MonoBehaviour {
 
 		//make skin opaque
 		//this.renderer.materials[1].shader = Shader.Find("Diffuse");
-
-
-
 	}
 
 	void OnGUI()
-	{
+	{		
+		if(isShowingAlert)
+		{
+			GUI.depth = -1;
+			GUI.Label(new Rect(Screen.width * 0.15F, Screen.height * 0.2F, Screen.width * 0.5F, Screen.height * 0.2F), alertText, alertSkin.label);
+		}
+
+		GUI.depth = 0;
+		//GUI.skin = simulatorSkin;
+
 		if(practiceMode)
 		{
 			//Show Next Surgery
@@ -236,11 +268,31 @@ public class SimulatorController : MonoBehaviour {
 			}
 			else if(answering)
 			{
-				//Check answer
-				if(GUI.Button(new Rect(0, 0, Screen.width * 0.3F, Screen.height * 0.15F), "Check Answer"))
+				if(askingPosandSize && !isShowingAlert)
 				{
-					checkTrocars();
-					answering = false;
+					//Ask Stuff about body position and trocar size in here    
+    	 		  	posAndSizeWindowRect = GUI.Window(0, posAndSizeWindowRect, posAndSizeWindow, currentQuestion.text);
+				}
+				else if(!isShowingAlert)
+				{
+					//Check answer
+					if(GUI.Button(new Rect(0, 0, Screen.width * 0.3F, Screen.height * 0.15F), "Check Answer"))
+					{
+						checkTrocars();
+						answering = false;
+					}
+
+					if(GUI.Button(new Rect(0, Screen.height * 0.15F + 5, Screen.width * 0.3F, Screen.height * 0.15F), "Reset Trocars"))
+					{
+						//reset trocars so the user can replace them before submitting their answer
+						count = 0;
+									
+						foreach(GameObject trocar in visibleTrocars)
+							Destroy(trocar);
+
+						visibleTrocars.Clear();
+						chosenPoints.Clear();
+					}
 				}
 			}
 			else
@@ -257,19 +309,136 @@ public class SimulatorController : MonoBehaviour {
 				
 					changeQuestion();
 					answering = true;
+					answeredSize = false;
+					askingPosandSize = true;
 					Debug.Log (currentQuestion.text + " is the current question  Remaining questions: " + availableCorrectPointSets.Count);
 				}
 			}
-
-			
 		}
+		/*
+		if(GUI.Button(new Rect(Screen.width * 0.7F, 0, Screen.width * 0.25F, Screen.height * 0.15F), (guiHidden ? "Show " : "Hide ") + "Buttons"))
+		{
+			guiHidden = !guiHidden;
+		}
+		*/
 	}
 	
+	void posAndSizeWindow(int windowIndex)
+	{
+		if(!answeredSize)
+		{
+			GUI.Label(new Rect(posAndSizeWindowRect.width * 0.1F, posAndSizeWindowRect.height * 0.07F, posAndSizeWindowRect.width * 0.9F, posAndSizeWindowRect.height * 0.2F), "What is the correct trocar size?");
+
+			if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.17F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "5mm"))
+			{
+				if(trocarSizes[currentQuestion.text] == 0.005)
+				{
+					//correct
+					StartCoroutine(showAlert("Correct!"));
+					answeredSize = true;
+				}
+				else
+				{
+					StartCoroutine(showAlert("Incorrect!"));
+				}
+			}
+
+			if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.42F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "10mm"))
+			{
+				if(trocarSizes[currentQuestion.text] == 0.010F)
+				{
+					//correct
+					StartCoroutine(showAlert("Correct!"));
+					answeredSize = true;
+				}
+				else
+				{
+					StartCoroutine(showAlert("Incorrect!"));
+				}
+			}
+
+			if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.67F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "15mm"))
+			{
+				if(trocarSizes[currentQuestion.text] == 0.015)
+				{
+					//correct
+					StartCoroutine(showAlert("Correct!"));
+					answeredSize = true;
+				}
+				else
+				{
+					StartCoroutine(showAlert("Incorrect!"));	
+				}
+			}
+		}
+		else
+		{
+			GUI.Label(new Rect(posAndSizeWindowRect.width * 0.1F, posAndSizeWindowRect.height * 0.07F, posAndSizeWindowRect.width * 0.9F, posAndSizeWindowRect.height * 0.2F), "What is the patient position?");
+
+			if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.17F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "Flat"))
+			{
+				if(bodyPositions[currentQuestion.text] == "flat")
+				{
+					//correct
+					StartCoroutine(showAlert("Correct!"));
+					askingPosandSize = false;
+				}
+				else
+				{
+					StartCoroutine(showAlert("Incorrect!"));
+				}
+			}
+
+			if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.42F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "Left Side"))
+			{
+				if(bodyPositions[currentQuestion.text] == "left side")
+				{
+					//correct
+					StartCoroutine(showAlert("Correct!"));
+					askingPosandSize = false;
+				}
+				else
+				{
+					StartCoroutine(showAlert("Incorrect!"));
+				}
+			}
+
+			if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.67F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "Right Side"))
+			{
+				if(bodyPositions[currentQuestion.text] == "right side")
+				{
+					//correct
+					StartCoroutine(showAlert("Correct!"));
+					askingPosandSize = false;
+				}
+				else
+				{
+					StartCoroutine(showAlert("Incorrect!"));	
+				}
+			}
+		}
+	}
+
+	IEnumerator showAlert(string text)
+	{
+		float showTime = 2.0F;
+		float theTime = Time.time;
+
+		alertText = text;
+		isShowingAlert = true;
+
+		while(Time.time - theTime <= showTime){yield return false;}
+
+		isShowingAlert = false;
+
+		yield return true;
+	}
+
 	// Update is called once per frame
 	void Update () 
 	{
 		//If taking the exam
-		if(!practiceMode)
+		if(!practiceMode && !askingPosandSize)
 		{
 			//On Touch
 			//Switch to on touch when i get a testing device
@@ -343,7 +512,7 @@ public class SimulatorController : MonoBehaviour {
 			timer = 0f;
 		}*/
 
-		
+		/*
 		if(Input.GetKeyUp(KeyCode.Alpha2))
 		{
 			checkTrocars();
@@ -453,6 +622,7 @@ public class SimulatorController : MonoBehaviour {
 				writer.WriteLine("Oculus");
 			}
 		}
+		*/
 	}
 
 	/*
@@ -696,6 +866,9 @@ public class SimulatorController : MonoBehaviour {
 		timer = 0f;
 
 		numCorrect = 0;
+
+		answeredSize = false;
+		askingPosandSize = true;
 	}
 
 	//same as reset but dosn't remove points
