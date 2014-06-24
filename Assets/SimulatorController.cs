@@ -467,70 +467,81 @@ public class SimulatorController : MonoBehaviour {
 		//If taking the exam
 		if(!practiceMode && !askingPosandSize && !selectTrocarSize)
 		{
-			//On Touch
-			//Switch to on touch when i get a testing device
-			if(Input.GetMouseButtonDown(0))
-			{
-				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-	       		RaycastHit hit;
+			//Works for touch and for mouse clicks for testing
+			if(Input.touchCount == 1 || Input.GetMouseButtonDown(0))
+        	{   
+		        //On Touch
+				//Switch to on touch when i get a testing device
+				//if(Input.GetMouseButtonDown(0))
+		        if(Input.GetMouseButtonDown(0) || Input.GetTouch(0).phase == TouchPhase.Began)
+				{
+					Ray ray;
 
-	       		//If I hit an object
-	        	if (Physics.Raycast(ray, out hit, 5))
-	        	{
-	        		//If I hit the body
-	            	if(hit.transform.tag == "PatientModel")
-					{
+					if(Input.touchCount == 1)
+						ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
+					else
+						ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+					
+		       		RaycastHit hit;
 
-						//instantiate at point of scalpel down instead of on body
-
-						Vector3 point = hit.point;//collision.contacts[0].point;
-						Vector3 pointNormal = hit.normal;//collision.contacts[0].normal;
-						//Debug.Log ("Normal: " + pointNormal);
-						//if we haven't already made enough trocar points
-						if(count < maxCount)
+		       		//If I hit an object
+		        	if (Physics.Raycast(ray, out hit, 5))
+		        	{
+		        		//If I hit the body
+		            	if(hit.transform.tag == "PatientModel")
 						{
-							//if not an empty point, and the collision happened on the way down, not on the way up
-							if(!point.Equals(Vector3.zero) && lastIncisionTime + incisionDelay < Time.time)// && pointNormal.y < -.1 && pointNormal.y > -1.5)
+
+							//instantiate at point of scalpel down instead of on body
+
+							Vector3 point = hit.point;//collision.contacts[0].point;
+							Vector3 pointNormal = hit.normal;//collision.contacts[0].normal;
+							//Debug.Log ("Normal: " + pointNormal);
+							//if we haven't already made enough trocar points
+							if(count < maxCount)
 							{
-								//Debug.Log ("Valid Normal"+ pointNormal);
-								//point = scalpel.transform.position;
-								//Debug.Log (point);
-
-								//get trocar to stick out more
-								Vector3 pointAdjusted = point;
-								//pointAdjusted.y -= .005f;
-
-								//instantiate trocar at point
-								lastPlacedTrocar = (GameObject)Instantiate(trocar,pointAdjusted,Quaternion.Euler(270f,0f,0f));//Quaternion.identity);
-								
-								//Keep trocar invisible until trocar size is selected, then make it visible in trocarSizeWindow
-								foreach(Renderer rend in lastPlacedTrocar.GetComponentsInChildren<Renderer>())
-									rend.enabled = false;
-
-								//Debug.Log (newTrocar.transform.position);
-								selectTrocarSize = true;
-
-								//add new trocar to list of points chosen
-								chosenPoints.Add(lastPlacedTrocar.transform.position);
-								count++;
-								//keep track of trocars placed
-								visibleTrocars.Add(lastPlacedTrocar);
-
-								lastIncisionTime = Time.time;
-
-								if(count >= maxCount)
+								//if not an empty point, and the collision happened on the way down, not on the way up
+								if(!point.Equals(Vector3.zero) && lastIncisionTime + incisionDelay < Time.time)// && pointNormal.y < -.1 && pointNormal.y > -1.5)
 								{
-									// prevent it from resetting if another point is somehow chosen
-									if(timer == 0)
+									//Debug.Log ("Valid Normal"+ pointNormal);
+									//point = scalpel.transform.position;
+									//Debug.Log (point);
+
+									//get trocar to stick out more
+									Vector3 pointAdjusted = point;
+									//pointAdjusted.y -= .005f;
+
+									//instantiate trocar at point
+									lastPlacedTrocar = (GameObject)Instantiate(trocar,pointAdjusted,Quaternion.Euler(270f,0f,0f));//Quaternion.identity);
+									
+									//Keep trocar invisible until trocar size is selected, then make it visible in trocarSizeWindow
+									foreach(Renderer rend in lastPlacedTrocar.GetComponentsInChildren<Renderer>())
+										rend.enabled = false;
+
+									//Debug.Log (newTrocar.transform.position);
+									selectTrocarSize = true;
+
+									//add new trocar to list of points chosen
+									chosenPoints.Add(lastPlacedTrocar.transform.position);
+									count++;
+									//keep track of trocars placed
+									visibleTrocars.Add(lastPlacedTrocar);
+
+									lastIncisionTime = Time.time;
+
+									if(count >= maxCount)
 									{
-										//start the timer
-										timer = Time.time;
-									}	
-								}
-							}		
+										// prevent it from resetting if another point is somehow chosen
+										if(timer == 0)
+										{
+											//start the timer
+											timer = Time.time;
+										}	
+									}
+								}		
+							}
 						}
 					}
-				}
+	        	}
         	}
 		}
 
