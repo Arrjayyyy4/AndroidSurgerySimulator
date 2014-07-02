@@ -4,6 +4,11 @@ using System.Collections.Generic;
 using System.IO;
 
 public class SimulatorController : MonoBehaviour {
+	//roger
+	public GameObject patient;
+	public GameObject cameraOne;
+	public bool positionChanged = false;
+	// /roger
 
 	//trocar model used to create trocars
 	public GameObject trocar;
@@ -164,10 +169,10 @@ public class SimulatorController : MonoBehaviour {
 
 		bodyPositions = new Dictionary<string, string>();
 		bodyPositions.Add("Appendectomy", "flat");
-		bodyPositions.Add("Gallbladder", "left side");
+		bodyPositions.Add("Gallbladder", "side");
 		bodyPositions.Add("Cholecystectomy", "flat");
-		bodyPositions.Add("Right Renal", "right side");
-		bodyPositions.Add("Left Nephrectomy", "right side");
+		bodyPositions.Add("Right Renal", "side");
+		bodyPositions.Add("Left Nephrectomy", "side");
 
 
 		randomQuestionsLeft = availableCorrectPointSets.Count;
@@ -316,7 +321,7 @@ public class SimulatorController : MonoBehaviour {
 				
 					//remove previous question so it's not asked again
 					availableCorrectPointSets.Remove(currentQuestion);
-				
+					ChangeBodyPositon(); //roger - this should change body position back if the position is either left side or right side
 					changeQuestion();
 					answering = true;
 					answeredSize = false;
@@ -417,12 +422,13 @@ public class SimulatorController : MonoBehaviour {
 			}
 		}
 
-		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.42F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "Left Side"))
+		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.42F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "Side"))
 		{
-			if(bodyPositions[currentQuestion.text] == "left side")
+			if(bodyPositions[currentQuestion.text] == "side")
 			{
 				//correct
 				StartCoroutine(showAlert("Correct!"));
+				ChangeBodyPositon();
 				askingPosandSize = false;
 			}
 			else
@@ -430,13 +436,14 @@ public class SimulatorController : MonoBehaviour {
 				StartCoroutine(showAlert("Incorrect!"));
 			}
 		}
-
+		/* roger - commented out because only flat and side positions are needed (for now)
 		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.67F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "Right Side"))
 		{
 			if(bodyPositions[currentQuestion.text] == "right side")
 			{
 				//correct
 				StartCoroutine(showAlert("Correct!"));
+				ChangeBodyPositon();
 				askingPosandSize = false;
 			}
 			else
@@ -444,6 +451,7 @@ public class SimulatorController : MonoBehaviour {
 				StartCoroutine(showAlert("Incorrect!"));	
 			}
 		}
+		*/
 	}
 
 	IEnumerator showAlert(string text)
@@ -464,6 +472,8 @@ public class SimulatorController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
+		AdjustTrocarPosition(); //roger changes trocar position for the changed body position
+
 		//If taking the exam
 		if(!practiceMode && !askingPosandSize && !selectTrocarSize)
 		{
@@ -937,4 +947,52 @@ public class SimulatorController : MonoBehaviour {
 
 		numCorrect = 0;
 	}
+
+	//roger
+
+	//changes body position of the patient to lay on the side and does the same for the camera
+	//so that the patient is always in bird's eye view relative to the patient
+	void ChangeBodyPositon()
+	{
+		//check if patient should be laying on their side
+		if(bodyPositions[currentQuestion.text] == "side")
+		{
+			//check if the position has already been changed
+			if(positionChanged)
+			{
+				//turn camera and patient 90 degrees
+				patient.transform.Rotate(90,0,0);
+				cameraOne.transform.Rotate(90,0,0);
+				positionChanged = false; //indicates that position has been changed
+			}
+			else
+			{
+				//change position back
+				patient.transform.Rotate(-90,0,0);
+				cameraOne.transform.Rotate(-90,0,0);
+				positionChanged = true; //indicates that position has been changed back
+			}
+		}
+	}
+
+	void AdjustTrocarPosition()
+	{
+		//check if the body position should be on the side
+		if(bodyPositions[currentQuestion.text] == "side")
+		{
+
+			//start looking for the trocar clones
+			foreach(GameObject placedTrocars in GameObject.FindObjectsOfType(typeof(GameObject)))
+			{
+				//if a trocar clone object is found
+				if(placedTrocars.name == "trocarPurple(Clone)")
+				{
+					//change the rotation of the trocar to match that of the patient's body
+					//placedTrocars.transform.localEulerAngles = new Vector3(0,180,0);
+
+				}
+			}
+		}
+	}
+	// /roger
 }
