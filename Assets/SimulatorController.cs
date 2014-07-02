@@ -77,12 +77,34 @@ public class SimulatorController : MonoBehaviour {
 
 	float questionStartTime;
 
+	//roger - trocar sizes will vary depending on where they are placed onto the body, therefore the variable trocarPt was added to change the correct trocar point
+	public float trocarPt = 0.010F;
 
 	//Application State
 	bool practiceMode = true; //if false, then in quiz taking mode
 	bool answering = true;	//if false, then already checked answers and waiting to move to next question
 	bool guiHidden = false; //hide/show state of gui
+
+	//list of points for each surgery
+	List<Vector3> appendectomyPoints = new List<Vector3>();
+	List<Vector3> gallbladderPoints = new List<Vector3>();
+	List<Vector3> cholecystectomyPoints = new List<Vector3>();
+	List<Vector3> rightRenalPoints = new List<Vector3>();
+	List<Vector3> leftNephrectomyPoints = new List<Vector3>();
 	
+	//points to use for reference
+	Vector3 belowBellyButton = new Vector3(-55.48f, 5.45f, -16.61f);
+	Vector3 bellyButton = new Vector3(-55.38f, 5.45f, -16.61f);
+	Vector3 aboveAndRightBellyButton = new Vector3(-55.31f, 5.48f, -16.65f);
+	Vector3 upperLeftStomach = new Vector3(-55.37f, 5.45f, -16.53f);
+	Vector3 upperLeftStomachEdge = new Vector3(-55.36f, 5.45f, -16.45f);
+	Vector3 bottomSternum = new Vector3(-55.145f, 5.50f, -16.62f);
+	Vector3 bellowRightBellyButton = new Vector3(-55.47f, 5.44f, -16.70f);
+	Vector3 rightBellyButtonEdge = new Vector3(-55.37f, 5.41f, -16.73f);
+	Vector3 lowerLeftStomach = new Vector3(-55.42f, 5.45f, -16.50f);
+	Vector3 aboveBellyButton = new Vector3(-55.3f, 5.47f, -16.61f);
+
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -108,6 +130,7 @@ public class SimulatorController : MonoBehaviour {
 		availableCorrectPointSets = new List<Question>();
 		visibleTrocars = new List<GameObject>();
 
+		/*roger - placed point declarations outside of functions so they can be modified
 		//list of points for each surgery
 		List<Vector3> appendectomyPoints = new List<Vector3>();
 		List<Vector3> gallbladderPoints = new List<Vector3>();
@@ -126,6 +149,7 @@ public class SimulatorController : MonoBehaviour {
 		Vector3 rightBellyButtonEdge = new Vector3(-55.37f, 5.41f, -16.73f);
 		Vector3 lowerLeftStomach = new Vector3(-55.42f, 5.45f, -16.50f);
 		Vector3 aboveBellyButton = new Vector3(-55.3f, 5.47f, -16.61f);
+		*/
 
 		appendectomyPoints.Add(belowBellyButton);
 		appendectomyPoints.Add(bellyButton);
@@ -159,13 +183,15 @@ public class SimulatorController : MonoBehaviour {
 		availableCorrectPointSets.Add(new Question(rightRenalPoints, "Right Renal"));
 		availableCorrectPointSets.Add(new Question(leftNephrectomyPoints, "Left Nephrectomy"));
 
+		//roger - trocar sizes will vary depending on where they are placed onto the body, therefore the variable trocarPt was added to change the correct trocar point
+
 		//Initialize correct torcar sizes and body positions
 		trocarSizes = new Dictionary<string, float>();
-		trocarSizes.Add("Appendectomy", 0.010F);
-		trocarSizes.Add("Gallbladder", 0.010F);
-		trocarSizes.Add("Cholecystectomy", 0.010F);
-		trocarSizes.Add("Right Renal", 0.010F);
-		trocarSizes.Add("Left Nephrectomy", 0.010F);
+		trocarSizes.Add("Appendectomy", trocarPt);
+		trocarSizes.Add("Gallbladder", trocarPt);
+		trocarSizes.Add("Cholecystectomy", trocarPt);
+		trocarSizes.Add("Right Renal", trocarPt);
+		trocarSizes.Add("Left Nephrectomy", trocarPt);
 
 		bodyPositions = new Dictionary<string, string>();
 		bodyPositions.Add("Appendectomy", "flat");
@@ -276,7 +302,8 @@ public class SimulatorController : MonoBehaviour {
 			else if(answering)
 			{
 				if(selectTrocarSize && !isShowingAlert)
-				{Debug.Log("DJDKJHKDHKJDH  " + selectTrocarSize);
+				{
+					//Debug.Log("DJDKJHKDHKJDH  " + selectTrocarSize);
 					posAndSizeWindowRect = GUI.Window(0, posAndSizeWindowRect, trocarSizeWindow, currentQuestion.text);
 				}
 
@@ -472,6 +499,7 @@ public class SimulatorController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
+
 		AdjustTrocarPosition(); //roger changes trocar position for the changed body position
 
 		//If taking the exam
@@ -974,12 +1002,28 @@ public class SimulatorController : MonoBehaviour {
 			}
 		}
 	}
+		
+	void ChangeTrocarSize()
+	{
+		GameObject placedTrocar = GameObject.Find("trocarPurple(Clone)");
+	}
 
 	void AdjustTrocarPosition()
 	{
 		//check if the body position should be on the side
 		if(bodyPositions[currentQuestion.text] == "side")
 		{
+			//change correct trocar positions in order to match with the changed body position
+			 belowBellyButton = new Vector3(-55.48f, 5.45f, -16.61f);
+			 bellyButton = new Vector3(-55.38f, 5.45f, -16.61f);
+			 aboveAndRightBellyButton = new Vector3(-55.31f, 5.48f, -16.65f);
+			 upperLeftStomach = new Vector3(-55.37f, 5.45f, -16.53f);
+			 upperLeftStomachEdge = new Vector3(-55.36f, 5.45f, -16.45f);
+			 bottomSternum = new Vector3(-55.145f, 5.50f, -16.62f);
+			 bellowRightBellyButton = new Vector3(-55.47f, 5.44f, -16.70f);
+			 rightBellyButtonEdge = new Vector3(-55.37f, 5.41f, -16.73f);
+			 lowerLeftStomach = new Vector3(-55.42f, 5.45f, -16.50f);
+			 aboveBellyButton = new Vector3(-55.3f, 5.47f, -16.61f);
 
 			//start looking for the trocar clones
 			foreach(GameObject placedTrocars in GameObject.FindObjectsOfType(typeof(GameObject)))
@@ -989,9 +1033,22 @@ public class SimulatorController : MonoBehaviour {
 				{
 					//change the rotation of the trocar to match that of the patient's body
 					placedTrocars.transform.localEulerAngles = new Vector3(0,180,0);
-
+					//uncomment above when finished debugging
 				}
 			}
+		}
+		else
+		{
+			 belowBellyButton = new Vector3(-55.48f, 5.45f, -16.61f);
+			 bellyButton = new Vector3(-55.38f, 5.45f, -16.61f);
+			 aboveAndRightBellyButton = new Vector3(-55.31f, 5.48f, -16.65f);
+			 upperLeftStomach = new Vector3(-55.37f, 5.45f, -16.53f);
+			 upperLeftStomachEdge = new Vector3(-55.36f, 5.45f, -16.45f);
+			 bottomSternum = new Vector3(-55.145f, 5.50f, -16.62f);
+			 bellowRightBellyButton = new Vector3(-55.47f, 5.44f, -16.70f);
+			 rightBellyButtonEdge = new Vector3(-55.37f, 5.41f, -16.73f);
+			 lowerLeftStomach = new Vector3(-55.42f, 5.45f, -16.50f);
+			 aboveBellyButton = new Vector3(-55.3f, 5.47f, -16.61f);
 		}
 	}
 	// /roger
