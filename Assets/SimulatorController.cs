@@ -988,7 +988,7 @@ public class SimulatorController : MonoBehaviour {
 				if(placedTrocars.name == "trocarPurple(Clone)")
 				{
 					//change the rotation of the trocar to match that of the patient's body
-					//placedTrocars.transform.localEulerAngles = new Vector3(0,180,0);
+					placedTrocars.transform.localEulerAngles = new Vector3(0,180,0);
 
 				}
 			}
