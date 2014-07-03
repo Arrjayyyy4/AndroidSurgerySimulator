@@ -6,7 +6,7 @@ using System.IO;
 public class SimulatorController : MonoBehaviour {
 	//roger
 	public GameObject patient;
-	public GameObject cameraOne;
+	//public GameObject cameraOne;
 	public bool positionChanged = false;
 	// /roger
 
@@ -183,15 +183,14 @@ public class SimulatorController : MonoBehaviour {
 		availableCorrectPointSets.Add(new Question(rightRenalPoints, "Right Renal"));
 		availableCorrectPointSets.Add(new Question(leftNephrectomyPoints, "Left Nephrectomy"));
 
-		//roger - trocar sizes will vary depending on where they are placed onto the body, therefore the variable trocarPt was added to change the correct trocar point
 
 		//Initialize correct torcar sizes and body positions
 		trocarSizes = new Dictionary<string, float>();
-		trocarSizes.Add("Appendectomy", trocarPt);
-		trocarSizes.Add("Gallbladder", trocarPt);
-		trocarSizes.Add("Cholecystectomy", trocarPt);
-		trocarSizes.Add("Right Renal", trocarPt);
-		trocarSizes.Add("Left Nephrectomy", trocarPt);
+		trocarSizes.Add("Appendectomy", 0.010F);
+		trocarSizes.Add("Gallbladder", 0.015F);
+		trocarSizes.Add("Cholecystectomy", 0.010F);
+		trocarSizes.Add("Right Renal", 0.010F);
+		trocarSizes.Add("Left Nephrectomy", 0.010F);
 
 		bodyPositions = new Dictionary<string, string>();
 		bodyPositions.Add("Appendectomy", "flat");
@@ -304,6 +303,7 @@ public class SimulatorController : MonoBehaviour {
 				if(selectTrocarSize && !isShowingAlert)
 				{
 					//Debug.Log("DJDKJHKDHKJDH  " + selectTrocarSize);
+
 					posAndSizeWindowRect = GUI.Window(0, posAndSizeWindowRect, trocarSizeWindow, currentQuestion.text);
 				}
 
@@ -322,17 +322,22 @@ public class SimulatorController : MonoBehaviour {
 						answering = false;
 						selectTrocarSize = false;
 					}
-
-					if(GUI.Button(new Rect(0, Screen.height * 0.15F + 5, Screen.width * 0.3F, Screen.height * 0.15F), "Reset Trocars"))
+					//roger - made sure that trocarSize has to be false for the user to be able to reset the question
+					//this is primarily because user may (by accident or on purpose) have the trocars destroyed while the size windows is open
+					//this causes a null reference error -- that's bad
+					if(!selectTrocarSize)
 					{
-						//reset trocars so the user can replace them before submitting their answer
-						count = 0;
-									
-						foreach(GameObject trocar in visibleTrocars)
-							Destroy(trocar);
+						if(GUI.Button(new Rect(0, Screen.height * 0.15F + 5, Screen.width * 0.3F, Screen.height * 0.15F), "Reset Trocars"))
+						{
+							//reset trocars so the user can replace them before submitting their answer
+							count = 0;
+										
+							foreach(GameObject trocar in visibleTrocars)
+								Destroy(trocar);
 
-						visibleTrocars.Clear();
-						chosenPoints.Clear();
+							visibleTrocars.Clear();
+							chosenPoints.Clear();
+						}
 					}
 				}
 			}
@@ -412,7 +417,14 @@ public class SimulatorController : MonoBehaviour {
 
 		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.67F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "15mm"))
 		{
-			if(trocarSizes[currentQuestion.text] == 0.015)
+			/*
+			while the .01m is the default for the trocar size, a range can be set up for different trocar sizes
+			for instance if (trocarsizes ... ) || ( (z > 4 && z < 6) && (x > 10 && x < 12) )
+			the trocar sizes would only be correct for that range of x and z values
+			but if the person's head or any unusual part of the body (ie.legs,hands) the size would be default size
+			this means that the user is doing something wrong! *oh no!*
+			*/
+			if(trocarSizes[currentQuestion.text] == 0.015 || lastPlacedTrocar.transform.position.z > 16.5)
 			{
 				//correct
 				StartCoroutine(showAlert("Correct!"));
@@ -463,7 +475,7 @@ public class SimulatorController : MonoBehaviour {
 				StartCoroutine(showAlert("Incorrect!"));
 			}
 		}
-		/* roger - commented out because only flat and side positions are needed (for now)
+		/* roger - commented out because only "flat" and "side" positions are needed (for now)
 		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.67F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "Right Side"))
 		{
 			if(bodyPositions[currentQuestion.text] == "right side")
@@ -499,9 +511,6 @@ public class SimulatorController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-
-		AdjustTrocarPosition(); //roger changes trocar position for the changed body position
-
 		//If taking the exam
 		if(!practiceMode && !askingPosandSize && !selectTrocarSize)
 		{
@@ -989,67 +998,20 @@ public class SimulatorController : MonoBehaviour {
 			if(positionChanged)
 			{
 				//turn camera and patient 90 degrees
-				patient.transform.Rotate(90,0,0);
-				cameraOne.transform.Rotate(90,0,0);
+				patient.transform.Rotate(270,0,0);
+				//cameraOne.transform.Rotate(90,0,0);
 				positionChanged = false; //indicates that position has been changed
 			}
 			else
 			{
 				//change position back
-				patient.transform.Rotate(-90,0,0);
-				cameraOne.transform.Rotate(-90,0,0);
+				patient.transform.Rotate(-270,0,0);
+				//cameraOne.transform.Rotate(-90,0,0);
 				positionChanged = true; //indicates that position has been changed back
 			}
 		}
 	}
-		
-	void ChangeTrocarSize()
-	{
-		GameObject placedTrocar = GameObject.Find("trocarPurple(Clone)");
-	}
 
-	void AdjustTrocarPosition()
-	{
-		//check if the body position should be on the side
-		if(bodyPositions[currentQuestion.text] == "side")
-		{
-			//change correct trocar positions in order to match with the changed body position
-			 belowBellyButton = new Vector3(-55.48f, 5.45f, -16.61f);
-			 bellyButton = new Vector3(-55.38f, 5.45f, -16.61f);
-			 aboveAndRightBellyButton = new Vector3(-55.31f, 5.48f, -16.65f);
-			 upperLeftStomach = new Vector3(-55.37f, 5.45f, -16.53f);
-			 upperLeftStomachEdge = new Vector3(-55.36f, 5.45f, -16.45f);
-			 bottomSternum = new Vector3(-55.145f, 5.50f, -16.62f);
-			 bellowRightBellyButton = new Vector3(-55.47f, 5.44f, -16.70f);
-			 rightBellyButtonEdge = new Vector3(-55.37f, 5.41f, -16.73f);
-			 lowerLeftStomach = new Vector3(-55.42f, 5.45f, -16.50f);
-			 aboveBellyButton = new Vector3(-55.3f, 5.47f, -16.61f);
 
-			//start looking for the trocar clones
-			foreach(GameObject placedTrocars in GameObject.FindObjectsOfType(typeof(GameObject)))
-			{
-				//if a trocar clone object is found
-				if(placedTrocars.name == "trocarPurple(Clone)")
-				{
-					//change the rotation of the trocar to match that of the patient's body
-					placedTrocars.transform.localEulerAngles = new Vector3(0,180,0);
-					//uncomment above when finished debugging
-				}
-			}
-		}
-		else
-		{
-			 belowBellyButton = new Vector3(-55.48f, 5.45f, -16.61f);
-			 bellyButton = new Vector3(-55.38f, 5.45f, -16.61f);
-			 aboveAndRightBellyButton = new Vector3(-55.31f, 5.48f, -16.65f);
-			 upperLeftStomach = new Vector3(-55.37f, 5.45f, -16.53f);
-			 upperLeftStomachEdge = new Vector3(-55.36f, 5.45f, -16.45f);
-			 bottomSternum = new Vector3(-55.145f, 5.50f, -16.62f);
-			 bellowRightBellyButton = new Vector3(-55.47f, 5.44f, -16.70f);
-			 rightBellyButtonEdge = new Vector3(-55.37f, 5.41f, -16.73f);
-			 lowerLeftStomach = new Vector3(-55.42f, 5.45f, -16.50f);
-			 aboveBellyButton = new Vector3(-55.3f, 5.47f, -16.61f);
-		}
-	}
 	// /roger
 }
