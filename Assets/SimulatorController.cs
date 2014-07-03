@@ -512,7 +512,7 @@ public class SimulatorController : MonoBehaviour {
 	void Update () 
 	{
 		//If taking the exam
-		if(!practiceMode && !askingPosandSize && !selectTrocarSize)
+		if(!practiceMode && !askingPosandSize && !selectTrocarSize && GUIUtility.hotControl == 0)
 		{
 			//Works for touch and for mouse clicks for testing
 			if(Input.touchCount == 1 || Input.GetMouseButtonDown(0))
