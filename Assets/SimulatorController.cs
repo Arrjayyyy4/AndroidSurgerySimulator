@@ -8,6 +8,10 @@ public class SimulatorController : MonoBehaviour {
 	public GameObject patient;
 	//public GameObject cameraOne;
 	public bool positionChanged = false;
+	//marker for 'x' for where trocar is placed when user is asked for trocar size
+	public GameObject xmarker;
+	public GameObject xmarkernew;
+	public bool marked = false;
 	// /roger
 
 	//trocar model used to create trocars
@@ -76,9 +80,6 @@ public class SimulatorController : MonoBehaviour {
 	System.DateTime currentTime;
 
 	float questionStartTime;
-
-	//roger - trocar sizes will vary depending on where they are placed onto the body, therefore the variable trocarPt was added to change the correct trocar point
-	public float trocarPt = 0.010F;
 
 	//Application State
 	bool practiceMode = true; //if false, then in quiz taking mode
@@ -511,6 +512,8 @@ public class SimulatorController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
+		PlaceX();
+
 		//If taking the exam
 		if(!practiceMode && !askingPosandSize && !selectTrocarSize && GUIUtility.hotControl == 0)
 		{
@@ -1043,6 +1046,20 @@ public class SimulatorController : MonoBehaviour {
 		//this is a default case just in 'case'
 		else 
 			return "0.010";
+	}
+
+	void PlaceX()
+	{
+		if( (!(GameObject.Find("TrocarSpot(Clone)"))) && selectTrocarSize)
+		{
+			//place an 'x' onto the position where the last trocar is placed
+			xmarkernew = (GameObject)Instantiate(xmarker,lastPlacedTrocar.transform.position,Quaternion.identity);
+		}
+		else if(!selectTrocarSize)
+		{
+			//destroy any and all markers on patient
+			Destroy(GameObject.Find("TrocarSpot(Clone)"));
+		}
 	}
 
 	// /roger
