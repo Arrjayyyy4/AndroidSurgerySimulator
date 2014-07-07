@@ -377,8 +377,12 @@ public class SimulatorController : MonoBehaviour {
 
 		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.17F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "5mm"))
 		{
-			if(trocarSizes[currentQuestion.text] == 0.005)
+			Debug.Log("This works for " + CheckPosition(lastPlacedTrocar) + "!");
+
+			//if(trocarSizes[currentQuestion.text] == 0.005)
+			if(CheckPosition(lastPlacedTrocar) == "0.005")
 			{
+				Debug.Log("This works for " + CheckPosition(lastPlacedTrocar) + "!");
 				//correct
 				StartCoroutine(showAlert("Correct!"));
 				selectTrocarSize = false;
@@ -397,8 +401,10 @@ public class SimulatorController : MonoBehaviour {
 
 		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.42F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "10mm"))
 		{
-			if(trocarSizes[currentQuestion.text] == 0.010F)
+			//if(trocarSizes[currentQuestion.text] == 0.010F)
+			if(CheckPosition(lastPlacedTrocar) == "0.010")
 			{
+				Debug.Log("This works for " + CheckPosition(lastPlacedTrocar) + "!");
 				//correct
 				StartCoroutine(showAlert("Correct!"));
 				selectTrocarSize = false;
@@ -417,16 +423,10 @@ public class SimulatorController : MonoBehaviour {
 
 		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.67F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "15mm"))
 		{
-			/*
-			while the .01m is the default for the trocar size, a range can be set up for different trocar sizes
-			for instance if (trocarsizes ... ) || ( (z > 4 && z < 6) && (x > 10 && x < 12) )
-			the trocar sizes would only be correct for that range of x and z values
-			but if the person's head or any unusual part of the body (ie.legs,hands) the size would be default size
-			this means that the user is doing something wrong! *oh no!*
-			*/
-			if(trocarSizes[currentQuestion.text] == 0.015 || lastPlacedTrocar.transform.position.z > 16.5)
+
+			if(CheckPosition(lastPlacedTrocar) == "0.015")
 			{
-				//correct
+				Debug.Log("This works for " + CheckPosition(lastPlacedTrocar) + "!");
 				StartCoroutine(showAlert("Correct!"));
 				selectTrocarSize = false;
 				lastPlacedTrocar.renderer.enabled = true;
@@ -1011,7 +1011,39 @@ public class SimulatorController : MonoBehaviour {
 			}
 		}
 	}
+	/*
+	while the .01m is the default for the trocar size, a range can be set up for different trocar sizes
+	for instance if (trocarsizes ... ) || ( (z > 4 && z < 6) && (x > 10 && x < 12) )
+	the trocar sizes would only be correct for that range of x and z values
+	but if the person's head or any unusual part of the body (ie.legs,hands) the size would be default size
+	this means that the user is doing something wrong! *oh no!*
+	*/
+	string CheckPosition(GameObject placedTrocar)
+	{
+		//print statement for debugging so that if positions are changed,
+		//everything can be monitored here
+		Debug.Log("z = " + placedTrocar.transform.position.z + " x = " + placedTrocar.transform.position.x + " !");
 
+		//the if else cases are used to form a range for the trocar positions and returns a string
+		if( (placedTrocar.transform.position.z > 30 && placedTrocar.transform.position.z < 40)
+		   && (placedTrocar.transform.position.x > 30 && placedTrocar.transform.position.x < 40) )
+		{
+			return "0.005";
+		}
+		else if( (placedTrocar.transform.position.z > 30 && placedTrocar.transform.position.z < 40)
+		        && (placedTrocar.transform.position.x > 30 && placedTrocar.transform.position.x < 40) )
+		{
+			return "0.010";
+		}
+		else if( (placedTrocar.transform.position.z > -20 && placedTrocar.transform.position.z < 10)
+		   && (placedTrocar.transform.position.x < -10 && placedTrocar.transform.position.x > -60) )
+		{
+			return "0.015";
+		}
+		//this is a default case just in 'case'
+		else 
+			return "0.010";
+	}
 
 	// /roger
 }

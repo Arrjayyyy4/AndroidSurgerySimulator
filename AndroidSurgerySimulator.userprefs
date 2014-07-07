@@ -1,9 +1,8 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\SimulatorController.cs">
     <Files>
-      <File FileName="..\robot-intentions\ProjectTest\Assets\Robot\scripts\scene4b.cs" Line="544" Column="34" />
-      <File FileName="Assets\SimulatorController.cs" Line="515" Column="88" />
+      <File FileName="Assets\SimulatorController.cs" Line="1043" Column="42" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
