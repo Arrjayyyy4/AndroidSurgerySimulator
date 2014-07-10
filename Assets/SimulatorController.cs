@@ -109,6 +109,8 @@ public class SimulatorController : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
+		Screen.orientation = ScreenOrientation.LandscapeLeft;
+
 		count = 0;
 		timer = 0f;
 		incisionDelay = 1.5f;
