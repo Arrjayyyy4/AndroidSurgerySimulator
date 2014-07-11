@@ -14,6 +14,10 @@ public class SimulatorController : MonoBehaviour {
 	public bool marked = false;
 	// /roger
 
+	//patient body transform
+	public Transform patientBody;
+	//
+
 	//trocar model used to create trocars
 	public GameObject trocar;
 	//scalpel used
@@ -540,9 +544,9 @@ public class SimulatorController : MonoBehaviour {
 		        	if (Physics.Raycast(ray, out hit, 5))
 		        	{
 		        		//If I hit the body
-		            	if(hit.transform.tag == "PatientModel")
+						//if(hit.transform.tag == "PatientModel")
+						if(hit.transform == patientBody)
 						{
-
 							//instantiate at point of scalpel down instead of on body
 
 							Vector3 point = hit.point;//collision.contacts[0].point;
