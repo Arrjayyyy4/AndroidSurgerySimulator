@@ -5,6 +5,11 @@ using System.IO;
 
 public class SimulatorController : MonoBehaviour {
 	//roger
+
+	//add textures
+	Texture resetTrocars;
+	Texture checkAnswer;
+
 	public GameObject patient;
 	//public GameObject cameraOne;
 	public bool positionChanged = false;
@@ -113,7 +118,12 @@ public class SimulatorController : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
+		//make screen orient to the left
 		Screen.orientation = ScreenOrientation.LandscapeLeft;
+		//add some textures
+		resetTrocars = (Texture)Resources.Load("resets");
+		checkAnswer = (Texture)Resources.Load("checks");
+		//
 
 		count = 0;
 		timer = 0f;
@@ -323,7 +333,7 @@ public class SimulatorController : MonoBehaviour {
 				else if(!isShowingAlert)
 				{
 					//Check answer
-					if(GUI.Button(new Rect(0, 0, Screen.width * 0.3F, Screen.height * 0.15F), "Check Answer"))
+					if(GUI.Button(new Rect(0, 0, Screen.width * 0.3F, Screen.height * 0.15F), checkAnswer))
 					{
 						checkTrocars();
 						answering = false;
@@ -334,7 +344,7 @@ public class SimulatorController : MonoBehaviour {
 					//this causes a null reference error -- that's bad
 					if(!selectTrocarSize)
 					{
-						if(GUI.Button(new Rect(0, Screen.height * 0.15F + 5, Screen.width * 0.3F, Screen.height * 0.15F), "Reset Trocars"))
+						if(GUI.Button(new Rect(0, Screen.height * 0.15F + 5, Screen.width * 0.3F, Screen.height * 0.15F), resetTrocars))
 						{
 							//reset trocars so the user can replace them before submitting their answer
 							count = 0;
@@ -1037,7 +1047,7 @@ public class SimulatorController : MonoBehaviour {
 		if( (placedTrocar.transform.position.z > 30 && placedTrocar.transform.position.z < 40)
 		   && (placedTrocar.transform.position.x > 30 && placedTrocar.transform.position.x < 40) )
 		{
-			return "0.005";
+			return "0.015";
 		}
 		else if( (placedTrocar.transform.position.z > 30 && placedTrocar.transform.position.z < 40)
 		        && (placedTrocar.transform.position.x > 30 && placedTrocar.transform.position.x < 40) )
@@ -1047,7 +1057,7 @@ public class SimulatorController : MonoBehaviour {
 		else if( (placedTrocar.transform.position.z > -20 && placedTrocar.transform.position.z < 10)
 		   && (placedTrocar.transform.position.x < -10 && placedTrocar.transform.position.x > -60) )
 		{
-			return "0.015";
+			return "0.005";
 		}
 		//this is a default case just in 'case'
 		else 
