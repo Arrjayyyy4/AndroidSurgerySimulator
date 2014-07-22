@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 
 public class SimulatorController : MonoBehaviour {
+	//updated
 	//roger
 //known issues so far:
 	// answer is not checked on GUI input
@@ -54,7 +55,7 @@ public class SimulatorController : MonoBehaviour {
 	Dictionary<string, string> bodyPositions;
 	bool askingPosandSize = true;
 	bool answeredSize = false;
-	Rect posAndSizeWindowRect = new Rect(Screen.width * 0.25F, Screen.height * 0.15F, Screen.width * 0.5F, Screen.height * 0.7F);
+	Rect posAndSizeWindowRect = new Rect(Screen.height * 0.25F, Screen.width * 0.15F, Screen.height * 0.5F, Screen.width * 0.7F);
 	string alertText = "";
 	bool isShowingAlert = false;
 	bool selectTrocarSize = false;
@@ -538,7 +539,7 @@ public class SimulatorController : MonoBehaviour {
 		PlaceX();
 
 		//If taking the exam
-		if(!practiceMode && !askingPosandSize && !selectTrocarSize /* && GUIUtility.hotControl == 0 */)
+		if(!practiceMode && !askingPosandSize && !selectTrocarSize  && GUIUtility.hotControl == 0 )
 		{
 			//Works for touch and for mouse clicks for testing
 			if(Input.touchCount == 1 || Input.GetMouseButtonDown(0))
@@ -869,10 +870,12 @@ public class SimulatorController : MonoBehaviour {
 
 		}
 
+
 		float timeToAnswer = Time.time -questionStartTime;
 		
 		//open text file
 		//save question text, num correct, time to answer
+		/* --roger - StreamWriter function does not work well with Android
 		if(canPlaceTrocars)
 		{
 			using (StreamWriter writer = File.AppendText(fileName))
@@ -885,7 +888,7 @@ public class SimulatorController : MonoBehaviour {
 				writer.WriteLine(" ");
 			}
 		}
-
+		*/
 		//go through incorrectanswers, instantiate trocar and make texture red
 		//add these trocars to list so they can be deleted later when done displaying answer
 		foreach(Vector3 point in incorrectUserAnswers)
@@ -900,8 +903,6 @@ public class SimulatorController : MonoBehaviour {
 
 			visibleTrocars.Add(newTrocar);
 		}
-
-
 
 	}
 
