@@ -5,7 +5,12 @@ using System.IO;
 
 public class SimulatorController : MonoBehaviour {
 	//roger
-
+//known issues so far:
+	// answer is not checked on GUI input
+	// body cannot be ported to this computer
+// **notes either fix the GUI or make an object a raycast collider
+// **notes the GUI library does not work for android
+// **notes maybe manually place GUI somewhere else?
 	//add textures
 	Texture resetTrocars;
 	Texture checkAnswer;
@@ -335,6 +340,8 @@ public class SimulatorController : MonoBehaviour {
 					//Check answer
 					if(GUI.Button(new Rect(0, 0, Screen.width * 0.3F, Screen.height * 0.15F), checkAnswer))
 					{
+						//the if statement is bugged for android for some reason
+
 						checkTrocars();
 						answering = false;
 						selectTrocarSize = false;
@@ -344,7 +351,7 @@ public class SimulatorController : MonoBehaviour {
 					//this causes a null reference error -- that's bad
 					if(!selectTrocarSize)
 					{
-						if(GUI.Button(new Rect(0, Screen.height * 0.15F + 5, Screen.width * 0.3F, Screen.height * 0.15F), resetTrocars))
+						if(GUI.RepeatButton(new Rect(0, Screen.height * 0.15F + 5, Screen.width * 0.3F, Screen.height * 0.15F), resetTrocars))
 						{
 							//reset trocars so the user can replace them before submitting their answer
 							count = 0;
@@ -399,7 +406,7 @@ public class SimulatorController : MonoBehaviour {
 			//if(trocarSizes[currentQuestion.text] == 0.005)
 			if(CheckPosition(lastPlacedTrocar) == "0.005")
 			{
-				Debug.Log("This works for " + CheckPosition(lastPlacedTrocar) + "!");
+				//Debug.Log("This works for " + CheckPosition(lastPlacedTrocar) + "!");
 				//correct
 				StartCoroutine(showAlert("Correct!"));
 				selectTrocarSize = false;
@@ -531,7 +538,7 @@ public class SimulatorController : MonoBehaviour {
 		PlaceX();
 
 		//If taking the exam
-		if(!practiceMode && !askingPosandSize && !selectTrocarSize && GUIUtility.hotControl == 0)
+		if(!practiceMode && !askingPosandSize && !selectTrocarSize /* && GUIUtility.hotControl == 0 */)
 		{
 			//Works for touch and for mouse clicks for testing
 			if(Input.touchCount == 1 || Input.GetMouseButtonDown(0))
@@ -826,7 +833,8 @@ public class SimulatorController : MonoBehaviour {
 				//if chosen close enough
 				if(distanceMagnitude < .07f)
 				{
-					Debug.Log (chosenPoint.ToString() +  correctPoint.ToString() + distanceMagnitude.ToString());
+					//roger commented out the next line
+					//Debug.Log (chosenPoint.ToString() +  correctPoint.ToString() + distanceMagnitude.ToString());
 					//add them to list of correct points
 					correctUserAnswers.Add(correctPoint);
 
@@ -1041,7 +1049,7 @@ public class SimulatorController : MonoBehaviour {
 	{
 		//print statement for debugging so that if positions are changed,
 		//everything can be monitored here
-		Debug.Log("z = " + placedTrocar.transform.position.z + " x = " + placedTrocar.transform.position.x + " !");
+//		Debug.Log("z = " + placedTrocar.transform.position.z + " x = " + placedTrocar.transform.position.x + " !");
 
 		//the if else cases are used to form a range for the trocar positions and returns a string
 		if( (placedTrocar.transform.position.z > 30 && placedTrocar.transform.position.z < 40)
