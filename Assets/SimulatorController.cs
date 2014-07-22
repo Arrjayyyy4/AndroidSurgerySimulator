@@ -15,7 +15,7 @@ public class SimulatorController : MonoBehaviour {
 	//add textures
 	Texture resetTrocars;
 	Texture checkAnswer;
-
+	//public GameObject skin; rogerrr
 	public GameObject patient;
 	//public GameObject cameraOne;
 	public bool positionChanged = false;
@@ -129,6 +129,9 @@ public class SimulatorController : MonoBehaviour {
 		//add some textures
 		resetTrocars = (Texture)Resources.Load("resets");
 		checkAnswer = (Texture)Resources.Load("checks");
+
+		//Color roger = skin.renderer.material.color;
+		//roger.a = .25F;
 		//
 
 		count = 0;
@@ -562,9 +565,11 @@ public class SimulatorController : MonoBehaviour {
 		        	if (Physics.Raycast(ray, out hit, 5))
 		        	{
 		        		//If I hit the body
+
 						//if(hit.transform.tag == "PatientModel")
-						if(hit.transform == patientBody)
+						if(hit.transform == patientBody || hit.transform.root.tag == "PatientModel")
 						{
+							Debug.Log("hit something!");
 							//instantiate at point of scalpel down instead of on body
 
 							Vector3 point = hit.point;//collision.contacts[0].point;
