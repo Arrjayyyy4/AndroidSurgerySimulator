@@ -243,7 +243,11 @@ public class SimulatorController : MonoBehaviour {
 	}
 
 	void OnGUI()
-	{		
+	{
+		// - roger GUI font size will be changed to become more legible on Android
+		GUI.skin.box.fontSize = GUI.skin.button.fontSize = 60;
+		// /roger
+
 		if(isShowingAlert)
 		{
 			GUI.depth = -1;
@@ -302,7 +306,7 @@ public class SimulatorController : MonoBehaviour {
 				randomizeQuestions = true;
 				changeQuestion();
 				//roger
-				Debug.Log (currentQuestion.text + " is the current question  Remaining questions: " + availableCorrectPointSets.Count);
+				//Debug.Log (currentQuestion.text + " is the current question  Remaining questions: " + availableCorrectPointSets.Count);
 
 				practiceMode = false;
 			}
@@ -330,19 +334,19 @@ public class SimulatorController : MonoBehaviour {
 				{
 					//Debug.Log("DJDKJHKDHKJDH  " + selectTrocarSize);
 
-					posAndSizeWindowRect = GUI.Window(0, posAndSizeWindowRect, trocarSizeWindow, currentQuestion.text);
+					posAndSizeWindowRect = GUI.Window(0, posAndSizeWindowRect, trocarSizeWindow, " " /* currentQuestion.text */ );
 				}
 
 				if(askingPosandSize && !isShowingAlert)
 				{
 					//Ask Stuff about body position and trocar size in here    
-    	 		  	posAndSizeWindowRect = GUI.Window(0, posAndSizeWindowRect, bodyPosWindow, currentQuestion.text);
+    	 		  	posAndSizeWindowRect = GUI.Window(0, posAndSizeWindowRect, bodyPosWindow, " " /* currentQuestion.text */ );
     	 		  	//posAndSizeWindowRect = GUI.Window(0, posAndSizeWindowRect, trocarSizeWindow, currentQuestion.text);
 				}
 				else if(!isShowingAlert)
 				{
 					//Check answer
-					if(GUI.Button(new Rect(0, 0, Screen.width * 0.3F, Screen.height * 0.15F), checkAnswer))
+					if(GUI.Button(new Rect(0, 0, Screen.width * 0.3F, Screen.height * 0.15F), "Check answer"))
 					{
 						//the if statement is bugged for android for some reason
 
@@ -355,7 +359,7 @@ public class SimulatorController : MonoBehaviour {
 					//this causes a null reference error -- that's bad
 					if(!selectTrocarSize)
 					{
-						if(GUI.RepeatButton(new Rect(0, Screen.height * 0.15F + 5, Screen.width * 0.3F, Screen.height * 0.15F), resetTrocars))
+						if(GUI.RepeatButton(new Rect(0, Screen.height * 0.15F + 5, Screen.width * 0.3F, Screen.height * 0.15F), "Reset trocars"))
 						{
 							//reset trocars so the user can replace them before submitting their answer
 							count = 0;
@@ -403,12 +407,12 @@ public class SimulatorController : MonoBehaviour {
 	{
 		GUI.Label(new Rect(posAndSizeWindowRect.width * 0.1F, posAndSizeWindowRect.height * 0.07F, posAndSizeWindowRect.width * 0.9F, posAndSizeWindowRect.height * 0.2F), "What is the correct trocar size?");
 
-		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.17F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "5mm"))
+		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.17F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "5"))
 		{
 			Debug.Log("This works for " + CheckPosition(lastPlacedTrocar) + "!");
 
 			//if(trocarSizes[currentQuestion.text] == 0.005)
-			if(CheckPosition(lastPlacedTrocar) == "0.005")
+			if(CheckPosition(lastPlacedTrocar) == "5")
 			{
 				//Debug.Log("This works for " + CheckPosition(lastPlacedTrocar) + "!");
 				//correct
@@ -427,10 +431,10 @@ public class SimulatorController : MonoBehaviour {
 			}
 		}
 
-		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.42F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "10mm"))
+		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.42F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "10"))
 		{
 			//if(trocarSizes[currentQuestion.text] == 0.010F)
-			if(CheckPosition(lastPlacedTrocar) == "0.010")
+			if(CheckPosition(lastPlacedTrocar) == "10")
 			{
 				Debug.Log("This works for " + CheckPosition(lastPlacedTrocar) + "!");
 				//correct
@@ -449,10 +453,10 @@ public class SimulatorController : MonoBehaviour {
 			}
 		}
 
-		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.67F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "15mm"))
+		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.67F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "15"))
 		{
 
-			if(CheckPosition(lastPlacedTrocar) == "0.015")
+			if(CheckPosition(lastPlacedTrocar) == "15")
 			{
 				Debug.Log("This works for " + CheckPosition(lastPlacedTrocar) + "!");
 				StartCoroutine(showAlert("Correct!"));
@@ -523,7 +527,7 @@ public class SimulatorController : MonoBehaviour {
 
 	IEnumerator showAlert(string text)
 	{
-		float showTime = 2.0F;
+		float showTime = 0.5F;
 		float theTime = Time.time;
 
 		alertText = text;
@@ -624,184 +628,9 @@ public class SimulatorController : MonoBehaviour {
         	}
 		}
 
-		/*
-		//after 5 seconds pass, show answers
-		if(timer!= 0 && timer + 3f < Time.time)
-		{
-			
-			checkTrocars();
-			//make skin transparent
-			this.renderer.materials[1].shader = Shader.Find("Transparent/VertexLit with Z");
-			timer = 0f;
-		}*/
 
-		/*
-		if(Input.GetKeyUp(KeyCode.Alpha2))
-		{
-			checkTrocars();
-			//make skin transparent
-			//this.renderer.materials[1].shader = Shader.Find("Transparent/VertexLit with Z");
-		}
-
-		if(Input.GetKeyUp(KeyCode.R))
-		{
-			Reset();
-			changeQuestion();
-		}
-
-		if(Input.GetKeyUp(KeyCode.Alpha0))
-		{
-			canPlaceTrocars = !canPlaceTrocars;
-			Reset();
-			randomizeQuestions = true;
-			changeQuestion();
-			//roger
-			Debug.Log (currentQuestion.text + " is the current question");
-			//
-		}
-
-		if(Input.GetKeyUp(KeyCode.Alpha1))
-		{
-			if(!canPlaceTrocars)
-			{
-				if(!bodyTransparent)
-				{
-					displayTrocars();
-				}
-				else
-				{
-					Reset();
-					changeQuestion(questionIndex);
-				}
-			}
-			else
-			{
-				ResetQuestion();
-				changeQuestion(questionIndex);
-			}
-		}
-
-		if(Input.GetKeyUp(KeyCode.Alpha2) && !canPlaceTrocars)
-		{
-			Reset ();
-
-			if(questionIndex > 0)
-			{
-				//increment this after selecting question
-				questionIndex--;
-			}
-			else
-			{
-				questionIndex = availableCorrectPointSets.Count-1;
-			}
-			changeQuestion();
-		}
-
-		if(Input.GetKeyUp(KeyCode.Alpha3))
-		{
-			Debug.Log("3 pressed");
-			if(!canPlaceTrocars)
-			{
-				Reset ();
-		
-				if(questionIndex < availableCorrectPointSets.Count-1)
-				{
-					//increment this after selecting question
-					questionIndex++;
-				}
-				else
-				{
-					questionIndex = 0;
-				}
-				changeQuestion();
-			}
-
-			else
-			{
-				//roger
-				Debug.Log (currentQuestion.text + " is the current question");
-				//
-				Reset();
-				if(randomizeQuestions)
-				{
-					//remove previous question so it's not asked again
-					availableCorrectPointSets.Remove(currentQuestion);
-				}
-				changeQuestion();
-			}
-		}
-
-		if(Input.GetKeyUp(KeyCode.Q))
-		{
-			using (StreamWriter writer = File.AppendText(fileName))
-			{
-				writer.WriteLine("Paper");
-			}
-		}
-		if(Input.GetKeyUp(KeyCode.W))
-		{
-			using (StreamWriter writer = File.AppendText(fileName))
-			{
-				writer.WriteLine("Oculus");
-			}
-		}
-		*/
 	}
 
-	/*
-	void OnCollisionEnter(Collision collision) 
-	{ 
-		
-		if(collision.gameObject.tag == "TrocarTool" && canPlaceTrocars)
-		{
-
-			//instantiate at point of scalpel down instead of on body
-
-			Vector3 point = collision.contacts[0].point;
-			Vector3 pointNormal = collision.contacts[0].normal;
-			//Debug.Log ("Normal: " + pointNormal);
-			//if we haven't already made enough trocar points
-			if(count < maxCount)
-			{
-				//if not an empty point, and the collision happened on the way down, not on the way up
-				if(!point.Equals(Vector3.zero) && lastIncisionTime + incisionDelay < Time.time)// && pointNormal.y < -.1 && pointNormal.y > -1.5)
-				{
-					//Debug.Log ("Valid Normal"+ pointNormal);
-					//point = scalpel.transform.position;
-					//Debug.Log (point);
-
-					//get trocar to stick out more
-					Vector3 pointAdjusted = point;
-					//pointAdjusted.y -= .005f;
-
-					//instantiate trocar at point
-					GameObject newTrocar = (GameObject)Instantiate(trocar,pointAdjusted,Quaternion.Euler(270f,0f,0f));//Quaternion.identity);
-					//Debug.Log (newTrocar.transform.position);
-
-					//add new trocar to list of points chosen
-					chosenPoints.Add(newTrocar.transform.position);
-					count++;
-					//keep track of trocars placed
-					visibleTrocars.Add(newTrocar);
-
-					lastIncisionTime = Time.time;
-
-					if(count >= maxCount)
-					{
-						// prevent it from resetting if another point is somehow chosen
-						if(timer == 0)
-						{
-							//start the timer
-							timer = Time.time;
-						}	
-					}
-					
-				}		
-			}
-
-		}
-	}
-	*/
 
 	void displayTrocars()
 	{
@@ -877,23 +706,7 @@ public class SimulatorController : MonoBehaviour {
 
 
 		float timeToAnswer = Time.time -questionStartTime;
-		
-		//open text file
-		//save question text, num correct, time to answer
-		/* --roger - StreamWriter function does not work well with Android
-		if(canPlaceTrocars)
-		{
-			using (StreamWriter writer = File.AppendText(fileName))
-			{
-				writer.WriteLine(System.DateTime.Now.ToLongTimeString());
-				writer.WriteLine(timeToAnswer.ToString());
-				Debug.Log (timeToAnswer.ToString());
-				writer.WriteLine(currentQuestion.text + ": " + numCorrect.ToString());
-				Debug.Log (currentQuestion.text + ": " + numCorrect.ToString());
-				writer.WriteLine(" ");
-			}
-		}
-		*/
+
 		//go through incorrectanswers, instantiate trocar and make texture red
 		//add these trocars to list so they can be deleted later when done displaying answer
 		foreach(Vector3 point in incorrectUserAnswers)
@@ -1061,21 +874,21 @@ public class SimulatorController : MonoBehaviour {
 		if( (placedTrocar.transform.position.z > 30 && placedTrocar.transform.position.z < 40)
 		   && (placedTrocar.transform.position.x > 30 && placedTrocar.transform.position.x < 40) )
 		{
-			return "0.015";
+			return "15";
 		}
 		else if( (placedTrocar.transform.position.z > 30 && placedTrocar.transform.position.z < 40)
 		        && (placedTrocar.transform.position.x > 30 && placedTrocar.transform.position.x < 40) )
 		{
-			return "0.010";
+			return "10";
 		}
 		else if( (placedTrocar.transform.position.z > -20 && placedTrocar.transform.position.z < 10)
 		   && (placedTrocar.transform.position.x < -10 && placedTrocar.transform.position.x > -60) )
 		{
-			return "0.005";
+			return "5";
 		}
 		//this is a default case just in 'case'
 		else 
-			return "0.010";
+			return "10";
 	}
 
 	void PlaceX()
