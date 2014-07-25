@@ -1,8 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\SimulatorController.cs">
     <Files>
-      <File FileName="Assets\SimulatorController.cs" Line="941" Column="56" />
+      <File FileName="Assets\SimulatorController.cs" Line="967" Column="1" />
+      <File FileName="Assets\SimulatorController.cs" Line="949" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

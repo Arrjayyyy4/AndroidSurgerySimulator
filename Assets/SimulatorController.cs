@@ -12,6 +12,7 @@ public class SimulatorController : MonoBehaviour {
 	//and this functionality can be edited in any way
 	public GameObject tilt;
 
+	public int GUImodifier = 100;
 
 	//add texture
 
@@ -57,7 +58,7 @@ public class SimulatorController : MonoBehaviour {
 	Dictionary<string, string> bodyPositions;
 	bool askingPosandSize = true;
 	bool answeredSize = false;
-	Rect posAndSizeWindowRect = new Rect(Screen.height * 0.25F, Screen.width * 0.15F, Screen.height * 0.5F, Screen.width * 0.7F);
+	Rect posAndSizeWindowRect = new Rect(Screen.height * 0.25F,  Screen.width * 0.15F, Screen.height * 0.5F, Screen.width * 0.7F);
 	string alertText = "";
 	bool isShowingAlert = false;
 	bool selectTrocarSize = false;
@@ -249,11 +250,6 @@ public class SimulatorController : MonoBehaviour {
 		// - roger GUI font size will be changed to become more legible on Android
 		GUI.skin.box.fontSize = GUI.skin.button.fontSize = 60;
 		// /roger
-
-		//DEBUG -roger
-
-
-		// /DEBUG
 
 
 		if(isShowingAlert)
@@ -926,22 +922,45 @@ public class SimulatorController : MonoBehaviour {
 	//so that they may place points on areas not completely visible by camera in its initial state
 	void MoveAround()
 	{
-		/*
-		if(Input.GetKeyDown(KeyCode.L))
+
+		tilt.transform.Rotate (Input.acceleration.y * 0.5F + 0.2F, 0, 0);
+		//tilt.transform.rotation.x = Mathf.Clamp (tilt.transform.eulerAngles.x, 20, 89);
+
+		if(!positionChanged)
 		{
-			tilt.transform.Rotate(-30F,0,0);
+			if(tilt.transform.rotation.eulerAngles.x == 90)
+			{
+				tilt.transform.rotation = Quaternion.Euler(88,0,0);
+			}
+
+			if(tilt.transform.rotation.eulerAngles.x < 20)
+			{
+				tilt.transform.rotation = Quaternion.Euler(20,0,0);
+			}
+
+			if(tilt.transform.rotation.eulerAngles.x > 85)
+			{
+				tilt.transform.rotation = Quaternion.Euler(85,0,0);
+			}
 		}
-		if(Input.GetKeyDown(KeyCode.O))
+
+		if(positionChanged)
 		{
-			tilt.transform.Rotate(30F,0,0);
+
 		}
-		*/
-			//tilt the in-game camera around the x-axis by the amount that the user has tilted their device
-			//0.5F is to decrease the sensitivity of the tilt
-			tilt.transform.Rotate (Input.acceleration.y * 0.5F + 0.2F, 0, 0);
-	
+
 
 	}
+
+	/*
+	void OnCollisionEnter(Collision roger)
+	{
+		if(roger.gameObject.name == "limiter")
+		{
+			tilt.transform.rotation = Quaternion.Euler(20,0,0);
+		}
+	}
+*/
 
 	// /roger
 }
