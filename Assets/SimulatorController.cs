@@ -4,15 +4,17 @@ using System.Collections.Generic;
 using System.IO;
 
 public class SimulatorController : MonoBehaviour {
-	//updated
 	//roger
-//known issues so far:
-	// answer is not checked on GUI input
-	// body cannot be ported to this computer
-// **notes either fix the GUI or make an object a raycast collider
-// **notes the GUI library does not work for android
-// **notes maybe manually place GUI somewhere else?
-	//add textures
+
+	//gameobject for the empty gameobject patenting the camera
+	//this object's coordinate system is similar to that of the patient
+	//so that the camera can rotate around the axis of the patient
+	//and this functionality can be edited in any way
+	public GameObject tilt;
+
+
+	//add texture
+
 	Texture resetTrocars;
 	Texture checkAnswer;
 	//public GameObject skin; rogerrr
@@ -247,6 +249,12 @@ public class SimulatorController : MonoBehaviour {
 		// - roger GUI font size will be changed to become more legible on Android
 		GUI.skin.box.fontSize = GUI.skin.button.fontSize = 60;
 		// /roger
+
+		//DEBUG -roger
+
+
+		// /DEBUG
+
 
 		if(isShowingAlert)
 		{
@@ -543,6 +551,11 @@ public class SimulatorController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
+		//camera now tilts around patient
+		MoveAround ();
+
+		//whenever a trocar point is decided by the user,
+		//an 'x' is marked in that spot before any trocar is actually placed
 		PlaceX();
 
 		//If taking the exam
@@ -891,6 +904,10 @@ public class SimulatorController : MonoBehaviour {
 			return "10";
 	}
 
+	//this function will mark the spot that the user intends to place a trocar onto the patient
+	//this will only happened when they are asked about the size of the specific trocar
+	//the spot will be gone whenever the user has correctly answered where the trocar
+	//should be placed
 	void PlaceX()
 	{
 		if( (!(GameObject.Find("TrocarSpot(Clone)"))) && selectTrocarSize)
@@ -903,6 +920,27 @@ public class SimulatorController : MonoBehaviour {
 			//destroy any and all markers on patient
 			Destroy(GameObject.Find("TrocarSpot(Clone)"));
 		}
+	}
+
+	//this function will enable the user to turn the camera around the patient
+	//so that they may place points on areas not completely visible by camera in its initial state
+	void MoveAround()
+	{
+		/*
+		if(Input.GetKeyDown(KeyCode.L))
+		{
+			tilt.transform.Rotate(-30F,0,0);
+		}
+		if(Input.GetKeyDown(KeyCode.O))
+		{
+			tilt.transform.Rotate(30F,0,0);
+		}
+		*/
+			//tilt the in-game camera around the x-axis by the amount that the user has tilted their device
+			//0.5F is to decrease the sensitivity of the tilt
+			tilt.transform.Rotate (Input.acceleration.y * 0.5F + 0.2F, 0, 0);
+	
+
 	}
 
 	// /roger
