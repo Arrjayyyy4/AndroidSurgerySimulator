@@ -6,19 +6,35 @@ public class makeTransparent : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		renderer.material.color = changeAlpha(renderer.material.color);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	
+		if(SimulatorController.transparent)
+		{
+			renderer.material.color = transparent(renderer.material.color);
+		}
+		else if(!SimulatorController.transparent)
+		{
+			renderer.material.color = notTransparent(renderer.material.color);
+		}
+
 	}
 
-	Color changeAlpha(Color color)
+	Color transparent(Color color)
 	{
-		color.a = 0.5f;
+		Debug.Log ("changing color");
+		color.a = 0.45f;
 		return color;
 	}
+
+	Color notTransparent(Color color)
+	{
+		Debug.Log ("changing back!");
+		color.a = 1.0f;
+		return color;
+	} 
 
 
 

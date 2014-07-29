@@ -5,6 +5,8 @@ using System.IO;
 
 public class SimulatorController : MonoBehaviour {
 	//roger
+	public static bool transparent = false;
+
 	public bool sized = true;
 	//gameobject for the empty gameobject patenting the camera
 	//this object's coordinate system is similar to that of the patient
@@ -358,6 +360,13 @@ public class SimulatorController : MonoBehaviour {
 				}
 				else if(!isShowingAlert)
 				{
+					//toggle transparency
+					if(GUI.Button(new Rect(0+GUImodifier, Screen.height * 0.3F + 5 + GUImodifier, Screen.width * 0.3F, Screen.height * 0.15F), "Transparent"))
+					{
+						transparent = !transparent;
+
+					}
+
 					//Check answer
 					if(GUI.Button(new Rect(0+GUImodifier, GUImodifier, Screen.width * 0.3F, Screen.height * 0.15F), "Check answer"))
 					{
@@ -559,6 +568,8 @@ public class SimulatorController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
+		Debug.Log("transparent = " + transparent);
+
 		//resize trocars based on position
 		FindObject ();
 
