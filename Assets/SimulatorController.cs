@@ -398,6 +398,7 @@ public class SimulatorController : MonoBehaviour {
 					//remove previous question so it's not asked again
 					availableCorrectPointSets.Remove(currentQuestion);
 					ChangeBodyPositon(); //roger - this should change body position back if the position is either left side or right side
+					FixPos (); //roger
 					changeQuestion();
 					answering = true;
 					answeredSize = false;
@@ -596,7 +597,7 @@ public class SimulatorController : MonoBehaviour {
 						//if(hit.transform.tag == "PatientModel")
 						if(hit.transform == patientBody || hit.transform.root.tag == "PatientModel")
 						{
-							Debug.Log("hit something!");
+							//Debug.Log("hit something!");
 							//instantiate at point of scalpel down instead of on body
 
 							Vector3 point = hit.point;//collision.contacts[0].point;
@@ -695,7 +696,7 @@ public class SimulatorController : MonoBehaviour {
 					//Debug.Log (chosenPoint.ToString() +  correctPoint.ToString() + distanceMagnitude.ToString());
 					//add them to list of correct points
 					correctUserAnswers.Add(correctPoint);
-
+	
 					//don't allow point to be double counted
 					correctPoints.Remove(correctPoint);
 
@@ -715,7 +716,7 @@ public class SimulatorController : MonoBehaviour {
 		{
 			GameObject newTrocar = (GameObject)Instantiate(trocar,point,Quaternion.Euler(270f,0f,0f));//Quaternion.identity);
 			MeshRenderer[] trocarRenderers = newTrocar.GetComponentsInChildren<MeshRenderer>();
-
+			FindObject (newTrocar);
 
 			foreach(MeshRenderer renderer in trocarRenderers)
 			{
@@ -736,7 +737,7 @@ public class SimulatorController : MonoBehaviour {
 		{
 			GameObject newTrocar = (GameObject)Instantiate(trocar,point,Quaternion.Euler(270f,0f,0f));//Quaternion.identity);
 			MeshRenderer[] trocarRenderers = newTrocar.GetComponentsInChildren<MeshRenderer>();
-			
+			FindObject(newTrocar); //new roger
 			foreach(MeshRenderer renderer in trocarRenderers)
 			{
 				renderer.renderer.material.color = Color.red;
@@ -750,6 +751,8 @@ public class SimulatorController : MonoBehaviour {
 	//change the question
 	void changeQuestion(int index = -1)
 	{
+
+
 		//if index has been manually overriden, use that number
 		if(index!=-1 && randomQuestionsLeft >= 0)
 		{
@@ -1003,7 +1006,7 @@ public class SimulatorController : MonoBehaviour {
 	void FindObject()
 	{
 
-		if( GameObject.Find("trocarPurple(Clone)") && sized)
+		if( GameObject.Find("trocarPurple(Clone)") )
 		{
 			GameObject placed = GameObject.Find ("trocarPurple(Clone)");
 
@@ -1011,11 +1014,48 @@ public class SimulatorController : MonoBehaviour {
 			if(placed.transform.position == belowBellyButton || placed.transform.position == bellyButton)
 			{
 				placed.transform.localScale += new Vector3(.5F, .5F, .5F);
-				sized = false;
+				placed.name = "trocarPurple(Clone)1";
 			}
+			else { placed.name = "trocarPurple(Clone)2"; }
 		}
 	}
 
+	void FindObject(GameObject placed)
+	{
+					
+			Debug.Log("found it!");
+			if(placed.transform.position == belowBellyButton || placed.transform.position == bellyButton)
+			{
+				placed.transform.localScale += new Vector3(.5F, .5F, .5F);
+				placed.name = "trocarPurple(Clone)1";
+			}
+			else { placed.name = "trocarPurple(Clone)2"; }
+
+	}
+
+	void FixPos()
+	{
+		//changerquestion
+		if(bodyPositions[currentQuestion.text] == "side")
+		{
+			tilt.transform.rotation = Quaternion.Euler(110,0,0);
+		}
+		else 
+		{
+			tilt.transform.rotation = Quaternion.Euler(85,0,0);
+		}
+	}
+
+	/*
+	void TransparentBody()
+	{
+		for(int i=0; i<38; ++i)
+		{
+			string namer = "mesh" + i;
+			GameObject.Find(namer).renderer.material.color.a = 0.5f;
+		}
+	}
+*/
 
 	// /roger
 }
