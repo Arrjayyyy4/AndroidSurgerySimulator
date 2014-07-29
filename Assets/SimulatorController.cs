@@ -12,7 +12,8 @@ public class SimulatorController : MonoBehaviour {
 	//and this functionality can be edited in any way
 	public GameObject tilt;
 
-	public int GUImodifier = 100;
+
+	public int GUImodifier = (700);
 
 	//add texture
 
@@ -27,7 +28,7 @@ public class SimulatorController : MonoBehaviour {
 	public GameObject xmarkernew;
 	public bool marked = false;
 	// /roger
-
+	public bool moved = false;
 	//patient body transform
 	public Transform patientBody;
 	//
@@ -249,8 +250,12 @@ public class SimulatorController : MonoBehaviour {
 	{
 		// - roger GUI font size will be changed to become more legible on Android
 		GUI.skin.box.fontSize = GUI.skin.button.fontSize = 60;
+		GUI.skin.label.fontSize = 50;
 		// /roger
 
+		//debugg roger
+		//GUI.Box (new Rect (Screen.width * .5f, 0, 100, 100), "R*" + tilt.transform.rotation.eulerAngles.x);
+		// /debug
 
 		if(isShowingAlert)
 		{
@@ -350,7 +355,7 @@ public class SimulatorController : MonoBehaviour {
 				else if(!isShowingAlert)
 				{
 					//Check answer
-					if(GUI.Button(new Rect(0, 0, Screen.width * 0.3F, Screen.height * 0.15F), "Check answer"))
+					if(GUI.Button(new Rect(0+GUImodifier, GUImodifier, Screen.width * 0.3F, Screen.height * 0.15F), "Check answer"))
 					{
 						//the if statement is bugged for android for some reason
 
@@ -363,7 +368,7 @@ public class SimulatorController : MonoBehaviour {
 					//this causes a null reference error -- that's bad
 					if(!selectTrocarSize)
 					{
-						if(GUI.RepeatButton(new Rect(0, Screen.height * 0.15F + 5, Screen.width * 0.3F, Screen.height * 0.15F), "Reset trocars"))
+						if(GUI.RepeatButton(new Rect(0+GUImodifier, Screen.height * 0.15F + 5 + GUImodifier, Screen.width * 0.3F, Screen.height * 0.15F), "Reset trocars"))
 						{
 							//reset trocars so the user can replace them before submitting their answer
 							count = 0;
@@ -381,7 +386,7 @@ public class SimulatorController : MonoBehaviour {
 			else
 			{
 				//Next question
-				if(GUI.Button(new Rect(0, Screen.height * 0.15F + 5, Screen.width * 0.3F, Screen.height * 0.15F), "Next Question"))
+				if(GUI.Button(new Rect(0+GUImodifier, Screen.height * 0.15F + 5 + GUImodifier, Screen.width * 0.3F, Screen.height * 0.15F), "Next Question"))
 				{
 					//canPlaceTrocars = !canPlaceTrocars;
 					Reset();
@@ -926,8 +931,23 @@ public class SimulatorController : MonoBehaviour {
 		tilt.transform.Rotate (Input.acceleration.y * 0.5F + 0.2F, 0, 0);
 		//tilt.transform.rotation.x = Mathf.Clamp (tilt.transform.eulerAngles.x, 20, 89);
 
+		//check if position has been changed
+		/* the idea behind this is to ensure that the camera's is properly oriented 
+		 * so that the user is not able to move the camera around the entire table
+		 * and they are able to see the top and one side of the patient at all times
+		 */
+
+		//check is position is changed
 		if(!positionChanged)
 		{
+			//but first check to make sure that the camera has been moved or not
+			if(moved)
+			{
+				//if the camera has been moved, revert the position back
+				tilt.transform.Rotate(-30,0,0);
+				//set the moved flag to false
+				moved = false;
+			}
 			if(tilt.transform.rotation.eulerAngles.x == 90)
 			{
 				tilt.transform.rotation = Quaternion.Euler(88,0,0);
@@ -944,23 +964,33 @@ public class SimulatorController : MonoBehaviour {
 			}
 		}
 
+		//if the patient has to be on the side, check the moved flag again
 		if(positionChanged)
 		{
-
+			//if the camera has not yet been moved and is supposed to be
+			if(!moved)
+			{
+				//rotate the camera
+				tilt.transform.Rotate(30,0,0);
+				//set the flag
+				moved = true;
+			}
+			//since the camera has moved, make sure that the camera does not go beyond the new bounds
+			if(tilt.transform.rotation.eulerAngles.x < 20)
+			{
+				//if the camera has moved beyond the bounds, move it to the new limits
+				tilt.transform.rotation = Quaternion.Euler(160,0,0);
+			}
+			//same applies here as well
+			if(tilt.transform.rotation.eulerAngles.x > 85)
+			{
+				tilt.transform.rotation = Quaternion.Euler(95,0,0);
+			}
 		}
 
 
 	}
 
-	/*
-	void OnCollisionEnter(Collision roger)
-	{
-		if(roger.gameObject.name == "limiter")
-		{
-			tilt.transform.rotation = Quaternion.Euler(20,0,0);
-		}
-	}
-*/
 
 	// /roger
 }
