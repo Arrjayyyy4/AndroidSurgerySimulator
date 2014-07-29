@@ -18,7 +18,7 @@ public class SimulatorController : MonoBehaviour {
 	public int trocarsWrong = 0;
 	
 	//to fix GUI positions
-	public int GUImodifier = (1000);
+	public int GUImodifier = (1500);
 
 	//add texture
 
@@ -274,8 +274,10 @@ public class SimulatorController : MonoBehaviour {
 
 		if(practiceMode)
 		{
+			GUI.Box(new Rect(0+GUImodifier, 4 * (Screen.height * 0.15F + 5), Screen.width * 0.3F, Screen.height * 0.15F), "Position: " + bodyPositions[currentQuestion.text] + ""); 
+
 			//Show Next Surgery
-			if(GUI.Button(new Rect(0, 0, Screen.width * 0.3F, Screen.height * 0.15F), "Show Next Surgery"))
+			if(GUI.Button(new Rect(0+GUImodifier, 0, Screen.width * 0.3F, Screen.height * 0.15F), "Show Next Surgery"))
 			{
 				Reset ();
 
@@ -293,7 +295,7 @@ public class SimulatorController : MonoBehaviour {
 			}
 
 			//Show/Hide Trocars
-			if(GUI.Button(new Rect(0, Screen.height * 0.15F + 5, Screen.width * 0.3F, Screen.height * 0.15F), "Show/Hide Trocars"))
+			if(GUI.Button(new Rect(0+GUImodifier, Screen.height * 0.15F + 5, Screen.width * 0.3F, Screen.height * 0.15F), "Show/Hide Trocars"))
 			{
 				if(!canPlaceTrocars)
 				{
@@ -314,13 +316,13 @@ public class SimulatorController : MonoBehaviour {
 				}
 			}
 			//toggle transparency
-			if(GUI.Button(new Rect(0, 2 * (Screen.height * 0.15F + 5), Screen.width * 0.3F, Screen.height * 0.15F), "Transparent Chest"))
+			if(GUI.Button(new Rect(0+GUImodifier, 2 * (Screen.height * 0.15F + 5), Screen.width * 0.3F, Screen.height * 0.15F), "Transparent Chest"))
 			{
 				transparent = !transparent;
 				
 			}
 
-			if(GUI.Button(new Rect(0, 3 * (Screen.height * 0.15F + 5), Screen.width * 0.3F, Screen.height * 0.15F), "Begin Exam"))
+			if(GUI.Button(new Rect(0+GUImodifier, 3 * (Screen.height * 0.15F + 5), Screen.width * 0.3F, Screen.height * 0.15F), "Begin Exam"))
 			{
 				canPlaceTrocars = !canPlaceTrocars;
 				Reset();
@@ -367,14 +369,14 @@ public class SimulatorController : MonoBehaviour {
 				else if(!isShowingAlert)
 				{
 					//toggle transparency
-					if(GUI.Button(new Rect(0+GUImodifier, Screen.height * 0.3F + 5 + GUImodifier, Screen.width * 0.3F, Screen.height * 0.15F), "Transparent Chest"))
+					if(GUI.Button(new Rect(0+GUImodifier, Screen.height * 0.3F + 5 + 0, Screen.width * 0.3F, Screen.height * 0.15F), "Transparent Chest"))
 					{
 						transparent = !transparent;
 
 					}
 
 					//Check answer
-					if(GUI.Button(new Rect(0+GUImodifier, GUImodifier, Screen.width * 0.3F, Screen.height * 0.15F), "Check answer"))
+					if(GUI.Button(new Rect(0+GUImodifier, 0, Screen.width * 0.3F, Screen.height * 0.15F), "Check answer"))
 					{
 
 						checkTrocars();
@@ -386,7 +388,7 @@ public class SimulatorController : MonoBehaviour {
 					//this causes a null reference error -- that's bad
 					if(!selectTrocarSize)
 					{
-						if(GUI.RepeatButton(new Rect(0+GUImodifier, Screen.height * 0.15F + 5 + GUImodifier, Screen.width * 0.3F, Screen.height * 0.15F), "Reset trocars"))
+						if(GUI.RepeatButton(new Rect(0+GUImodifier, Screen.height * 0.15F + 5 + 0, Screen.width * 0.3F, Screen.height * 0.15F), "Reset trocars"))
 						{
 							//reset trocars so the user can replace them before submitting their answer
 							count = 0;
