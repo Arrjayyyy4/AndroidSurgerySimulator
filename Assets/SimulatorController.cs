@@ -313,8 +313,14 @@ public class SimulatorController : MonoBehaviour {
 					changeQuestion(questionIndex);
 				}
 			}
+			//toggle transparency
+			if(GUI.Button(new Rect(0, 2 * (Screen.height * 0.15F + 5), Screen.width * 0.3F, Screen.height * 0.15F), "Transparent Chest"))
+			{
+				transparent = !transparent;
+				
+			}
 
-			if(GUI.Button(new Rect(0, 2 * (Screen.height * 0.15F + 5), Screen.width * 0.3F, Screen.height * 0.15F), "Begin Exam"))
+			if(GUI.Button(new Rect(0, 3 * (Screen.height * 0.15F + 5), Screen.width * 0.3F, Screen.height * 0.15F), "Begin Exam"))
 			{
 				canPlaceTrocars = !canPlaceTrocars;
 				Reset();
