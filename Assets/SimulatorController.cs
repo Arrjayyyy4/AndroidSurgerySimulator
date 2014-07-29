@@ -5,7 +5,7 @@ using System.IO;
 
 public class SimulatorController : MonoBehaviour {
 	//roger
-
+	public bool sized = true;
 	//gameobject for the empty gameobject patenting the camera
 	//this object's coordinate system is similar to that of the patient
 	//so that the camera can rotate around the axis of the patient
@@ -14,7 +14,7 @@ public class SimulatorController : MonoBehaviour {
 
 	//this checks whether or not user has made a mistake in selecting trocar points
 	public int trocarsWrong = 0;
-
+	
 	//to fix GUI positions
 	public int GUImodifier = (1000);
 
@@ -183,6 +183,7 @@ public class SimulatorController : MonoBehaviour {
 		Vector3 lowerLeftStomach = new Vector3(-55.42f, 5.45f, -16.50f);
 		Vector3 aboveBellyButton = new Vector3(-55.3f, 5.47f, -16.61f);
 		*/
+
 
 		appendectomyPoints.Add(belowBellyButton);
 		appendectomyPoints.Add(bellyButton);
@@ -430,7 +431,6 @@ public class SimulatorController : MonoBehaviour {
 				//StartCoroutine(showAlert("Correct!"));
 				selectTrocarSize = false;
 				lastPlacedTrocar.renderer.enabled = true;
-
 				//make trocar visible
 				//lastPlacedTrocar.transform.scale = ???;
 				foreach(Renderer rend in lastPlacedTrocar.GetComponentsInChildren<Renderer>())
@@ -454,6 +454,7 @@ public class SimulatorController : MonoBehaviour {
 				//StartCoroutine(showAlert("Correct!"));
 				selectTrocarSize = false;
 				lastPlacedTrocar.renderer.enabled = true;
+				lastPlacedTrocar.transform.localScale += new Vector3(.25F, .25F,.25F);
 
 				//make trocar visible
 				//lastPlacedTrocar.transform.scale = ???;
@@ -475,6 +476,7 @@ public class SimulatorController : MonoBehaviour {
 				//StartCoroutine(showAlert("Correct!"));
 				selectTrocarSize = false;
 				lastPlacedTrocar.renderer.enabled = true;
+				lastPlacedTrocar.transform.localScale += new Vector3(.5F, .5F, .5F);
 
 				//make trocar visible
 				//lastPlacedTrocar.transform.scale = ???;
@@ -556,6 +558,9 @@ public class SimulatorController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
+		//resize trocars based on position
+		FindObject ();
+
 		//camera now tilts around patient
 		MoveAround ();
 
@@ -993,6 +998,22 @@ public class SimulatorController : MonoBehaviour {
 		}
 
 
+	}
+
+	void FindObject()
+	{
+
+		if( GameObject.Find("trocarPurple(Clone)") && sized)
+		{
+			GameObject placed = GameObject.Find ("trocarPurple(Clone)");
+
+			Debug.Log("found it!");
+			if(placed.transform.position == belowBellyButton || placed.transform.position == bellyButton)
+			{
+				placed.transform.localScale += new Vector3(.5F, .5F, .5F);
+				sized = false;
+			}
+		}
 	}
 
 
