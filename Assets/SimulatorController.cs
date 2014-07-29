@@ -12,8 +12,11 @@ public class SimulatorController : MonoBehaviour {
 	//and this functionality can be edited in any way
 	public GameObject tilt;
 
+	//this checks whether or not user has made a mistake in selecting trocar points
+	public int trocarsWrong = 0;
 
-	public int GUImodifier = (700);
+	//to fix GUI positions
+	public int GUImodifier = (1000);
 
 	//add texture
 
@@ -225,8 +228,8 @@ public class SimulatorController : MonoBehaviour {
 		bodyPositions = new Dictionary<string, string>();
 		bodyPositions.Add("Appendectomy", "flat");
 		bodyPositions.Add("Gallbladder", "side");
-		bodyPositions.Add("Cholecystectomy", "flat");
-		bodyPositions.Add("Right Renal", "side");
+		bodyPositions.Add("Cholecystectomy", "side");
+		bodyPositions.Add("Right Renal", "flat");
 		bodyPositions.Add("Left Nephrectomy", "side");
 
 
@@ -357,7 +360,6 @@ public class SimulatorController : MonoBehaviour {
 					//Check answer
 					if(GUI.Button(new Rect(0+GUImodifier, GUImodifier, Screen.width * 0.3F, Screen.height * 0.15F), "Check answer"))
 					{
-						//the if statement is bugged for android for some reason
 
 						checkTrocars();
 						answering = false;
@@ -418,14 +420,14 @@ public class SimulatorController : MonoBehaviour {
 
 		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.17F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "5"))
 		{
-			Debug.Log("This works for " + CheckPosition(lastPlacedTrocar) + "!");
+			//Debug.Log("This works for " + CheckPosition(lastPlacedTrocar) + "!");
 
 			//if(trocarSizes[currentQuestion.text] == 0.005)
-			if(CheckPosition(lastPlacedTrocar) == "5")
-			{
+			//if(CheckPosition(lastPlacedTrocar) == "5")
+			//{
 				//Debug.Log("This works for " + CheckPosition(lastPlacedTrocar) + "!");
 				//correct
-				StartCoroutine(showAlert("Correct!"));
+				//StartCoroutine(showAlert("Correct!"));
 				selectTrocarSize = false;
 				lastPlacedTrocar.renderer.enabled = true;
 
@@ -433,21 +435,23 @@ public class SimulatorController : MonoBehaviour {
 				//lastPlacedTrocar.transform.scale = ???;
 				foreach(Renderer rend in lastPlacedTrocar.GetComponentsInChildren<Renderer>())
 					rend.enabled = true;
-			}
-			else
-			{
-				StartCoroutine(showAlert("Incorrect!"));
-			}
+			//}
+			//else
+			//{
+				//StartCoroutine(showAlert("Incorrect!")); roger
+				//trocar size can also be personal preference
+			//}
 		}
 
 		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.42F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "10"))
 		{
+
 			//if(trocarSizes[currentQuestion.text] == 0.010F)
-			if(CheckPosition(lastPlacedTrocar) == "10")
-			{
-				Debug.Log("This works for " + CheckPosition(lastPlacedTrocar) + "!");
+			//if(CheckPosition(lastPlacedTrocar) == "10")
+			//{
+				//Debug.Log("This works for " + CheckPosition(lastPlacedTrocar) + "!");
 				//correct
-				StartCoroutine(showAlert("Correct!"));
+				//StartCoroutine(showAlert("Correct!"));
 				selectTrocarSize = false;
 				lastPlacedTrocar.renderer.enabled = true;
 
@@ -455,20 +459,20 @@ public class SimulatorController : MonoBehaviour {
 				//lastPlacedTrocar.transform.scale = ???;
 				foreach(Renderer rend in lastPlacedTrocar.GetComponentsInChildren<Renderer>())
 					rend.enabled = true;
-			}
-			else
-			{
-				StartCoroutine(showAlert("Incorrect!"));
-			}
+			//}
+			//else
+			//{
+				//StartCoroutine(showAlert("Incorrect!")); roger
+			//}
 		}
 
 		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.67F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "15"))
 		{
 
-			if(CheckPosition(lastPlacedTrocar) == "15")
-			{
-				Debug.Log("This works for " + CheckPosition(lastPlacedTrocar) + "!");
-				StartCoroutine(showAlert("Correct!"));
+			//if(CheckPosition(lastPlacedTrocar) == "15")
+			//{
+				//Debug.Log("This works for " + CheckPosition(lastPlacedTrocar) + "!");
+				//StartCoroutine(showAlert("Correct!"));
 				selectTrocarSize = false;
 				lastPlacedTrocar.renderer.enabled = true;
 
@@ -476,11 +480,11 @@ public class SimulatorController : MonoBehaviour {
 				//lastPlacedTrocar.transform.scale = ???;
 				foreach(Renderer rend in lastPlacedTrocar.GetComponentsInChildren<Renderer>())
 					rend.enabled = true;
-			}
-			else
-			{
-				StartCoroutine(showAlert("Incorrect!"));	
-			}
+			//}
+			//else
+			//{
+				//StartCoroutine(showAlert("Incorrect!"));	
+			//}
 		}
 	}
 
