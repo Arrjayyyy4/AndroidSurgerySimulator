@@ -361,7 +361,7 @@ public class SimulatorController : MonoBehaviour {
 				else if(!isShowingAlert)
 				{
 					//toggle transparency
-					if(GUI.Button(new Rect(0+GUImodifier, Screen.height * 0.3F + 5 + GUImodifier, Screen.width * 0.3F, Screen.height * 0.15F), "Transparent"))
+					if(GUI.Button(new Rect(0+GUImodifier, Screen.height * 0.3F + 5 + GUImodifier, Screen.width * 0.3F, Screen.height * 0.15F), "Transparent Chest"))
 					{
 						transparent = !transparent;
 
