@@ -260,7 +260,7 @@ public class SimulatorController : MonoBehaviour {
 		// /roger
 
 		//debugg roger
-		//GUI.Box (new Rect (Screen.width * .5f, 0, 100, 100), "R*" + tilt.transform.rotation.eulerAngles.x);
+		//GUI.Box (new Rect (Screen.width * .5f, 0, 300, 100), "R*" + tilt.transform.rotation.eulerAngles.x);
 		// /debug
 
 		if(isShowingAlert)
@@ -576,7 +576,7 @@ public class SimulatorController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		Debug.Log("transparent = " + transparent);
+		//Debug.Log("transparent = " + transparent);
 
 		//resize trocars based on position
 		FindObject ();
@@ -984,9 +984,9 @@ public class SimulatorController : MonoBehaviour {
 				tilt.transform.rotation = Quaternion.Euler(88,0,0);
 			}
 
-			if(tilt.transform.rotation.eulerAngles.x < 20)
+			if(tilt.transform.rotation.eulerAngles.x < 65)
 			{
-				tilt.transform.rotation = Quaternion.Euler(20,0,0);
+				tilt.transform.rotation = Quaternion.Euler(65,0,0);
 			}
 
 			if(tilt.transform.rotation.eulerAngles.x > 85)
@@ -1007,10 +1007,10 @@ public class SimulatorController : MonoBehaviour {
 				moved = true;
 			}
 			//since the camera has moved, make sure that the camera does not go beyond the new bounds
-			if(tilt.transform.rotation.eulerAngles.x < 20)
+			if(tilt.transform.rotation.eulerAngles.x < 60)
 			{
 				//if the camera has moved beyond the bounds, move it to the new limits
-				tilt.transform.rotation = Quaternion.Euler(160,0,0);
+				tilt.transform.rotation = Quaternion.Euler(120,0,0);
 			}
 			//same applies here as well
 			if(tilt.transform.rotation.eulerAngles.x > 85)
