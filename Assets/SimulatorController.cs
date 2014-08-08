@@ -262,6 +262,7 @@ public class SimulatorController : MonoBehaviour {
 		//debugg roger
 		//GUI.Box (new Rect (Screen.width * .5f, 0, 300, 100), "R*" + tilt.transform.rotation.eulerAngles.x);
 		// /debug
+	
 
 		if(isShowingAlert)
 		{
@@ -274,7 +275,7 @@ public class SimulatorController : MonoBehaviour {
 
 		if(practiceMode)
 		{
-			GUI.Box(new Rect(0+GUImodifier, 4 * (Screen.height * 0.15F + 5), Screen.width * 0.3F, Screen.height * 0.15F), "Position: " + bodyPositions[currentQuestion.text] + ""); 
+			GUI.Box(new Rect(0+GUImodifier, 3 * (Screen.height * 0.15F + 5), Screen.width * 0.3F, Screen.height * 0.15F), "Position: " + bodyPositions[currentQuestion.text] + ""); 
 
 			//Show Next Surgery
 			if(GUI.Button(new Rect(0+GUImodifier, 0, Screen.width * 0.3F, Screen.height * 0.15F), "Show Next Surgery"))
@@ -316,13 +317,13 @@ public class SimulatorController : MonoBehaviour {
 				}
 			}
 			//toggle transparency
-			if(GUI.Button(new Rect(0+GUImodifier, 2 * (Screen.height * 0.15F + 5), Screen.width * 0.3F, Screen.height * 0.15F), "Transparent Chest"))
+			if(GUI.Button(new Rect(Screen.width * 0.6F +GUImodifier, 0, Screen.width * 0.3F, Screen.height * 0.15F), "Transparent Chest"))
 			{
 				transparent = !transparent;
 				
 			}
 
-			if(GUI.Button(new Rect(0+GUImodifier, 3 * (Screen.height * 0.15F + 5), Screen.width * 0.3F, Screen.height * 0.15F), "Begin Exam"))
+			if(GUI.Button(new Rect(0+GUImodifier, 2 * (Screen.height * 0.15F + 5), Screen.width * 0.3F, Screen.height * 0.15F), "Begin Exam"))
 			{
 				canPlaceTrocars = !canPlaceTrocars;
 				Reset();
@@ -369,7 +370,7 @@ public class SimulatorController : MonoBehaviour {
 				else if(!isShowingAlert)
 				{
 					//toggle transparency
-					if(GUI.Button(new Rect(0+GUImodifier, Screen.height * 0.3F + 5 + 0, Screen.width * 0.3F, Screen.height * 0.15F), "Transparent Chest"))
+					if(GUI.Button(new Rect(Screen.width * 0.6F, 0, Screen.width * 0.3F, Screen.height * 0.15F), "Transparent Chest"))
 					{
 						transparent = !transparent;
 
