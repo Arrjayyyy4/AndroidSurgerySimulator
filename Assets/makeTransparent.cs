@@ -24,14 +24,14 @@ public class makeTransparent : MonoBehaviour {
 
 	Color transparent(Color color)
 	{
-		Debug.Log ("changing color");
+		//Debug.Log ("changing color");
 		color.a = 0.45f;
 		return color;
 	}
 
 	Color notTransparent(Color color)
 	{
-		Debug.Log ("changing back!");
+		//Debug.Log ("changing back!");
 		color.a = 1.0f;
 		return color;
 	} 

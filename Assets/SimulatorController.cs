@@ -6,7 +6,7 @@ using System.IO;
 public class SimulatorController : MonoBehaviour {
 	//roger
 	public static bool transparent = false;
-
+	public float turn = 0.0F;
 	public bool sized = true;
 	//gameobject for the empty gameobject patenting the camera
 	//this object's coordinate system is similar to that of the patient
@@ -156,7 +156,7 @@ public class SimulatorController : MonoBehaviour {
 		answering = true;
 
 		currentTime = System.DateTime.Now;
-		Debug.Log (currentTime.ToShortTimeString());
+		//Debug.Log (currentTime.ToShortTimeString());
 		fileName = currentTime.ToString("MMddHHmmss") + ".txt";
 
 
@@ -221,6 +221,8 @@ public class SimulatorController : MonoBehaviour {
 
 
 		//Initialize correct torcar sizes and body positions
+		//trocar sizes one is unused
+
 		trocarSizes = new Dictionary<string, float>();
 		trocarSizes.Add("Appendectomy", 0.010F);
 		trocarSizes.Add("Gallbladder", 0.015F);
@@ -255,14 +257,29 @@ public class SimulatorController : MonoBehaviour {
 	void OnGUI()
 	{
 		// - roger GUI font size will be changed to become more legible on Android
-		GUI.skin.box.fontSize = GUI.skin.button.fontSize = 60;
-		GUI.skin.label.fontSize = 50;
+		GUI.skin.box.fontSize = GUI.skin.button.fontSize = 40;
+		GUI.skin.label.fontSize = 40;
 		// /roger
-
+		int rotateGUImag = 0;
+		if(practiceMode) { rotateGUImag = 6; }
+		else { rotateGUImag = 4; }
 		//debugg roger
 		//GUI.Box (new Rect (Screen.width * .5f, 0, 300, 100), "R*" + tilt.transform.rotation.eulerAngles.x);
 		// /debug
-	
+
+		//roger
+		if(GUI.RepeatButton(new Rect(Screen.width * 0.65f+GUImodifier, rotateGUImag * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), "Rotate Up"))
+		{
+			tilt.transform.Rotate ( 0.7f, 0, 0);
+		}
+		if(GUI.RepeatButton(new Rect(Screen.width * 0.65f+GUImodifier, (rotateGUImag+1) * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), "Rotate Down"))
+		{
+			tilt.transform.Rotate ( -0.7f, 0, 0);
+
+		}
+
+		//turn = GUI.VerticalScrollbar(new Rect(Screen.width * 0.15f+GUImodifier, Screen.height * 0.2f, Screen.width * 0.3F, Screen.height * 0.3F), turn, 0.5F, 5.0F, 0.5F);
+		//Debug.Log("turn = " + turn);
 
 		if(isShowingAlert)
 		{
@@ -275,10 +292,12 @@ public class SimulatorController : MonoBehaviour {
 
 		if(practiceMode)
 		{
-			GUI.Box(new Rect(0+GUImodifier, 3 * (Screen.height * 0.15F + 5), Screen.width * 0.3F, Screen.height * 0.15F), "Position: " + bodyPositions[currentQuestion.text] + ""); 
+			GUI.Box(new Rect(Screen.width * 0.65f+GUImodifier, 5 * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), currentQuestion.points.Count + " trocars expected"); 
+
+			GUI.Box(new Rect(Screen.width * 0.65f+GUImodifier, 4 * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), "Position: " + bodyPositions[currentQuestion.text] + ""); 
 
 			//Show Next Surgery
-			if(GUI.Button(new Rect(0+GUImodifier, 0, Screen.width * 0.3F, Screen.height * 0.15F), "Show Next Surgery"))
+			if(GUI.Button(new Rect(Screen.width * 0.65f+GUImodifier, 0, Screen.width * 0.3F, Screen.height * 0.10F), "Show Next Surgery"))
 			{
 				Reset ();
 
@@ -296,7 +315,7 @@ public class SimulatorController : MonoBehaviour {
 			}
 
 			//Show/Hide Trocars
-			if(GUI.Button(new Rect(0+GUImodifier, Screen.height * 0.15F + 5, Screen.width * 0.3F, Screen.height * 0.15F), "Show/Hide Trocars"))
+			if(GUI.Button(new Rect(Screen.width * 0.65f+GUImodifier, Screen.height * 0.10F + 5, Screen.width * 0.3F, Screen.height * 0.10F), "Show/Hide Trocars"))
 			{
 				if(!canPlaceTrocars)
 				{
@@ -317,13 +336,13 @@ public class SimulatorController : MonoBehaviour {
 				}
 			}
 			//toggle transparency
-			if(GUI.Button(new Rect(Screen.width * 0.6F +GUImodifier, 0, Screen.width * 0.3F, Screen.height * 0.15F), "Transparent Chest"))
+			if(GUI.Button(new Rect(Screen.width * 0.65f+GUImodifier, 3 * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), "Transparent Chest"))
 			{
 				transparent = !transparent;
 				
 			}
 
-			if(GUI.Button(new Rect(0+GUImodifier, 2 * (Screen.height * 0.15F + 5), Screen.width * 0.3F, Screen.height * 0.15F), "Begin Exam"))
+			if(GUI.Button(new Rect(Screen.width * 0.65f+GUImodifier, 2 * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), "Begin Exam"))
 			{
 				canPlaceTrocars = !canPlaceTrocars;
 				Reset();
@@ -346,7 +365,7 @@ public class SimulatorController : MonoBehaviour {
 				//Show comprehensive results
 
 				//Restart Quiz
-				if(GUI.Button(new Rect(0, 0, Screen.width * 0.3F, Screen.height * 0.15F), "Start Over"))
+				if(GUI.Button(new Rect(Screen.height * 0.65f + GUImodifier, 0, Screen.width * 0.3F, Screen.height * 0.10F), "Start Over"))
 				{
 					//reset the application
 					Start();
@@ -370,14 +389,17 @@ public class SimulatorController : MonoBehaviour {
 				else if(!isShowingAlert)
 				{
 					//toggle transparency
-					if(GUI.Button(new Rect(Screen.width * 0.6F, 0, Screen.width * 0.3F, Screen.height * 0.15F), "Transparent Chest"))
+					if(GUI.Button(new Rect(Screen.width * 0.65f+GUImodifier, 2 * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), "Transparent Chest"))
 					{
 						transparent = !transparent;
 
 					}
 
+					GUI.Box(new Rect(Screen.width * 0.65f+GUImodifier, 3 * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), currentQuestion.points.Count + " trocars expected"); 
+
+
 					//Check answer
-					if(GUI.Button(new Rect(0+GUImodifier, 0, Screen.width * 0.3F, Screen.height * 0.15F), "Check answer"))
+					if(GUI.Button(new Rect(Screen.width * 0.65f+GUImodifier, 0, Screen.width * 0.3F, Screen.height * 0.10F), "Check answer"))
 					{
 
 						checkTrocars();
@@ -389,7 +411,7 @@ public class SimulatorController : MonoBehaviour {
 					//this causes a null reference error -- that's bad
 					if(!selectTrocarSize)
 					{
-						if(GUI.RepeatButton(new Rect(0+GUImodifier, Screen.height * 0.15F + 5 + 0, Screen.width * 0.3F, Screen.height * 0.15F), "Reset trocars"))
+						if(GUI.RepeatButton(new Rect(Screen.width * 0.65f+GUImodifier, Screen.height * 0.10F + 5 + 0, Screen.width * 0.3F, Screen.height * 0.10F), "Reset trocars"))
 						{
 							//reset trocars so the user can replace them before submitting their answer
 							count = 0;
@@ -407,7 +429,7 @@ public class SimulatorController : MonoBehaviour {
 			else
 			{
 				//Next question
-				if(GUI.Button(new Rect(0+GUImodifier, Screen.height * 0.15F + 5 + GUImodifier, Screen.width * 0.3F, Screen.height * 0.15F), "Next Question"))
+				if(GUI.Button(new Rect(Screen.width * 0.65f+GUImodifier, Screen.height * 0.15F + 5 + GUImodifier, Screen.width * 0.3F, Screen.height * 0.10F), "Next Question"))
 				{
 					//canPlaceTrocars = !canPlaceTrocars;
 					Reset();
@@ -960,7 +982,7 @@ public class SimulatorController : MonoBehaviour {
 	void MoveAround()
 	{
 
-		tilt.transform.Rotate (Input.acceleration.y * 0.5F + 0.2F, 0, 0);
+		//tilt.transform.Rotate (Input.acceleration.y * 0.5F + 0.2F, 0, 0);
 		//tilt.transform.rotation.x = Mathf.Clamp (tilt.transform.eulerAngles.x, 20, 89);
 
 		//check if position has been changed
@@ -1030,7 +1052,7 @@ public class SimulatorController : MonoBehaviour {
 		{
 			GameObject placed = GameObject.Find ("trocarPurple(Clone)");
 
-			Debug.Log("found it!");
+			//Debug.Log("found it!");
 			if(placed.transform.position == belowBellyButton || placed.transform.position == bellyButton)
 			{
 				placed.transform.localScale += new Vector3(.5F, .5F, .5F);
@@ -1043,7 +1065,7 @@ public class SimulatorController : MonoBehaviour {
 	void FindObject(GameObject placed)
 	{
 					
-			Debug.Log("found it!");
+			//Debug.Log("found it!");
 			if(placed.transform.position == belowBellyButton || placed.transform.position == bellyButton)
 			{
 				placed.transform.localScale += new Vector3(.5F, .5F, .5F);
