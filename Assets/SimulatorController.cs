@@ -136,6 +136,7 @@ public class SimulatorController : MonoBehaviour {
 		//make screen orient to the left
 		Screen.orientation = ScreenOrientation.LandscapeLeft;
 		//add some textures
+
 		resetTrocars = (Texture)Resources.Load("resets");
 		checkAnswer = (Texture)Resources.Load("checks");
 
@@ -164,27 +165,6 @@ public class SimulatorController : MonoBehaviour {
 		chosenPoints = new List<Vector3>();
 		availableCorrectPointSets = new List<Question>();
 		visibleTrocars = new List<GameObject>();
-
-		/*roger - placed point declarations outside of functions so they can be modified
-		//list of points for each surgery
-		List<Vector3> appendectomyPoints = new List<Vector3>();
-		List<Vector3> gallbladderPoints = new List<Vector3>();
-		List<Vector3> cholecystectomyPoints = new List<Vector3>();
-		List<Vector3> rightRenalPoints = new List<Vector3>();
-		List<Vector3> leftNephrectomyPoints = new List<Vector3>();
-
-		//points to use for reference
-		Vector3 belowBellyButton = new Vector3(-55.48f, 5.45f, -16.61f);
-		Vector3 bellyButton = new Vector3(-55.38f, 5.45f, -16.61f);
-		Vector3 aboveAndRightBellyButton = new Vector3(-55.31f, 5.48f, -16.65f);
-		Vector3 upperLeftStomach = new Vector3(-55.37f, 5.45f, -16.53f);
-		Vector3 upperLeftStomachEdge = new Vector3(-55.36f, 5.45f, -16.45f);
-		Vector3 bottomSternum = new Vector3(-55.145f, 5.50f, -16.62f);
-		Vector3 bellowRightBellyButton = new Vector3(-55.47f, 5.44f, -16.70f);
-		Vector3 rightBellyButtonEdge = new Vector3(-55.37f, 5.41f, -16.73f);
-		Vector3 lowerLeftStomach = new Vector3(-55.42f, 5.45f, -16.50f);
-		Vector3 aboveBellyButton = new Vector3(-55.3f, 5.47f, -16.61f);
-		*/
 
 
 		appendectomyPoints.Add(belowBellyButton);
@@ -266,17 +246,11 @@ public class SimulatorController : MonoBehaviour {
 		//debugg roger
 		//GUI.Box (new Rect (Screen.width * .5f, 0, 300, 100), "R*" + tilt.transform.rotation.eulerAngles.x);
 		// /debug
+		//if(GUI.Button(new Rect(0+(GUImodifier*.5f), 0, Screen.width * 0.115F, Screen.height * 0.5F), "swipe\nup or\n down here\n to rotate\naround\nthe patient"))
+		//{ }
 
 		//roger
-		if(GUI.RepeatButton(new Rect(Screen.width * 0.65f+GUImodifier, rotateGUImag * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), "Rotate Up"))
-		{
-			tilt.transform.Rotate ( 0.7f, 0, 0);
-		}
-		if(GUI.RepeatButton(new Rect(Screen.width * 0.65f+GUImodifier, (rotateGUImag+1) * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), "Rotate Down"))
-		{
-			tilt.transform.Rotate ( -0.7f, 0, 0);
 
-		}
 
 		//turn = GUI.VerticalScrollbar(new Rect(Screen.width * 0.15f+GUImodifier, Screen.height * 0.2f, Screen.width * 0.3F, Screen.height * 0.3F), turn, 0.5F, 5.0F, 0.5F);
 		//Debug.Log("turn = " + turn);
@@ -292,6 +266,16 @@ public class SimulatorController : MonoBehaviour {
 
 		if(practiceMode)
 		{
+			if(GUI.RepeatButton(new Rect(Screen.width * 0.65f+GUImodifier, rotateGUImag * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), "Rotate Up"))
+			{
+				tilt.transform.Rotate ( 0.7f, 0, 0);
+			}
+			if(GUI.RepeatButton(new Rect(Screen.width * 0.65f+GUImodifier, (rotateGUImag+1) * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), "Rotate Down"))
+			{
+				tilt.transform.Rotate ( -0.7f, 0, 0);
+				
+			}
+
 			GUI.Box(new Rect(Screen.width * 0.65f+GUImodifier, 5 * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), currentQuestion.points.Count + " trocars expected"); 
 
 			GUI.Box(new Rect(Screen.width * 0.65f+GUImodifier, 4 * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), "Position: " + bodyPositions[currentQuestion.text] + ""); 
@@ -368,6 +352,7 @@ public class SimulatorController : MonoBehaviour {
 				if(GUI.Button(new Rect(Screen.height * 0.65f + GUImodifier, 0, Screen.width * 0.3F, Screen.height * 0.10F), "Start Over"))
 				{
 					//reset the application
+					ClearAll ();
 					Start();
 				}
 			}
@@ -393,6 +378,16 @@ public class SimulatorController : MonoBehaviour {
 					{
 						transparent = !transparent;
 
+					}
+
+					if(GUI.RepeatButton(new Rect(Screen.width * 0.65f+GUImodifier, rotateGUImag * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), "Rotate Up"))
+					{
+						tilt.transform.Rotate ( 0.7f, 0, 0);
+					}
+					if(GUI.RepeatButton(new Rect(Screen.width * 0.65f+GUImodifier, (rotateGUImag+1) * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), "Rotate Down"))
+					{
+						tilt.transform.Rotate ( -0.7f, 0, 0);
+						
 					}
 
 					GUI.Box(new Rect(Screen.width * 0.65f+GUImodifier, 3 * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), currentQuestion.points.Count + " trocars expected"); 
@@ -429,7 +424,23 @@ public class SimulatorController : MonoBehaviour {
 			else
 			{
 				//Next question
-				if(GUI.Button(new Rect(Screen.width * 0.65f+GUImodifier, Screen.height * 0.15F + 5 + GUImodifier, Screen.width * 0.3F, Screen.height * 0.10F), "Next Question"))
+				if(GUI.Button(new Rect(Screen.width * 0.65f+GUImodifier, 0 , Screen.width * 0.3F, Screen.height * 0.10F), "Return to Menu"))
+				{
+					Reset();
+					if(positionChanged)
+					{
+						//turn camera and patient 90 degrees
+						patient.transform.Rotate(270,0,0);
+						//cameraOne.transform.Rotate(90,0,0);
+						positionChanged = false; //indicates that position has been changed
+					}
+					ClearAll ();
+
+					Start();
+
+				}
+
+				if(GUI.Button(new Rect(Screen.width * 0.65f+GUImodifier, Screen.height * 0.10F + 5 , Screen.width * 0.3F, Screen.height * 0.10F), "Next Question"))
 				{
 					//canPlaceTrocars = !canPlaceTrocars;
 					Reset();
@@ -599,6 +610,7 @@ public class SimulatorController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
+		//RotateOnTouch();
 		//Debug.Log("transparent = " + transparent);
 
 		//resize trocars based on position
@@ -1086,6 +1098,29 @@ public class SimulatorController : MonoBehaviour {
 		{
 			tilt.transform.rotation = Quaternion.Euler(85,0,0);
 		}
+	}
+
+	void RotateOnTouch()
+	{
+		if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved) {
+			Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
+			tilt.transform.Rotate(touchDeltaPosition.y * .05f, 0,0);
+		}
+	}
+
+	void ClearAll()
+	{
+		appendectomyPoints.Clear();
+		
+		gallbladderPoints.Clear ();
+		
+		cholecystectomyPoints.Clear();
+		
+		rightRenalPoints.Clear ();
+		
+		leftNephrectomyPoints.Clear();
+
+		availableCorrectPointSets.Clear();
 	}
 
 	/*
