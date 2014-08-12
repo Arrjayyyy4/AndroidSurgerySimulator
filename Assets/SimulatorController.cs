@@ -18,8 +18,7 @@ public class SimulatorController : MonoBehaviour {
 	public int trocarsWrong = 0;
 	
 	//to fix GUI positions
-	public int GUImodifier = (1500);
-
+	public int GUImodifier = 0;
 	//add texture
 
 	Texture resetTrocars;
@@ -266,22 +265,22 @@ public class SimulatorController : MonoBehaviour {
 
 		if(practiceMode)
 		{
-			if(GUI.RepeatButton(new Rect(Screen.width * 0.65f+GUImodifier, rotateGUImag * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), "Rotate Up"))
+			if(GUI.RepeatButton(new Rect(Screen.width * 0.55f+GUImodifier, rotateGUImag * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), "Rotate Up"))
 			{
 				tilt.transform.Rotate ( 0.7f, 0, 0);
 			}
-			if(GUI.RepeatButton(new Rect(Screen.width * 0.65f+GUImodifier, (rotateGUImag+1) * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), "Rotate Down"))
+			if(GUI.RepeatButton(new Rect(Screen.width * 0.55f+GUImodifier, (rotateGUImag+1) * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), "Rotate Down"))
 			{
 				tilt.transform.Rotate ( -0.7f, 0, 0);
 				
 			}
 
-			GUI.Box(new Rect(Screen.width * 0.65f+GUImodifier, 5 * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), currentQuestion.points.Count + " trocars expected"); 
+			GUI.Box(new Rect(Screen.width * 0.55f+GUImodifier, 5 * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), currentQuestion.points.Count + " trocars expected"); 
 
-			GUI.Box(new Rect(Screen.width * 0.65f+GUImodifier, 4 * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), "Position: " + bodyPositions[currentQuestion.text] + ""); 
+			GUI.Box(new Rect(Screen.width * 0.55f+GUImodifier, 4 * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), "Position: " + bodyPositions[currentQuestion.text] + ""); 
 
 			//Show Next Surgery
-			if(GUI.Button(new Rect(Screen.width * 0.65f+GUImodifier, 0, Screen.width * 0.3F, Screen.height * 0.10F), "Show Next Surgery"))
+			if(GUI.Button(new Rect(Screen.width * 0.55f+GUImodifier, 0, Screen.width * 0.3F, Screen.height * 0.10F), "Show Next Surgery"))
 			{
 				Reset ();
 
@@ -299,7 +298,7 @@ public class SimulatorController : MonoBehaviour {
 			}
 
 			//Show/Hide Trocars
-			if(GUI.Button(new Rect(Screen.width * 0.65f+GUImodifier, Screen.height * 0.10F + 5, Screen.width * 0.3F, Screen.height * 0.10F), "Show/Hide Trocars"))
+			if(GUI.Button(new Rect(Screen.width * 0.55f+GUImodifier, Screen.height * 0.10F + 5, Screen.width * 0.3F, Screen.height * 0.10F), "Show/Hide Trocars"))
 			{
 				if(!canPlaceTrocars)
 				{
@@ -320,13 +319,13 @@ public class SimulatorController : MonoBehaviour {
 				}
 			}
 			//toggle transparency
-			if(GUI.Button(new Rect(Screen.width * 0.65f+GUImodifier, 3 * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), "Transparent Chest"))
+			if(GUI.Button(new Rect(Screen.width * 0.55f+GUImodifier, 3 * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), "Transparent Chest"))
 			{
 				transparent = !transparent;
 				
 			}
 
-			if(GUI.Button(new Rect(Screen.width * 0.65f+GUImodifier, 2 * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), "Begin Exam"))
+			if(GUI.Button(new Rect(Screen.width * 0.55f+GUImodifier, 2 * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), "Begin Exam"))
 			{
 				canPlaceTrocars = !canPlaceTrocars;
 				Reset();
@@ -349,7 +348,7 @@ public class SimulatorController : MonoBehaviour {
 				//Show comprehensive results
 
 				//Restart Quiz
-				if(GUI.Button(new Rect(Screen.height * 0.65f + GUImodifier, 0, Screen.width * 0.3F, Screen.height * 0.10F), "Start Over"))
+				if(GUI.Button(new Rect(Screen.height * 0.55f + GUImodifier, 0, Screen.width * 0.3F, Screen.height * 0.10F), "Start Over"))
 				{
 					//reset the application
 					ClearAll ();
@@ -374,27 +373,27 @@ public class SimulatorController : MonoBehaviour {
 				else if(!isShowingAlert)
 				{
 					//toggle transparency
-					if(GUI.Button(new Rect(Screen.width * 0.65f+GUImodifier, 2 * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), "Transparent Chest"))
+					if(GUI.Button(new Rect(Screen.width * 0.55f+GUImodifier, 2 * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), "Transparent Chest"))
 					{
 						transparent = !transparent;
 
 					}
 
-					if(GUI.RepeatButton(new Rect(Screen.width * 0.65f+GUImodifier, rotateGUImag * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), "Rotate Up"))
+					if(GUI.RepeatButton(new Rect(Screen.width * 0.55f+GUImodifier, rotateGUImag * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), "Rotate Up"))
 					{
 						tilt.transform.Rotate ( 0.7f, 0, 0);
 					}
-					if(GUI.RepeatButton(new Rect(Screen.width * 0.65f+GUImodifier, (rotateGUImag+1) * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), "Rotate Down"))
+					if(GUI.RepeatButton(new Rect(Screen.width * 0.55f+GUImodifier, (rotateGUImag+1) * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), "Rotate Down"))
 					{
 						tilt.transform.Rotate ( -0.7f, 0, 0);
 						
 					}
 
-					GUI.Box(new Rect(Screen.width * 0.65f+GUImodifier, 3 * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), currentQuestion.points.Count + " trocars expected"); 
+					GUI.Box(new Rect(Screen.width * 0.55f+GUImodifier, 3 * (Screen.height * 0.10F + 5), Screen.width * 0.3F, Screen.height * 0.10F), currentQuestion.points.Count + " trocars expected"); 
 
 
 					//Check answer
-					if(GUI.Button(new Rect(Screen.width * 0.65f+GUImodifier, 0, Screen.width * 0.3F, Screen.height * 0.10F), "Check answer"))
+					if(GUI.Button(new Rect(Screen.width * 0.55f+GUImodifier, 0, Screen.width * 0.3F, Screen.height * 0.10F), "Check answer"))
 					{
 
 						checkTrocars();
@@ -406,7 +405,7 @@ public class SimulatorController : MonoBehaviour {
 					//this causes a null reference error -- that's bad
 					if(!selectTrocarSize)
 					{
-						if(GUI.RepeatButton(new Rect(Screen.width * 0.65f+GUImodifier, Screen.height * 0.10F + 5 + 0, Screen.width * 0.3F, Screen.height * 0.10F), "Reset trocars"))
+						if(GUI.RepeatButton(new Rect(Screen.width * 0.55f+GUImodifier, Screen.height * 0.10F + 5 + 0, Screen.width * 0.3F, Screen.height * 0.10F), "Reset trocars"))
 						{
 							//reset trocars so the user can replace them before submitting their answer
 							count = 0;
@@ -424,7 +423,7 @@ public class SimulatorController : MonoBehaviour {
 			else
 			{
 				//Next question
-				if(GUI.Button(new Rect(Screen.width * 0.65f+GUImodifier, 0 , Screen.width * 0.3F, Screen.height * 0.10F), "Return to Menu"))
+				if(GUI.Button(new Rect(Screen.width * 0.55f+GUImodifier, 0 , Screen.width * 0.3F, Screen.height * 0.10F), "Return to Menu"))
 				{
 					Reset();
 					if(positionChanged)
@@ -440,7 +439,7 @@ public class SimulatorController : MonoBehaviour {
 
 				}
 
-				if(GUI.Button(new Rect(Screen.width * 0.65f+GUImodifier, Screen.height * 0.10F + 5 , Screen.width * 0.3F, Screen.height * 0.10F), "Next Question"))
+				if(GUI.Button(new Rect(Screen.width * 0.55f+GUImodifier, Screen.height * 0.10F + 5 , Screen.width * 0.3F, Screen.height * 0.10F), "Next Question"))
 				{
 					//canPlaceTrocars = !canPlaceTrocars;
 					Reset();
@@ -1100,6 +1099,7 @@ public class SimulatorController : MonoBehaviour {
 		}
 	}
 
+	/*
 	void RotateOnTouch()
 	{
 		if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved) {
@@ -1107,6 +1107,7 @@ public class SimulatorController : MonoBehaviour {
 			tilt.transform.Rotate(touchDeltaPosition.y * .05f, 0,0);
 		}
 	}
+	*/
 
 	void ClearAll()
 	{
