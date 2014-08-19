@@ -132,10 +132,6 @@ public class SimulatorController : MonoBehaviour {
 	Vector3 lowerLeftStomach = new Vector3(-55.42f, 5.45f, -16.50f);
 	Vector3 aboveBellyButton = new Vector3(-55.3f, 5.47f, -16.61f);
 
-	Vector3 rogers = new Vector3(-10f, 20f, -90f);
-	Vector3 stuffs = new Vector3(-50f, 30f, -80f);
-	Vector3 doge = new Vector3(-15f, 25f, -95f);
-	Vector3 muchwow = new Vector3(-55f, 30f, -85f);
 	// Use this for initialization
 	void Start () 
 	{
@@ -171,58 +167,9 @@ public class SimulatorController : MonoBehaviour {
 		availableCorrectPointSets = new List<Question>();
 		visibleTrocars = new List<GameObject>();
 
-
-		appendectomyPoints.Add(belowBellyButton);
-		appendectomyPoints.Add(bellyButton);
-		appendectomyPoints.Add (upperLeftStomach);
-
-		gallbladderPoints.Add(bellyButton);
-		gallbladderPoints.Add(upperLeftStomach);
-		gallbladderPoints.Add(upperLeftStomachEdge);
-		gallbladderPoints.Add (aboveAndRightBellyButton);
-
-		cholecystectomyPoints.Add(bellyButton);
-		cholecystectomyPoints.Add(upperLeftStomach);
-		cholecystectomyPoints.Add(upperLeftStomachEdge);
-		cholecystectomyPoints.Add(bottomSternum);
-
-		rightRenalPoints.Add(bellyButton);
-		rightRenalPoints.Add(aboveAndRightBellyButton);
-		rightRenalPoints.Add(bellowRightBellyButton);
-		rightRenalPoints.Add(rightBellyButtonEdge);
-
-		leftNephrectomyPoints.Add(bellyButton);
-		leftNephrectomyPoints.Add (belowBellyButton);
-		leftNephrectomyPoints.Add (lowerLeftStomach);
-		leftNephrectomyPoints.Add (aboveBellyButton);
-
-
-
-		availableCorrectPointSets.Add(new Question(appendectomyPoints, "Appendectomy"));
-		availableCorrectPointSets.Add(new Question(gallbladderPoints, "Gallbladder"));
-		availableCorrectPointSets.Add(new Question(cholecystectomyPoints, "Cholecystectomy"));
-		availableCorrectPointSets.Add(new Question(rightRenalPoints, "Right Renal"));
-		availableCorrectPointSets.Add(new Question(leftNephrectomyPoints, "Left Nephrectomy"));
-
-
 		//Initialize correct torcar sizes and body positions
 		//trocar sizes one is unused
 
-		/*
-		trocarSizes = new Dictionary<string, float>();
-		trocarSizes.Add("Appendectomy", 0.010F);
-		trocarSizes.Add("Gallbladder", 0.015F);
-		trocarSizes.Add("Cholecystectomy", 0.010F);
-		trocarSizes.Add("Right Renal", 0.010F);
-		trocarSizes.Add("Left Nephrectomy", 0.010F);
-
-		bodyPositions = new Dictionary<string, string>();
-		bodyPositions.Add("Appendectomy", "flat");
-		bodyPositions.Add("Gallbladder", "side");
-		bodyPositions.Add("Cholecystectomy", "side");
-		bodyPositions.Add("Right Renal", "flat");
-		bodyPositions.Add("Left Nephrectomy", "side");
-		*/
 
 		ReadFile ();
 
@@ -253,15 +200,7 @@ public class SimulatorController : MonoBehaviour {
 		else { rotateGUImag = 4; }
 		//debugg roger
 		//GUI.Box (new Rect (Screen.width * .5f, 0, 300, 100), "R*" + tilt.transform.rotation.eulerAngles.x);
-		// /debug
-		//if(GUI.Button(new Rect(0+(GUImodifier*.5f), 0, Screen.width * 0.115F, Screen.height * 0.5F), "swipe\nup or\n down here\n to rotate\naround\nthe patient"))
-		//{ }
-
 		//roger
-
-
-		//turn = GUI.VerticalScrollbar(new Rect(Screen.width * 0.15f+GUImodifier, Screen.height * 0.2f, Screen.width * 0.3F, Screen.height * 0.3F), turn, 0.5F, 5.0F, 0.5F);
-		//Debug.Log("turn = " + turn);
 
 		if(isShowingAlert)
 		{
@@ -483,35 +422,18 @@ public class SimulatorController : MonoBehaviour {
 		{
 			//Debug.Log("This works for " + CheckPosition(lastPlacedTrocar) + "!");
 
-			//if(trocarSizes[currentQuestion.text] == 0.005)
-			//if(CheckPosition(lastPlacedTrocar) == "5")
-			//{
-				//Debug.Log("This works for " + CheckPosition(lastPlacedTrocar) + "!");
-				//correct
-				//StartCoroutine(showAlert("Correct!"));
 				selectTrocarSize = false;
 				lastPlacedTrocar.renderer.enabled = true;
 				//make trocar visible
 				//lastPlacedTrocar.transform.scale = ???;
 				foreach(Renderer rend in lastPlacedTrocar.GetComponentsInChildren<Renderer>())
 					rend.enabled = true;
-			//}
-			//else
-			//{
-				//StartCoroutine(showAlert("Incorrect!")); roger
-				//trocar size can also be personal preference
-			//}
+
 		}
 
 		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.42F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "10"))
 		{
 
-			//if(trocarSizes[currentQuestion.text] == 0.010F)
-			//if(CheckPosition(lastPlacedTrocar) == "10")
-			//{
-				//Debug.Log("This works for " + CheckPosition(lastPlacedTrocar) + "!");
-				//correct
-				//StartCoroutine(showAlert("Correct!"));
 				selectTrocarSize = false;
 				lastPlacedTrocar.renderer.enabled = true;
 				lastPlacedTrocar.transform.localScale += new Vector3(.25F, .25F,.25F);
@@ -520,11 +442,7 @@ public class SimulatorController : MonoBehaviour {
 				//lastPlacedTrocar.transform.scale = ???;
 				foreach(Renderer rend in lastPlacedTrocar.GetComponentsInChildren<Renderer>())
 					rend.enabled = true;
-			//}
-			//else
-			//{
-				//StartCoroutine(showAlert("Incorrect!")); roger
-			//}
+
 		}
 
 		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.67F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "15"))
@@ -538,15 +456,9 @@ public class SimulatorController : MonoBehaviour {
 				lastPlacedTrocar.renderer.enabled = true;
 				lastPlacedTrocar.transform.localScale += new Vector3(.5F, .5F, .5F);
 
-				//make trocar visible
-				//lastPlacedTrocar.transform.scale = ???;
 				foreach(Renderer rend in lastPlacedTrocar.GetComponentsInChildren<Renderer>())
 					rend.enabled = true;
-			//}
-			//else
-			//{
-				//StartCoroutine(showAlert("Incorrect!"));	
-			//}
+
 		}
 	}
 
@@ -582,22 +494,7 @@ public class SimulatorController : MonoBehaviour {
 				StartCoroutine(showAlert("Incorrect!"));
 			}
 		}
-		/* roger - commented out because only "flat" and "side" positions are needed (for now)
-		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.67F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "Right Side"))
-		{
-			if(bodyPositions[currentQuestion.text] == "right side")
-			{
-				//correct
-				StartCoroutine(showAlert("Correct!"));
-				ChangeBodyPositon();
-				askingPosandSize = false;
-			}
-			else
-			{
-				StartCoroutine(showAlert("Incorrect!"));	
-			}
-		}
-		*/
+
 	}
 
 	IEnumerator showAlert(string text)
@@ -670,9 +567,7 @@ public class SimulatorController : MonoBehaviour {
 								//if not an empty point, and the collision happened on the way down, not on the way up
 								if(!point.Equals(Vector3.zero) && lastIncisionTime + incisionDelay < Time.time)// && pointNormal.y < -.1 && pointNormal.y > -1.5)
 								{
-									//Debug.Log ("Valid Normal"+ pointNormal);
-									//point = scalpel.transform.position;
-									//Debug.Log (point);
+	
 
 									//get trocar to stick out more
 									Vector3 pointAdjusted = point;
@@ -1113,32 +1008,8 @@ public class SimulatorController : MonoBehaviour {
 		{
 			questions.Equals(null);
 		}
-/*
-		appendectomyPoints.Clear();
-		
-		gallbladderPoints.Clear ();
-		
-		cholecystectomyPoints.Clear();
-		
-		rightRenalPoints.Clear ();
-		
-		leftNephrectomyPoints.Clear();
-*/
 		availableCorrectPointSets.Clear();
 	}
-
-	//move this to the front
-	//int numSurgery = 30;
-	//string [] surgeryNames = new string[numSurgery];
-	//string [] patientPositions = new string[numSurgery];
-	//List < List <Vector3> > surgeryPoints;
-
-	//probably place in start()
-
-	// /move
-	//gallbladder side belowBellyButton BellyButton
-	//right renal flat bellyButton belowBellyButton
-
 
 	void ReadFile()
 	{
@@ -1227,24 +1098,6 @@ public class SimulatorController : MonoBehaviour {
 						vectors.Add(aboveBellyButton);
 					}	
 
-					//roger debugging
-					if(threes == "roger")
-					{ 
-						vectors.Add(rogers);
-					}	
-					if(threes == "stuffs")
-					{ 
-						vectors.Add(stuffs);
-					}
-					if(threes == "muchwow")
-					{ 
-						vectors.Add(muchwow);
-					}
-					if(threes == "doge")
-					{ 
-						vectors.Add(doge);
-					}
-					// /debugging
 				}
 
 				//
@@ -1257,9 +1110,7 @@ public class SimulatorController : MonoBehaviour {
 			i++;
 		}
 
-
 	}
-
 
 	// /roger
 }
