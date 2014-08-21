@@ -60,11 +60,11 @@ public class SimulatorController : MonoBehaviour {
 	List<Question> availableCorrectPointSets;
 	//list of all visible trocars (so they can be deleted)
 	List<GameObject> visibleTrocars;
+	
+	//Dictionary<string, float> trocarSizes;
 
-
-
-	Dictionary<string, float> trocarSizes;
 	Dictionary<string, string> bodyPositions;
+
 	bool askingPosandSize = true;
 	bool answeredSize = false;
 	Rect posAndSizeWindowRect = new Rect(Screen.height * 0.25F,  Screen.width * 0.15F, Screen.height * 0.5F, Screen.width * 0.7F);
@@ -112,14 +112,16 @@ public class SimulatorController : MonoBehaviour {
 	bool practiceMode = true; //if false, then in quiz taking mode
 	bool answering = true;	//if false, then already checked answers and waiting to move to next question
 	bool guiHidden = false; //hide/show state of gui
-	
+
+	/*
 	//list of points for each surgery
 	List<Vector3> appendectomyPoints = new List<Vector3>();
 	List<Vector3> gallbladderPoints = new List<Vector3>();
 	List<Vector3> cholecystectomyPoints = new List<Vector3>();
 	List<Vector3> rightRenalPoints = new List<Vector3>();
 	List<Vector3> leftNephrectomyPoints = new List<Vector3>();
-	
+	*/
+
 	//points to use for reference
 	Vector3 belowBellyButton = new Vector3(-55.48f, 5.45f, -16.61f);
 	Vector3 bellyButton = new Vector3(-55.38f, 5.45f, -16.61f);
@@ -139,7 +141,6 @@ public class SimulatorController : MonoBehaviour {
 		//make screen orient to the left
 		Screen.orientation = ScreenOrientation.LandscapeLeft;
 		//add some textures
-
 
 		//Color roger = skin.renderer.material.color;
 		//roger.a = .25F;
@@ -377,7 +378,7 @@ public class SimulatorController : MonoBehaviour {
 					if(positionChanged)
 					{
 						//turn camera and patient 90 degrees
-						patient.transform.Rotate(270,0,0);
+						patient.transform.Rotate(315,0,0);
 						//cameraOne.transform.Rotate(90,0,0);
 						positionChanged = false; //indicates that position has been changed
 					}
@@ -395,7 +396,7 @@ public class SimulatorController : MonoBehaviour {
 				
 					//remove previous question so it's not asked again
 					availableCorrectPointSets.Remove(currentQuestion);
-					ChangeBodyPositon(); //roger - this should change body position back if the position is either left side or right side
+					ChangeBodyPositon(); //roger - this should change body position back if the position is either left Lateral or right Lateral
 					FixPos (); //roger
 					changeQuestion();
 					answering = true;
@@ -431,7 +432,7 @@ public class SimulatorController : MonoBehaviour {
 
 		}
 
-		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.42F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "10"))
+		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.42F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "12"))
 		{
 
 				selectTrocarSize = false;
@@ -445,10 +446,10 @@ public class SimulatorController : MonoBehaviour {
 
 		}
 
-		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.67F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "15"))
+		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.67F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "12"))
 		{
 
-			//if(CheckPosition(lastPlacedTrocar) == "15")
+			//if(CheckPosition(lastPlacedTrocar) == "12")
 			//{
 				//Debug.Log("This works for " + CheckPosition(lastPlacedTrocar) + "!");
 				//StartCoroutine(showAlert("Correct!"));
@@ -466,9 +467,9 @@ public class SimulatorController : MonoBehaviour {
 	{
 		GUI.Label(new Rect(posAndSizeWindowRect.width * 0.1F, posAndSizeWindowRect.height * 0.07F, posAndSizeWindowRect.width * 0.9F, posAndSizeWindowRect.height * 0.2F), "What is the patient position?");
 
-		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.17F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "Flat"))
+		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.17F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "Supine"))
 		{
-			if(bodyPositions[currentQuestion.text] == "flat")
+			if(bodyPositions[currentQuestion.text] == "Supine")
 			{
 				//correct
 				StartCoroutine(showAlert("Correct!"));
@@ -480,9 +481,9 @@ public class SimulatorController : MonoBehaviour {
 			}
 		}
 
-		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.42F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "Side"))
+		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.42F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "Lateral"))
 		{
-			if(bodyPositions[currentQuestion.text] == "side")
+			if(bodyPositions[currentQuestion.text] == "Lateral")
 			{
 				//correct
 				StartCoroutine(showAlert("Correct!"));
@@ -515,6 +516,7 @@ public class SimulatorController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
+
 		//Debug.Log("transparent = " + transparent);
 
 		//resize trocars based on position
@@ -646,7 +648,7 @@ public class SimulatorController : MonoBehaviour {
 				float distanceMagnitude = distanceBetweenPoints.magnitude;
 
 				//if chosen close enough
-				if(distanceMagnitude < .07f)
+				if(distanceMagnitude < .02f)
 				{
 					//roger commented out the next line
 					//Debug.Log (chosenPoint.ToString() +  correctPoint.ToString() + distanceMagnitude.ToString());
@@ -815,25 +817,25 @@ public class SimulatorController : MonoBehaviour {
 
 	//roger
 
-	//changes body position of the patient to lay on the side and does the same for the camera
+	//changes body position of the patient to be Lateral and does the same for the camera
 	//so that the patient is always in bird's eye view relative to the patient
 	void ChangeBodyPositon()
 	{
-		//check if patient should be laying on their side
-		if(bodyPositions[currentQuestion.text] == "side")
+		//check if patient should be Lateral
+		if(bodyPositions[currentQuestion.text] == "Lateral")
 		{
 			//check if the position has already been changed
 			if(positionChanged)
 			{
-				//turn camera and patient 90 degrees
-				patient.transform.Rotate(270,0,0);
+				//turn camera and patient 45 degrees
+				patient.transform.Rotate(315,0,0);
 				//cameraOne.transform.Rotate(90,0,0);
 				positionChanged = false; //indicates that position has been changed
 			}
 			else
 			{
 				//change position back
-				patient.transform.Rotate(-270,0,0);
+				patient.transform.Rotate(-315,0,0);
 				//cameraOne.transform.Rotate(-90,0,0);
 				positionChanged = true; //indicates that position has been changed back
 			}
@@ -856,7 +858,7 @@ public class SimulatorController : MonoBehaviour {
 		if( (placedTrocar.transform.position.z > 30 && placedTrocar.transform.position.z < 40)
 		   && (placedTrocar.transform.position.x > 30 && placedTrocar.transform.position.x < 40) )
 		{
-			return "15";
+			return "12";
 		}
 		else if( (placedTrocar.transform.position.z > 30 && placedTrocar.transform.position.z < 40)
 		        && (placedTrocar.transform.position.x > 30 && placedTrocar.transform.position.x < 40) )
@@ -902,7 +904,7 @@ public class SimulatorController : MonoBehaviour {
 		//check if position has been changed
 		/* the idea behind this is to ensure that the camera's is properly oriented 
 		 * so that the user is not able to move the camera around the entire table
-		 * and they are able to see the top and one side of the patient at all times
+		 * and they are able to see the top and one Lateral of the patient at all times
 		 */
 
 		//check is position is changed
@@ -932,7 +934,7 @@ public class SimulatorController : MonoBehaviour {
 			}
 		}
 
-		//if the patient has to be on the side, check the moved flag again
+		//if the patient has to be  Lateral, check the moved flag again
 		if(positionChanged)
 		{
 			//if the camera has not yet been moved and is supposed to be
@@ -992,7 +994,7 @@ public class SimulatorController : MonoBehaviour {
 	void FixPos()
 	{
 		//changerquestion
-		if(bodyPositions[currentQuestion.text] == "side")
+		if(bodyPositions[currentQuestion.text] == "Lateral")
 		{
 			tilt.transform.rotation = Quaternion.Euler(110,0,0);
 		}
