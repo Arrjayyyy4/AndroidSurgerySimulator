@@ -123,6 +123,8 @@ public class SimulatorController : MonoBehaviour {
 	*/
 
 	//points to use for reference
+
+	/*
 	Vector3 belowBellyButton = new Vector3(-55.48f, 5.45f, -16.61f);
 	Vector3 bellyButton = new Vector3(-55.38f, 5.45f, -16.61f);
 	Vector3 aboveAndRightBellyButton = new Vector3(-55.31f, 5.48f, -16.65f);
@@ -133,6 +135,9 @@ public class SimulatorController : MonoBehaviour {
 	Vector3 rightBellyButtonEdge = new Vector3(-55.37f, 5.41f, -16.73f);
 	Vector3 lowerLeftStomach = new Vector3(-55.42f, 5.45f, -16.50f);
 	Vector3 aboveBellyButton = new Vector3(-55.3f, 5.47f, -16.61f);
+	*/ 
+
+
 
 	// Use this for initialization
 	void Start () 
@@ -141,6 +146,7 @@ public class SimulatorController : MonoBehaviour {
 		//make screen orient to the left
 		Screen.orientation = ScreenOrientation.LandscapeLeft;
 		//add some textures
+
 
 		//Color roger = skin.renderer.material.color;
 		//roger.a = .25F;
@@ -469,6 +475,8 @@ public class SimulatorController : MonoBehaviour {
 
 		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.17F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "Supine"))
 		{
+			Debug.Log(bodyPositions[currentQuestion.text]);
+
 			if(bodyPositions[currentQuestion.text] == "Supine")
 			{
 				//correct
@@ -967,6 +975,8 @@ public class SimulatorController : MonoBehaviour {
 		if( GameObject.Find("trocarPurple(Clone)") )
 		{
 			GameObject placed = GameObject.Find ("trocarPurple(Clone)");
+			Vector3 belowBellyButton = new Vector3(-55.48f, 5.45f, -16.61f);
+			Vector3 bellyButton = new Vector3(-55.38f, 5.45f, -16.61f);
 
 			//Debug.Log("found it!");
 			if(placed.transform.position == belowBellyButton || placed.transform.position == bellyButton)
@@ -976,11 +986,31 @@ public class SimulatorController : MonoBehaviour {
 			}
 			else { placed.name = "trocarPurple(Clone)2"; }
 		}
+
+
+		//take out this block
+		/*
+		if(GameObject.Find("troc") )
+		{
+			GameObject pointe = GameObject.Find("troc");
+			string tens = System.IO.File.ReadAllText("points.txt");
+
+			using (StreamWriter writer = new StreamWriter("points.txt"))
+			{
+				writer.WriteLine (tens + " ");
+				writer.Write(pointe.transform.position.x + " " + pointe.transform.position.y + " " + pointe.transform.position.z);
+			}
+			Destroy(pointe);
+		}
+		*/
+
+
 	}
 
 	void FindObject(GameObject placed)
 	{
-					
+			Vector3 belowBellyButton = new Vector3(-55.48f, 5.30f, -16.61f);
+			Vector3 bellyButton = new Vector3(-55.38f, 5.30f, -16.61f);		
 			//Debug.Log("found it!");
 			if(placed.transform.position == belowBellyButton || placed.transform.position == bellyButton)
 			{
@@ -1029,6 +1059,7 @@ public class SimulatorController : MonoBehaviour {
 		int i=1;
 		foreach(string contents in roger)
 		{
+			//Debug.Log(contents);
 			if( (i-1)%3 == 0)
 			{
 				//Debug.Log("surgery names = " + contents);
@@ -1050,55 +1081,31 @@ public class SimulatorController : MonoBehaviour {
 			{
 				List<Vector3> vectors = new List<Vector3>();
 				//Debug.Log("ct initial = " + vectors.Count + " for surgery " + nameSurgery);;
+				List<float> coords = new List<float>();
 
 				string [] pts = contents.Split();
 				//Debug.Log(pts[0] + " points = " + pts[1]);
-
+				int r = 1;
 				foreach( string threes in pts)
 				{
 
-					//Debug.Log(threes);
+					//Debug.Log(r);
 
-					if(threes == "belowBellyButton")
-					{ 
-						vectors.Add(belowBellyButton);
+					if( (r%3) == 0)
+					{
+						//Debug.Log(r + " %3 = " + (r%3) );
+						coords.Add(float.Parse(threes));
+						Vector3 tempVector = new Vector3(coords[0],coords[1],coords[2]);
+						coords.Clear();
+						//Debug.Log("-> " + tempVector);
+						vectors.Add (tempVector);
 					}
-					if(threes == "bellyButton")
-					{ 
-						vectors.Add(bellyButton);
+					else
+					{
+						coords.Add(float.Parse(threes));
 					}
-					if(threes == "aboveAndRightBellyButton")
-					{ 
-						vectors.Add(aboveAndRightBellyButton);
-					}					
-					if(threes == "upperLeftStomachEdge")
-					{ 
-						vectors.Add(upperLeftStomachEdge);
-					}	
-					if(threes == "upperLeftStomach")
-					{ 
-						vectors.Add(upperLeftStomach);
-					}		
-					if(threes == "bottomSternum")
-					{ 
-						vectors.Add(bottomSternum);
-					}	
-					if(threes == "bellowRightBellyButton")
-					{ 
-						vectors.Add(bellowRightBellyButton);
-					}	
-					if(threes == "rightBellyButtonEdge")
-					{ 
-						vectors.Add(rightBellyButtonEdge);
-					}
-					if(threes == "lowerLeftStomach")
-					{ 
-						vectors.Add(lowerLeftStomach);
-					}	
-					if(threes == "aboveBellyButton")
-					{ 
-						vectors.Add(aboveBellyButton);
-					}	
+
+					r++;
 
 				}
 
@@ -1113,6 +1120,8 @@ public class SimulatorController : MonoBehaviour {
 		}
 
 	}
+
+
 
 	// /roger
 }
