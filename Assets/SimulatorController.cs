@@ -5,6 +5,9 @@ using System.IO;
 using System.Text;
 
 public class SimulatorController : MonoBehaviour {
+	//TODO bellybutton accuracy
+	//TODO trocar scales
+	//TODO trocar checker
 	//roger
 	public static bool transparent = false;
 	public float turn = 0.0F;
@@ -65,6 +68,9 @@ public class SimulatorController : MonoBehaviour {
 
 	Dictionary<string, string> bodyPositions;
 
+	Dictionary<string, Dictionary<Vector3, float>> surgerySizes; // for trocar sizes
+
+
 	bool askingPosandSize = true;
 	bool answeredSize = false;
 	Rect posAndSizeWindowRect = new Rect(Screen.height * 0.25F,  Screen.width * 0.15F, Screen.height * 0.5F, Screen.width * 0.7F);
@@ -124,9 +130,9 @@ public class SimulatorController : MonoBehaviour {
 
 	//points to use for reference
 
+	Vector3 bellyButton = new Vector3(-55.38f, 5.45f, -16.61f);
 	/*
 	Vector3 belowBellyButton = new Vector3(-55.48f, 5.45f, -16.61f);
-	Vector3 bellyButton = new Vector3(-55.38f, 5.45f, -16.61f);
 	Vector3 aboveAndRightBellyButton = new Vector3(-55.31f, 5.48f, -16.65f);
 	Vector3 upperLeftStomach = new Vector3(-55.37f, 5.45f, -16.53f);
 	Vector3 upperLeftStomachEdge = new Vector3(-55.36f, 5.45f, -16.45f);
@@ -656,18 +662,20 @@ public class SimulatorController : MonoBehaviour {
 				float distanceMagnitude = distanceBetweenPoints.magnitude;
 
 				//if chosen close enough
-				if(distanceMagnitude < .02f)
+				if(distanceMagnitude < .05f)
 				{
 					//roger commented out the next line
 					//Debug.Log (chosenPoint.ToString() +  correctPoint.ToString() + distanceMagnitude.ToString());
 					//add them to list of correct points
 					correctUserAnswers.Add(correctPoint);
-	
+					
 					//don't allow point to be double counted
 					correctPoints.Remove(correctPoint);
 
 					break;
 				}
+
+
 			}
 		}
 		//if didn't find a match for a point, it was left in correctPoints list
@@ -687,6 +695,13 @@ public class SimulatorController : MonoBehaviour {
 			foreach(MeshRenderer renderer in trocarRenderers)
 			{
 				renderer.renderer.material.color = Color.green;
+			}
+
+			Vector3 buttonRange = (point - bellyButton);
+			if(buttonRange.magnitude > 0.1f && buttonRange.magnitude < 0.55f)
+			{
+				renderer.renderer.material.color = Color.red;
+				Debug.Log("this is red now!");
 			}
 
 			visibleTrocars.Add(newTrocar);
@@ -988,19 +1003,19 @@ public class SimulatorController : MonoBehaviour {
 		}
 
 
-		//take out this block
+		//this block will be used to find positions
 		/*
 		if(GameObject.Find("troc") )
 		{
-			GameObject pointe = GameObject.Find("troc");
+			GameObject placements = GameObject.Find("troc");
 			string tens = System.IO.File.ReadAllText("points.txt");
 
 			using (StreamWriter writer = new StreamWriter("points.txt"))
 			{
 				writer.WriteLine (tens + " ");
-				writer.Write(pointe.transform.position.x + " " + pointe.transform.position.y + " " + pointe.transform.position.z);
+				writer.Write("x->" + placements.transform.position.x + " z->" + placements.transform.position.z);
 			}
-			Destroy(pointe);
+			Destroy(placements);
 		}
 		*/
 
@@ -1049,13 +1064,14 @@ public class SimulatorController : MonoBehaviour {
 		availableCorrectPointSets = new List<Question>();
 		bodyPositions = new Dictionary<string, string>();
 
+		surgerySizes = new Dictionary<string, Dictionary<Vector3, float>>();
+
 		string[] roger = surgeryList.text.Split("\n"[0]);
-		//string [] roger = System.IO.File.ReadAllLines("Assets/SurgeryPoints.txt");
 		//for now I will add the names of the positions that they would be on the body
 
 		List<Question> surgery;
 		string nameSurgery = "none";
-
+		float currentSize = 0.0f;
 		int i=1;
 		foreach(string contents in roger)
 		{
@@ -1065,7 +1081,6 @@ public class SimulatorController : MonoBehaviour {
 				//Debug.Log("surgery names = " + contents);
 				nameSurgery = contents;
 				nameSurgery.Replace('_',' ');
-
 			}
 
 			if( (i+1)%3 == 0)
@@ -1080,7 +1095,7 @@ public class SimulatorController : MonoBehaviour {
 			if(i%3 == 0)
 			{
 				List<Vector3> vectors = new List<Vector3>();
-				//Debug.Log("ct initial = " + vectors.Count + " for surgery " + nameSurgery);;
+				//Debug.Log("ct initial = " + vectors.Count + " for surgery " + nameSurgery);
 				List<float> coords = new List<float>();
 
 				string [] pts = contents.Split();
@@ -1091,14 +1106,15 @@ public class SimulatorController : MonoBehaviour {
 
 					//Debug.Log(r);
 
-					if( (r%3) == 0)
+					if( (r%4) == 0)
 					{
-						//Debug.Log(r + " %3 = " + (r%3) );
 						coords.Add(float.Parse(threes));
-						Vector3 tempVector = new Vector3(coords[0],coords[1],coords[2]);
-						coords.Clear();
-						//Debug.Log("-> " + tempVector);
+						Vector3 tempVector = new Vector3(coords[1],coords[2],coords[3]);
 						vectors.Add (tempVector);
+						currentSize = coords[0];
+
+						//surgerySizes.Add(tempVector,coords[0]);
+						coords.Clear();
 					}
 					else
 					{
@@ -1118,6 +1134,7 @@ public class SimulatorController : MonoBehaviour {
 			}
 			i++;
 		}
+
 
 	}
 
