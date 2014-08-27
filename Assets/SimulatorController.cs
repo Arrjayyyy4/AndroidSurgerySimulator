@@ -119,29 +119,10 @@ public class SimulatorController : MonoBehaviour {
 	bool answering = true;	//if false, then already checked answers and waiting to move to next question
 	bool guiHidden = false; //hide/show state of gui
 
-	/*
-	//list of points for each surgery
-	List<Vector3> appendectomyPoints = new List<Vector3>();
-	List<Vector3> gallbladderPoints = new List<Vector3>();
-	List<Vector3> cholecystectomyPoints = new List<Vector3>();
-	List<Vector3> rightRenalPoints = new List<Vector3>();
-	List<Vector3> leftNephrectomyPoints = new List<Vector3>();
-	*/
 
 	//points to use for reference
 
 	Vector3 bellyButton = new Vector3(-55.38f, 5.45f, -16.61f);
-	/*
-	Vector3 belowBellyButton = new Vector3(-55.48f, 5.45f, -16.61f);
-	Vector3 aboveAndRightBellyButton = new Vector3(-55.31f, 5.48f, -16.65f);
-	Vector3 upperLeftStomach = new Vector3(-55.37f, 5.45f, -16.53f);
-	Vector3 upperLeftStomachEdge = new Vector3(-55.36f, 5.45f, -16.45f);
-	Vector3 bottomSternum = new Vector3(-55.145f, 5.50f, -16.62f);
-	Vector3 bellowRightBellyButton = new Vector3(-55.47f, 5.44f, -16.70f);
-	Vector3 rightBellyButtonEdge = new Vector3(-55.37f, 5.41f, -16.73f);
-	Vector3 lowerLeftStomach = new Vector3(-55.42f, 5.45f, -16.50f);
-	Vector3 aboveBellyButton = new Vector3(-55.3f, 5.47f, -16.61f);
-	*/ 
 
 
 
@@ -431,7 +412,7 @@ public class SimulatorController : MonoBehaviour {
 	{
 		GUI.Label(new Rect(posAndSizeWindowRect.width * 0.1F, posAndSizeWindowRect.height * 0.07F, posAndSizeWindowRect.width * 0.9F, posAndSizeWindowRect.height * 0.2F), "What is the correct trocar size?");
 
-		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.17F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "5"))
+		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.17F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "5mm"))
 		{
 			//Debug.Log("This works for " + CheckPosition(lastPlacedTrocar) + "!");
 
@@ -444,7 +425,7 @@ public class SimulatorController : MonoBehaviour {
 
 		}
 
-		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.42F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "12"))
+		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.42F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "10mm"))
 		{
 
 				selectTrocarSize = false;
@@ -458,7 +439,7 @@ public class SimulatorController : MonoBehaviour {
 
 		}
 
-		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.67F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "12"))
+		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.67F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "12mm"))
 		{
 
 			//if(CheckPosition(lastPlacedTrocar) == "12")
@@ -696,14 +677,14 @@ public class SimulatorController : MonoBehaviour {
 			{
 				renderer.renderer.material.color = Color.green;
 			}
-
+			/*
 			Vector3 buttonRange = (point - bellyButton);
 			if(buttonRange.magnitude > 0.1f && buttonRange.magnitude < 0.55f)
 			{
 				renderer.renderer.material.color = Color.red;
 				Debug.Log("this is red now!");
 			}
-
+			*/
 			visibleTrocars.Add(newTrocar);
 			numCorrect++;
 
