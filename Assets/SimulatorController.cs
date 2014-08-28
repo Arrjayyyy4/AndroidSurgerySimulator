@@ -60,7 +60,7 @@ public class SimulatorController : MonoBehaviour {
 	//list of chosen points for the current question
 	List<Vector3> chosenPoints;
 	//list of all available questions
-	List<Question> availableCorrectPointSets;
+	List<Surgery> availableCorrectPointSets;
 	//list of all visible trocars (so they can be deleted)
 	List<GameObject> visibleTrocars;
 	
@@ -90,7 +90,7 @@ public class SimulatorController : MonoBehaviour {
 	float lastIncisionTime;
 	
 	//current question being asked
-	Question currentQuestion;
+	Surgery currentQuestion;
 
 	bool canPlaceTrocars;
 
@@ -158,7 +158,7 @@ public class SimulatorController : MonoBehaviour {
 
 		correctPoints = new List<Vector3>();
 		chosenPoints = new List<Vector3>();
-		availableCorrectPointSets = new List<Question>();
+		availableCorrectPointSets = new List<Surgery>();
 		visibleTrocars = new List<GameObject>();
 
 		//Initialize correct torcar sizes and body positions
@@ -396,7 +396,7 @@ public class SimulatorController : MonoBehaviour {
 					answeredSize = false;
 					askingPosandSize = true;
 					selectTrocarSize = false;
-					Debug.Log (currentQuestion.text + " is the current question  Remaining questions: " + availableCorrectPointSets.Count);
+					//Debug.Log (currentQuestion.text + " is the current question  Remaining questions: " + availableCorrectPointSets.Count);
 				}
 			}
 		}
@@ -430,7 +430,7 @@ public class SimulatorController : MonoBehaviour {
 
 				selectTrocarSize = false;
 				lastPlacedTrocar.renderer.enabled = true;
-				lastPlacedTrocar.transform.localScale += new Vector3(.25F, .25F,.25F);
+				lastPlacedTrocar.transform.localScale += new Vector3(.10F, .10F,.10F);
 
 				//make trocar visible
 				//lastPlacedTrocar.transform.scale = ???;
@@ -448,7 +448,7 @@ public class SimulatorController : MonoBehaviour {
 				//StartCoroutine(showAlert("Correct!"));
 				selectTrocarSize = false;
 				lastPlacedTrocar.renderer.enabled = true;
-				lastPlacedTrocar.transform.localScale += new Vector3(.5F, .5F, .5F);
+				lastPlacedTrocar.transform.localScale += new Vector3(.12F, .12F, .12F);
 
 				foreach(Renderer rend in lastPlacedTrocar.GetComponentsInChildren<Renderer>())
 					rend.enabled = true;
@@ -462,7 +462,7 @@ public class SimulatorController : MonoBehaviour {
 
 		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.17F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "Supine"))
 		{
-			Debug.Log(bodyPositions[currentQuestion.text]);
+			//Debug.Log(bodyPositions[currentQuestion.text]);
 
 			if(bodyPositions[currentQuestion.text] == "Supine")
 			{
@@ -641,6 +641,20 @@ public class SimulatorController : MonoBehaviour {
 				Vector3 distanceBetweenPoints = new Vector3(correctPoint.x - chosenPoint.x,
 				                                            0,correctPoint.z-chosenPoint.z);
 				float distanceMagnitude = distanceBetweenPoints.magnitude;
+
+
+				for(int i=0; i< currentQuestion.sizes.Count; ++i)
+				{
+					if(currentQuestion.points[i] == chosenPoint)
+					{
+						//if()
+						//{
+
+						//}
+
+					}
+				}
+
 
 				//if chosen close enough
 				if(distanceMagnitude < .05f)
@@ -971,16 +985,47 @@ public class SimulatorController : MonoBehaviour {
 		if( GameObject.Find("trocarPurple(Clone)") )
 		{
 			GameObject placed = GameObject.Find ("trocarPurple(Clone)");
-			Vector3 belowBellyButton = new Vector3(-55.48f, 5.45f, -16.61f);
-			Vector3 bellyButton = new Vector3(-55.38f, 5.45f, -16.61f);
+			//Vector3 belowBellyButton = new Vector3(-55.48f, 5.45f, -16.61f);
+			//Vector3 bellyButton = new Vector3(-55.38f, 5.45f, -16.61f);
 
 			//Debug.Log("found it!");
-			if(placed.transform.position == belowBellyButton || placed.transform.position == bellyButton)
+
+			//get question name
+			//for that question name get the position of the trocar
+			//get the index in the list for the index of the trocar
+			for(int i=0; i< currentQuestion.sizes.Count; ++i)
+			{
+				if(currentQuestion.points[i] == placed.transform.position)
+				{
+					if(currentQuestion.sizes[i] == 5f)
+					{
+						placed.transform.localScale += new Vector3(.05f,.05f,.05f);
+						placed.name = "trocarPurple(Clone)1";
+					}
+					if(currentQuestion.sizes[i] == 10f)
+					{
+						Debug.Log("beforescale = " + placed.transform.localScale + "!!");
+						//placed.transform.localScale += new Vector3(.25f,.25f,.25f);
+						Debug.Log("scale = " + placed.transform.localScale + "<-");
+						//placed.name = "trocarPurple(Clone)1";
+					}
+					if(currentQuestion.sizes[i] == 12f)
+					{
+						placed.transform.localScale += new Vector3(.5f,.5f,.5f);
+						placed.name = "trocarPurple(Clone)1";
+
+					}
+				}
+			}
+
+			/*
+			if(something)
 			{
 				placed.transform.localScale += new Vector3(.5F, .5F, .5F);
 				placed.name = "trocarPurple(Clone)1";
 			}
 			else { placed.name = "trocarPurple(Clone)2"; }
+			*/
 		}
 
 
@@ -1005,15 +1050,30 @@ public class SimulatorController : MonoBehaviour {
 
 	void FindObject(GameObject placed)
 	{
-			Vector3 belowBellyButton = new Vector3(-55.48f, 5.30f, -16.61f);
-			Vector3 bellyButton = new Vector3(-55.38f, 5.30f, -16.61f);		
-			//Debug.Log("found it!");
-			if(placed.transform.position == belowBellyButton || placed.transform.position == bellyButton)
+		for(int i=0; i< currentQuestion.sizes.Count; ++i)
+		{
+			if(currentQuestion.points[i] == placed.transform.position)
 			{
-				placed.transform.localScale += new Vector3(.5F, .5F, .5F);
-				placed.name = "trocarPurple(Clone)1";
+				if(currentQuestion.sizes[i] == 5f)
+				{
+					placed.transform.localScale += new Vector3(.05f,.05f,.05f);
+					placed.name = "trocarPurple(Clone)1";
+					
+				}
+				if(currentQuestion.sizes[i] == 10f)
+				{
+					placed.transform.localScale += new Vector3(.25f,.25f,.25f);
+					placed.name = "trocarPurple(Clone)1";
+					
+				}
+				if(currentQuestion.sizes[i] == 12f)
+				{
+					placed.transform.localScale += new Vector3(.5f,.5f,.5f);
+					placed.name = "trocarPurple(Clone)1";
+					
+				}
 			}
-			else { placed.name = "trocarPurple(Clone)2"; }
+		}
 
 	}
 
@@ -1032,7 +1092,7 @@ public class SimulatorController : MonoBehaviour {
 
 	void ClearAll()
 	{
-		foreach(Question questions in availableCorrectPointSets)
+		foreach(Surgery questions in availableCorrectPointSets)
 		{
 			questions.Equals(null);
 		}
@@ -1042,15 +1102,13 @@ public class SimulatorController : MonoBehaviour {
 	void ReadFile()
 	{
 	
-		availableCorrectPointSets = new List<Question>();
-		bodyPositions = new Dictionary<string, string>();
+		availableCorrectPointSets = new List<Surgery>();
 
-		surgerySizes = new Dictionary<string, Dictionary<Vector3, float>>();
+		bodyPositions = new Dictionary<string, string>();
 
 		string[] roger = surgeryList.text.Split("\n"[0]);
 		//for now I will add the names of the positions that they would be on the body
 
-		List<Question> surgery;
 		string nameSurgery = "none";
 		float currentSize = 0.0f;
 		int i=1;
@@ -1076,6 +1134,8 @@ public class SimulatorController : MonoBehaviour {
 			if(i%3 == 0)
 			{
 				List<Vector3> vectors = new List<Vector3>();
+				List<float> trocarValues = new List<float>();
+
 				//Debug.Log("ct initial = " + vectors.Count + " for surgery " + nameSurgery);
 				List<float> coords = new List<float>();
 
@@ -1084,7 +1144,6 @@ public class SimulatorController : MonoBehaviour {
 				int r = 1;
 				foreach( string threes in pts)
 				{
-
 					//Debug.Log(r);
 
 					if( (r%4) == 0)
@@ -1092,9 +1151,9 @@ public class SimulatorController : MonoBehaviour {
 						coords.Add(float.Parse(threes));
 						Vector3 tempVector = new Vector3(coords[1],coords[2],coords[3]);
 						vectors.Add (tempVector);
+						trocarValues.Add(coords[0]);
 						currentSize = coords[0];
 
-						//surgerySizes.Add(tempVector,coords[0]);
 						coords.Clear();
 					}
 					else
@@ -1106,9 +1165,8 @@ public class SimulatorController : MonoBehaviour {
 
 				}
 
-				//
-				//this.availableCorrectPointSets = new List<Question>();
-				availableCorrectPointSets.Add(new Question(vectors, nameSurgery));
+				//this.availableCorrectPointSets = new List<Question>()
+				availableCorrectPointSets.Add(new Surgery(vectors, trocarValues, nameSurgery));
 				//Debug.Log("ct final = " + vectors.Count + " for surgery " + nameSurgery);
 	
 				//update question and clear vectors
@@ -1118,7 +1176,6 @@ public class SimulatorController : MonoBehaviour {
 
 
 	}
-
 
 
 	// /roger
