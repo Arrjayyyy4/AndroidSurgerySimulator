@@ -8,7 +8,11 @@ public class SimulatorController : MonoBehaviour {
 	//TODO bellybutton accuracy
 	//TODO trocar scales
 	//TODO trocar checker
+	//TODO turn table
 	//roger
+	float fiveScale = .5f;
+	float tenScale = 1.0f;
+	float twelveScale = 1.2f;
 	public static bool transparent = false;
 	public float turn = 0.0F;
 	public bool sized = true;
@@ -59,6 +63,8 @@ public class SimulatorController : MonoBehaviour {
 	List<Vector3> correctPoints;
 	//list of chosen points for the current question
 	List<Vector3> chosenPoints;
+	//list of chosen sizes for the current question
+	List<float> chosenSizes;
 	//list of all available questions
 	List<Surgery> availableCorrectPointSets;
 	//list of all visible trocars (so they can be deleted)
@@ -158,6 +164,7 @@ public class SimulatorController : MonoBehaviour {
 
 		correctPoints = new List<Vector3>();
 		chosenPoints = new List<Vector3>();
+		chosenSizes = new List<float>();
 		availableCorrectPointSets = new List<Surgery>();
 		visibleTrocars = new List<GameObject>();
 
@@ -357,6 +364,7 @@ public class SimulatorController : MonoBehaviour {
 
 							visibleTrocars.Clear();
 							chosenPoints.Clear();
+							chosenSizes.Clear();
 						}
 					}
 				}
@@ -418,10 +426,12 @@ public class SimulatorController : MonoBehaviour {
 
 				selectTrocarSize = false;
 				lastPlacedTrocar.renderer.enabled = true;
-				//make trocar visible
-				//lastPlacedTrocar.transform.scale = ???;
+				lastPlacedTrocar.transform.localScale = new Vector3(.5f, .5f,.5f);
 				foreach(Renderer rend in lastPlacedTrocar.GetComponentsInChildren<Renderer>())
 					rend.enabled = true;
+			chosenSizes.Add(lastPlacedTrocar.transform.localScale.x * 10);
+			//Debug.Log("chosensizes = " + chosenSizes.Count + " ->" + chosenSizes[chosenSizes.Count-1] + " " + chosenPoints[chosenPoints.Count-1]);
+			//Debug.Log(lastPlacedTrocar.transform.localScale.x);
 
 		}
 
@@ -430,29 +440,25 @@ public class SimulatorController : MonoBehaviour {
 
 				selectTrocarSize = false;
 				lastPlacedTrocar.renderer.enabled = true;
-				lastPlacedTrocar.transform.localScale += new Vector3(.10F, .10F,.10F);
-
-				//make trocar visible
-				//lastPlacedTrocar.transform.scale = ???;
+				lastPlacedTrocar.transform.localScale = new Vector3(tenScale, tenScale,tenScale);
 				foreach(Renderer rend in lastPlacedTrocar.GetComponentsInChildren<Renderer>())
 					rend.enabled = true;
-
+			chosenSizes.Add(lastPlacedTrocar.transform.localScale.x * 10);
+			//Debug.Log("chosensizes = " + chosenSizes.Count + " ->" + chosenSizes[chosenSizes.Count-1] + " " + chosenPoints[chosenPoints.Count-1]);
+			//Debug.Log(lastPlacedTrocar.transform.localScale.x);
 		}
 
 		if(GUI.Button(new Rect(posAndSizeWindowRect.width * 0.25F, posAndSizeWindowRect.height * 0.67F, posAndSizeWindowRect.width * 0.5F, posAndSizeWindowRect.height * 0.2F), "12mm"))
 		{
-
-			//if(CheckPosition(lastPlacedTrocar) == "12")
-			//{
-				//Debug.Log("This works for " + CheckPosition(lastPlacedTrocar) + "!");
-				//StartCoroutine(showAlert("Correct!"));
 				selectTrocarSize = false;
 				lastPlacedTrocar.renderer.enabled = true;
-				lastPlacedTrocar.transform.localScale += new Vector3(.12F, .12F, .12F);
+				lastPlacedTrocar.transform.localScale = new Vector3(twelveScale, twelveScale, twelveScale);
 
 				foreach(Renderer rend in lastPlacedTrocar.GetComponentsInChildren<Renderer>())
 					rend.enabled = true;
-
+			chosenSizes.Add(lastPlacedTrocar.transform.localScale.x * 10);
+			//Debug.Log("chosensizes = " + chosenSizes.Count + " ->" + chosenSizes[chosenSizes.Count-1] + " " + chosenPoints[chosenPoints.Count-1]);
+			//Debug.Log(lastPlacedTrocar.transform.localScale.x);
 		}
 	}
 
@@ -582,6 +588,7 @@ public class SimulatorController : MonoBehaviour {
 
 									//add new trocar to list of points chosen
 									chosenPoints.Add(lastPlacedTrocar.transform.position);
+									//Debug.Log("chosenpoints = " + chosenPoints.Count);
 									count++;
 									//keep track of trocars placed
 									visibleTrocars.Add(lastPlacedTrocar);
@@ -630,48 +637,80 @@ public class SimulatorController : MonoBehaviour {
 		List<Vector3> correctUserAnswers = new List<Vector3>();
 		List<Vector3> incorrectUserAnswers = new List<Vector3>();
 
-		
 		//for each correctpoint, check if there is a chosen trocar close enough to it
 		//if a chosen trocar is, add cpoint to correctlist, (turn green), else incorrectlist (turn red)
+		int j=0;
 		foreach(Vector3 chosenPoint in chosenPoints)
 		{
+
 			foreach(Vector3 correctPoint in correctPoints)
 			{
 				//figure out horiztonal distance between points
-				Vector3 distanceBetweenPoints = new Vector3(correctPoint.x - chosenPoint.x,
-				                                            0,correctPoint.z-chosenPoint.z);
-				float distanceMagnitude = distanceBetweenPoints.magnitude;
-
-
-				for(int i=0; i< currentQuestion.sizes.Count; ++i)
-				{
-					if(currentQuestion.points[i] == chosenPoint)
-					{
-						//if()
-						//{
-
-						//}
-
-					}
-				}
-
+				//Vector3 distanceBetweenPoints = new Vector3(correctPoint.x - chosenPoint.x,
+				                                           // 0,correctPoint.z-chosenPoint.z);
+				//float distanceMagnitude = distanceBetweenPoints.magnitude;
 
 				//if chosen close enough
-				if(distanceMagnitude < .05f)
+				if(distanceMagnitude(correctPoint,chosenPoints[j]) < .05f)
 				{
+					//Debug.Log("^^");
+					int indexer = 0;
+					//first go through surgeries until there is a match between the vector3 position
+					for(int u=0; u<currentQuestion.points.Count; ++u)
+					{
+						//Debug.Log(chosenPoints[j].magnitude + " chosen " + currentQuestion.points[u].magnitude);
+						if( distanceMagnitude(currentQuestion.points[u],chosenPoints[j]) < .05f )
+						{
+							indexer = u;
+							u = currentQuestion.points.Count;
+							//Debug.Log(currentQuestion.sizes[indexer] + " " + chosenSizes[j]);
+							if(currentQuestion.sizes[indexer] == chosenSizes[j])
+							{
+								correctUserAnswers.Add(correctPoint); 
+								correctPoints.Remove(correctPoint);
+							}
+						}
+
+					}
+					
+				
+					//store the match's size variable and 
+					//compare it with the size at the index of the vector3
+					
+					//Debug.Log(chosenPoints[j] + " and " + chosenSizes[j]);
+
+
+
+
+
 					//roger commented out the next line
 					//Debug.Log (chosenPoint.ToString() +  correctPoint.ToString() + distanceMagnitude.ToString());
 					//add them to list of correct points
-					correctUserAnswers.Add(correctPoint);
-					
+
+					/*
+					for(int i=0; i<currentQuestion.points.Count; ++i)
+					{
+						Debug.Log(chosenSizes[j] + " " + (currentQuestion.sizes[i] / 100) );
+						if( chosenSizes[j] == (currentQuestion.sizes[i] / 100) )
+						{
+							Debug.Log("found it!");
+							correctUserAnswers.Add(correctPoint); ***
+							correctPoints.Remove(correctPoint);
+
+							//we know the vector3 point and the index of the current question
+							//we need to find out the index of the chosen points
+						}
+					}
+					*/
+
 					//don't allow point to be double counted
-					correctPoints.Remove(correctPoint);
 
 					break;
 				}
 
 
 			}
+			j+=1;
 		}
 		//if didn't find a match for a point, it was left in correctPoints list
 		foreach(Vector3 point in correctPoints)
@@ -999,33 +1038,25 @@ public class SimulatorController : MonoBehaviour {
 				{
 					if(currentQuestion.sizes[i] == 5f)
 					{
-						placed.transform.localScale += new Vector3(.05f,.05f,.05f);
+						placed.transform.localScale = new Vector3(fiveScale,fiveScale,fiveScale);
 						placed.name = "trocarPurple(Clone)1";
 					}
 					if(currentQuestion.sizes[i] == 10f)
 					{
-						Debug.Log("beforescale = " + placed.transform.localScale + "!!");
-						//placed.transform.localScale += new Vector3(.25f,.25f,.25f);
-						Debug.Log("scale = " + placed.transform.localScale + "<-");
-						//placed.name = "trocarPurple(Clone)1";
+						//Debug.Log("beforescale = " + placed.transform.localScale + "!!");
+						placed.transform.localScale = new Vector3(tenScale,tenScale,tenScale);
+						//Debug.Log("scale = " + placed.transform.localScale + "<-");
+						placed.name = "trocarPurple(Clone)1";
 					}
 					if(currentQuestion.sizes[i] == 12f)
 					{
-						placed.transform.localScale += new Vector3(.5f,.5f,.5f);
+						placed.transform.localScale = new Vector3(twelveScale,twelveScale,twelveScale);
 						placed.name = "trocarPurple(Clone)1";
 
 					}
 				}
 			}
 
-			/*
-			if(something)
-			{
-				placed.transform.localScale += new Vector3(.5F, .5F, .5F);
-				placed.name = "trocarPurple(Clone)1";
-			}
-			else { placed.name = "trocarPurple(Clone)2"; }
-			*/
 		}
 
 
@@ -1056,19 +1087,19 @@ public class SimulatorController : MonoBehaviour {
 			{
 				if(currentQuestion.sizes[i] == 5f)
 				{
-					placed.transform.localScale += new Vector3(.05f,.05f,.05f);
+					placed.transform.localScale = new Vector3(fiveScale,fiveScale,fiveScale);
 					placed.name = "trocarPurple(Clone)1";
 					
 				}
 				if(currentQuestion.sizes[i] == 10f)
 				{
-					placed.transform.localScale += new Vector3(.25f,.25f,.25f);
+					placed.transform.localScale = new Vector3(tenScale,tenScale,tenScale);
 					placed.name = "trocarPurple(Clone)1";
 					
 				}
 				if(currentQuestion.sizes[i] == 12f)
 				{
-					placed.transform.localScale += new Vector3(.5f,.5f,.5f);
+					placed.transform.localScale = new Vector3(twelveScale,twelveScale,twelveScale);
 					placed.name = "trocarPurple(Clone)1";
 					
 				}
@@ -1165,6 +1196,7 @@ public class SimulatorController : MonoBehaviour {
 
 				}
 
+
 				//this.availableCorrectPointSets = new List<Question>()
 				availableCorrectPointSets.Add(new Surgery(vectors, trocarValues, nameSurgery));
 				//Debug.Log("ct final = " + vectors.Count + " for surgery " + nameSurgery);
@@ -1178,5 +1210,30 @@ public class SimulatorController : MonoBehaviour {
 	}
 
 
+	bool LocateOn(GameObject userSpot, GameObject correctSpot)
+	{
+
+		if( (userSpot.renderer.renderer.material.color == Color.green) && (userSpot.transform.localScale.x != correctSpot.transform.localScale.x) )
+		{
+			Debug.Log("this works!");
+			userSpot.renderer.renderer.material.color = Color.red;
+			return true;
+		}
+		else 
+			return false;
+
+	}
+
+
+	float distanceMagnitude(Vector3 correctPoint, Vector3 chosenPoint)
+	{
+		Vector3 distanceBetweenPoints = new Vector3(correctPoint.x - chosenPoint.x,
+		                                            0,correctPoint.z-chosenPoint.z);
+		return distanceBetweenPoints.magnitude;
+	}
+
+
 	// /roger
+
+
 }
