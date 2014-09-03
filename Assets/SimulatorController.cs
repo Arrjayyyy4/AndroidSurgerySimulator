@@ -5,11 +5,16 @@ using System.IO;
 using System.Text;
 
 public class SimulatorController : MonoBehaviour {
+	//TODO go to line 659 and probably make a new question with similar info
 	//TODO bellybutton accuracy
-	//TODO trocar scales
 	//TODO trocar checker
+	//TODO dictionary surgerysizes
 	//TODO turn table
 	//roger
+
+	float tmpSize = 0.0f;
+	Vector3 tmpPos = new Vector3(0f,0f,0f);
+
 	float fiveScale = .5f;
 	float tenScale = 1.0f;
 	float twelveScale = 1.2f;
@@ -74,7 +79,8 @@ public class SimulatorController : MonoBehaviour {
 
 	Dictionary<string, string> bodyPositions;
 
-	Dictionary<string, Dictionary<Vector3, float>> surgerySizes; // for trocar sizes
+	//Dictionary<string, Dictionary<Vector3, float>> surgerySizes; // for trocar sizes
+
 
 
 	bool askingPosandSize = true;
@@ -430,6 +436,8 @@ public class SimulatorController : MonoBehaviour {
 				foreach(Renderer rend in lastPlacedTrocar.GetComponentsInChildren<Renderer>())
 					rend.enabled = true;
 			chosenSizes.Add(lastPlacedTrocar.transform.localScale.x * 10);
+			tmpSize = lastPlacedTrocar.transform.localScale.x * 10;
+
 			//Debug.Log("chosensizes = " + chosenSizes.Count + " ->" + chosenSizes[chosenSizes.Count-1] + " " + chosenPoints[chosenPoints.Count-1]);
 			//Debug.Log(lastPlacedTrocar.transform.localScale.x);
 
@@ -440,10 +448,12 @@ public class SimulatorController : MonoBehaviour {
 
 				selectTrocarSize = false;
 				lastPlacedTrocar.renderer.enabled = true;
-				lastPlacedTrocar.transform.localScale = new Vector3(tenScale, tenScale,tenScale);
+				lastPlacedTrocar.transform.localScale = new Vector3(1f, 1f,1f);
 				foreach(Renderer rend in lastPlacedTrocar.GetComponentsInChildren<Renderer>())
 					rend.enabled = true;
 			chosenSizes.Add(lastPlacedTrocar.transform.localScale.x * 10);
+			tmpSize = lastPlacedTrocar.transform.localScale.x * 10;
+
 			//Debug.Log("chosensizes = " + chosenSizes.Count + " ->" + chosenSizes[chosenSizes.Count-1] + " " + chosenPoints[chosenPoints.Count-1]);
 			//Debug.Log(lastPlacedTrocar.transform.localScale.x);
 		}
@@ -452,11 +462,13 @@ public class SimulatorController : MonoBehaviour {
 		{
 				selectTrocarSize = false;
 				lastPlacedTrocar.renderer.enabled = true;
-				lastPlacedTrocar.transform.localScale = new Vector3(twelveScale, twelveScale, twelveScale);
+				lastPlacedTrocar.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
 
 				foreach(Renderer rend in lastPlacedTrocar.GetComponentsInChildren<Renderer>())
 					rend.enabled = true;
+			//Debug.Log(lastPlacedTrocar.transform.localScale.x * 10); //new
 			chosenSizes.Add(lastPlacedTrocar.transform.localScale.x * 10);
+			tmpSize = lastPlacedTrocar.transform.localScale.x * 10;
 			//Debug.Log("chosensizes = " + chosenSizes.Count + " ->" + chosenSizes[chosenSizes.Count-1] + " " + chosenPoints[chosenPoints.Count-1]);
 			//Debug.Log(lastPlacedTrocar.transform.localScale.x);
 		}
@@ -588,6 +600,7 @@ public class SimulatorController : MonoBehaviour {
 
 									//add new trocar to list of points chosen
 									chosenPoints.Add(lastPlacedTrocar.transform.position);
+									tmpPos = lastPlacedTrocar.transform.position;
 									//Debug.Log("chosenpoints = " + chosenPoints.Count);
 									count++;
 									//keep track of trocars placed
@@ -645,64 +658,28 @@ public class SimulatorController : MonoBehaviour {
 
 			foreach(Vector3 correctPoint in correctPoints)
 			{
-				//figure out horiztonal distance between points
-				//Vector3 distanceBetweenPoints = new Vector3(correctPoint.x - chosenPoint.x,
-				                                           // 0,correctPoint.z-chosenPoint.z);
-				//float distanceMagnitude = distanceBetweenPoints.magnitude;
-
 				//if chosen close enough
-				if(distanceMagnitude(correctPoint,chosenPoints[j]) < .05f)
+				if(distanceMagnitude(correctPoint,chosenPoints[j]) < .07f)
 				{
 					//Debug.Log("^^");
-					int indexer = 0;
+
 					//first go through surgeries until there is a match between the vector3 position
-					for(int u=0; u<currentQuestion.points.Count; ++u)
-					{
-						//Debug.Log(chosenPoints[j].magnitude + " chosen " + currentQuestion.points[u].magnitude);
-						if( distanceMagnitude(currentQuestion.points[u],chosenPoints[j]) < .05f )
-						{
-							indexer = u;
-							u = currentQuestion.points.Count;
-							//Debug.Log(currentQuestion.sizes[indexer] + " " + chosenSizes[j]);
-							if(currentQuestion.sizes[indexer] == chosenSizes[j])
-							{
-								correctUserAnswers.Add(correctPoint); 
-								correctPoints.Remove(correctPoint);
-							}
-						}
 
-					}
-					
-				
-					//store the match's size variable and 
-					//compare it with the size at the index of the vector3
-					
-					//Debug.Log(chosenPoints[j] + " and " + chosenSizes[j]);
-
-
-
-
-
-					//roger commented out the next line
-					//Debug.Log (chosenPoint.ToString() +  correctPoint.ToString() + distanceMagnitude.ToString());
-					//add them to list of correct points
-
+					//for(int i=0; i<chosenPoints.Count; ++i)
+					//{
 					/*
-					for(int i=0; i<currentQuestion.points.Count; ++i)
+					if(currentQuestion.surgerySizes[correctPoint] == currentQuestion.surgerySizes[chosenPoint])
 					{
-						Debug.Log(chosenSizes[j] + " " + (currentQuestion.sizes[i] / 100) );
-						if( chosenSizes[j] == (currentQuestion.sizes[i] / 100) )
-						{
-							Debug.Log("found it!");
-							correctUserAnswers.Add(correctPoint); ***
-							correctPoints.Remove(correctPoint);
-
-							//we know the vector3 point and the index of the current question
-							//we need to find out the index of the chosen points
-						}
+						Debug.Log("true! :D ");
+						//correctuser-answer...
 					}
 					*/
+					//}
 
+
+					correctUserAnswers.Add(correctPoint); 
+					correctPoints.Remove(correctPoint);
+					
 					//don't allow point to be double counted
 
 					break;
@@ -1032,23 +1009,23 @@ public class SimulatorController : MonoBehaviour {
 			//get question name
 			//for that question name get the position of the trocar
 			//get the index in the list for the index of the trocar
-			for(int i=0; i< currentQuestion.sizes.Count; ++i)
+			for(int i=0; i< currentQuestion.surgerySizes.Count; ++i)
 			{
 				if(currentQuestion.points[i] == placed.transform.position)
 				{
-					if(currentQuestion.sizes[i] == 5f)
+					if(currentQuestion.surgerySizes[placed.transform.position] == 5f)
 					{
 						placed.transform.localScale = new Vector3(fiveScale,fiveScale,fiveScale);
 						placed.name = "trocarPurple(Clone)1";
 					}
-					if(currentQuestion.sizes[i] == 10f)
+					if(currentQuestion.surgerySizes[placed.transform.position] == 10f)
 					{
 						//Debug.Log("beforescale = " + placed.transform.localScale + "!!");
 						placed.transform.localScale = new Vector3(tenScale,tenScale,tenScale);
 						//Debug.Log("scale = " + placed.transform.localScale + "<-");
 						placed.name = "trocarPurple(Clone)1";
 					}
-					if(currentQuestion.sizes[i] == 12f)
+					if(currentQuestion.surgerySizes[placed.transform.position] == 12f)
 					{
 						placed.transform.localScale = new Vector3(twelveScale,twelveScale,twelveScale);
 						placed.name = "trocarPurple(Clone)1";
@@ -1081,23 +1058,23 @@ public class SimulatorController : MonoBehaviour {
 
 	void FindObject(GameObject placed)
 	{
-		for(int i=0; i< currentQuestion.sizes.Count; ++i)
+		for(int i=0; i< currentQuestion.surgerySizes.Count; ++i)
 		{
 			if(currentQuestion.points[i] == placed.transform.position)
 			{
-				if(currentQuestion.sizes[i] == 5f)
+				if(currentQuestion.surgerySizes[placed.transform.position] == 5f)
 				{
 					placed.transform.localScale = new Vector3(fiveScale,fiveScale,fiveScale);
 					placed.name = "trocarPurple(Clone)1";
 					
 				}
-				if(currentQuestion.sizes[i] == 10f)
+				if(currentQuestion.surgerySizes[placed.transform.position] == 10f)
 				{
 					placed.transform.localScale = new Vector3(tenScale,tenScale,tenScale);
 					placed.name = "trocarPurple(Clone)1";
 					
 				}
-				if(currentQuestion.sizes[i] == 12f)
+				if(currentQuestion.surgerySizes[placed.transform.position] == 12f)
 				{
 					placed.transform.localScale = new Vector3(twelveScale,twelveScale,twelveScale);
 					placed.name = "trocarPurple(Clone)1";
@@ -1165,7 +1142,9 @@ public class SimulatorController : MonoBehaviour {
 			if(i%3 == 0)
 			{
 				List<Vector3> vectors = new List<Vector3>();
-				List<float> trocarValues = new List<float>();
+				//List<float> trocarValues = new List<float>();
+
+				Dictionary<Vector3, float> surgerySizes = new Dictionary<Vector3, float>();
 
 				//Debug.Log("ct initial = " + vectors.Count + " for surgery " + nameSurgery);
 				List<float> coords = new List<float>();
@@ -1181,8 +1160,9 @@ public class SimulatorController : MonoBehaviour {
 					{
 						coords.Add(float.Parse(threes));
 						Vector3 tempVector = new Vector3(coords[1],coords[2],coords[3]);
+						surgerySizes.Add(tempVector, coords[0]);
 						vectors.Add (tempVector);
-						trocarValues.Add(coords[0]);
+						//trocarValues.Add(coords[0]);
 						currentSize = coords[0];
 
 						coords.Clear();
@@ -1198,7 +1178,7 @@ public class SimulatorController : MonoBehaviour {
 
 
 				//this.availableCorrectPointSets = new List<Question>()
-				availableCorrectPointSets.Add(new Surgery(vectors, trocarValues, nameSurgery));
+				availableCorrectPointSets.Add(new Surgery(vectors, surgerySizes, nameSurgery));
 				//Debug.Log("ct final = " + vectors.Count + " for surgery " + nameSurgery);
 	
 				//update question and clear vectors
@@ -1209,21 +1189,14 @@ public class SimulatorController : MonoBehaviour {
 
 	}
 
+	//public bool stuff = false;
+	//2hr 3.5hr 2hr 2.5hr
+	//2hr 2hr 2hr 2hr 2hr
 
-	bool LocateOn(GameObject userSpot, GameObject correctSpot)
+	void MakeQuestion(Vector3 pos, float sizer)
 	{
-
-		if( (userSpot.renderer.renderer.material.color == Color.green) && (userSpot.transform.localScale.x != correctSpot.transform.localScale.x) )
-		{
-			Debug.Log("this works!");
-			userSpot.renderer.renderer.material.color = Color.red;
-			return true;
-		}
-		else 
-			return false;
-
+		currentQuestion.surgerySizes.Add(pos, sizer);
 	}
-
 
 	float distanceMagnitude(Vector3 correctPoint, Vector3 chosenPoint)
 	{

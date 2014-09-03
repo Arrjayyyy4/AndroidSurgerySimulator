@@ -8,20 +8,21 @@ using System.Collections.Generic;
 
 public class Surgery : Question
 {
-	public List<float> sizes;
-	
+	public Dictionary<Vector3, float> surgerySizes;
+
 	public Surgery ()
 	{
 		points = new List<Vector3>();
 		text = "Empty";
-		sizes = new List<float>();
+		Dictionary<Vector3, float> surgerySizes = new Dictionary<Vector3, float>();
+
 	}
 	
-	public Surgery(List<Vector3> newpoints, List<float> newsizes, string displayText)
+	public Surgery(List<Vector3> newpoints, Dictionary<Vector3, float> newsurgerySizes, string displayText)
 	{
-		sizes = newsizes;
 		points = newpoints;
 		text = displayText;
+		surgerySizes = newsurgerySizes;
 	}
 
 }
