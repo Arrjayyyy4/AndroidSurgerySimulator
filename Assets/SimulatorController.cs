@@ -5,16 +5,12 @@ using System.IO;
 using System.Text;
 
 public class SimulatorController : MonoBehaviour {
-	//TODO go to line 659 and probably make a new question with similar info
 	//TODO bellybutton accuracy
-	//TODO trocar checker
-	//TODO dictionary surgerysizes
 	//TODO turn table
 	//roger
-
-	float tmpSize = 0.0f;
-	Vector3 tmpPos = new Vector3(0f,0f,0f);
-
+	public Dictionary<Vector3, float> tmpSizes = new Dictionary<Vector3, float>();
+	public float tmpSize = 0.0f;
+	public Vector3 tmpPos = new Vector3(0f,0f,0f);
 	float fiveScale = .5f;
 	float tenScale = 1.0f;
 	float twelveScale = 1.2f;
@@ -437,7 +433,8 @@ public class SimulatorController : MonoBehaviour {
 					rend.enabled = true;
 			chosenSizes.Add(lastPlacedTrocar.transform.localScale.x * 10);
 			tmpSize = lastPlacedTrocar.transform.localScale.x * 10;
-
+			tmpSizes.Add(tmpPos,tmpSize);
+			Debug.Log(tmpPos + " " + tmpSize);
 			//Debug.Log("chosensizes = " + chosenSizes.Count + " ->" + chosenSizes[chosenSizes.Count-1] + " " + chosenPoints[chosenPoints.Count-1]);
 			//Debug.Log(lastPlacedTrocar.transform.localScale.x);
 
@@ -453,7 +450,8 @@ public class SimulatorController : MonoBehaviour {
 					rend.enabled = true;
 			chosenSizes.Add(lastPlacedTrocar.transform.localScale.x * 10);
 			tmpSize = lastPlacedTrocar.transform.localScale.x * 10;
-
+			tmpSizes.Add(tmpPos,tmpSize);
+			Debug.Log(tmpPos + " " + tmpSize);
 			//Debug.Log("chosensizes = " + chosenSizes.Count + " ->" + chosenSizes[chosenSizes.Count-1] + " " + chosenPoints[chosenPoints.Count-1]);
 			//Debug.Log(lastPlacedTrocar.transform.localScale.x);
 		}
@@ -469,6 +467,8 @@ public class SimulatorController : MonoBehaviour {
 			//Debug.Log(lastPlacedTrocar.transform.localScale.x * 10); //new
 			chosenSizes.Add(lastPlacedTrocar.transform.localScale.x * 10);
 			tmpSize = lastPlacedTrocar.transform.localScale.x * 10;
+			tmpSizes.Add(tmpPos,tmpSize);
+			Debug.Log(tmpPos + " " + tmpSize);
 			//Debug.Log("chosensizes = " + chosenSizes.Count + " ->" + chosenSizes[chosenSizes.Count-1] + " " + chosenPoints[chosenPoints.Count-1]);
 			//Debug.Log(lastPlacedTrocar.transform.localScale.x);
 		}
@@ -601,6 +601,7 @@ public class SimulatorController : MonoBehaviour {
 									//add new trocar to list of points chosen
 									chosenPoints.Add(lastPlacedTrocar.transform.position);
 									tmpPos = lastPlacedTrocar.transform.position;
+									Debug.Log(tmpPos);
 									//Debug.Log("chosenpoints = " + chosenPoints.Count);
 									count++;
 									//keep track of trocars placed
@@ -647,6 +648,7 @@ public class SimulatorController : MonoBehaviour {
 
 	void checkTrocars()
 	{
+		Surgery tmpPoints = new Surgery(chosenPoints, tmpSizes, "temp");
 		List<Vector3> correctUserAnswers = new List<Vector3>();
 		List<Vector3> incorrectUserAnswers = new List<Vector3>();
 
@@ -661,25 +663,26 @@ public class SimulatorController : MonoBehaviour {
 				//if chosen close enough
 				if(distanceMagnitude(correctPoint,chosenPoints[j]) < .07f)
 				{
-					//Debug.Log("^^");
-
-					//first go through surgeries until there is a match between the vector3 position
-
-					//for(int i=0; i<chosenPoints.Count; ++i)
-					//{
-					/*
-					if(currentQuestion.surgerySizes[correctPoint] == currentQuestion.surgerySizes[chosenPoint])
+					//Debug.Log(" " + chosenPoint+"->" + currentQuestion.surgerySizes[correctPoint]+"->" + tmpPoints.surgerySizes[chosenPoint]);
+					//fixed 
+					if(currentQuestion.surgerySizes[correctPoint] == tmpPoints.surgerySizes[chosenPoint])
 					{
-						Debug.Log("true! :D ");
-						//correctuser-answer...
+						//Debug.Log("aweshum!");
+						correctUserAnswers.Add(correctPoint); 
+						correctPoints.Remove(correctPoint);
+					}
+
+					/*
+					if(currentQuestion.surgerySizes[correctPoint] == tmpPoints.surgerySizes[chosenPoint])
+					{
+						Debug.Log("aweshum!");
+						correctUserAnswers.Add(correctPoint); 
+						correctPoints.Remove(correctPoint);
 					}
 					*/
-					//}
 
+					//Debug.Log("^^");
 
-					correctUserAnswers.Add(correctPoint); 
-					correctPoints.Remove(correctPoint);
-					
 					//don't allow point to be double counted
 
 					break;
@@ -1190,8 +1193,6 @@ public class SimulatorController : MonoBehaviour {
 	}
 
 	//public bool stuff = false;
-	//2hr 3.5hr 2hr 2.5hr
-	//2hr 2hr 2hr 2hr 2hr
 
 	void MakeQuestion(Vector3 pos, float sizer)
 	{
